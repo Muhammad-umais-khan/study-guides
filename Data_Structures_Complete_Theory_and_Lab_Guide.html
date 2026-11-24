@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en" data-t="aqua"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Data Structures: Complete Theory and Lab Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--fh:'Bricolage Grotesque',sans-serif;--fb:'Figtree',system-ui,sans-serif;--fm:'JetBrains Mono',monospace;--fx:'STIX Two Text',serif}
+[data-t=aqua]{--bg:#f2fafb;--ink:#12303a;--cd:#fff;--mu:#4d6b75;--g:20,120,150;--cb:#e8f5f7}
+[data-t=notebook]{--bg:#fbfbf6;--ink:#1f2740;--cd:#fffffb;--mu:#566;--g:70,110,200;--cb:#f0f2fa}
+[data-t=parchment]{--bg:#f5ead2;--ink:#3b2a14;--cd:#fbf4e3;--mu:#7a6445;--g:150,110,50;--cb:#efe2c4}
+[data-t=bubblegum]{--bg:#fff0f7;--ink:#4a1d46;--cd:#fff;--mu:#80587c;--g:200,80,160;--cb:#fde3f0}
+[data-t=midnight]{--bg:#0e1424;--ink:#e6ecff;--cd:#172036;--mu:#9aa8d0;--g:120,150,255;--cb:#0b1020}
+[data-t=lagoon]{--bg:#062a30;--ink:#dff8f4;--cd:#0c3d45;--mu:#8fc9c4;--g:80,220,200;--cb:#05242a}
+*{box-sizing:border-box}html{font-size:17px;scroll-behavior:smooth}@media(min-width:700px){html{font-size:18px}}
+body{margin:0;background-color:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--fb);
+background-image:linear-gradient(rgba(var(--g),.26) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--g),.26) 1px,transparent 1px),linear-gradient(rgba(var(--g),.14) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--g),.14) 1px,transparent 1px);
+background-size:120px 120px,120px 120px,24px 24px,24px 24px;padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#prog{position:fixed;top:0;left:0;height:6px;width:0;z-index:50;background:linear-gradient(90deg,hsl(180 70% 45%),hsl(220 70% 55%),hsl(270 65% 58%))}
+.wrap{display:block}
+#nav{position:sticky;top:6px;z-index:20;display:flex;gap:.4rem;overflow-x:auto;padding:.5rem;background:var(--bg);border-bottom:2px solid var(--ink)}
+#nav a{flex:none;font:500 .72rem var(--fm);color:var(--ink);text-decoration:none;border:2px solid var(--ink);border-radius:99px;padding:.25rem .7rem;background:var(--cd)}
+#nav a.on{background:var(--ink);color:var(--bg)}
+#nav .tl{display:none}
+.bt{font:700 .72rem var(--fm);border:2px solid var(--ink);border-radius:10px;background:var(--cd);color:var(--ink);padding:.35rem .6rem;cursor:pointer;flex:none}
+@media(min-width:960px){.wrap{display:grid;grid-template-columns:268px 1fr}
+#nav{top:0;height:100vh;flex-direction:column;overflow-y:auto;border-bottom:0;border-right:2px solid var(--ink);padding:1rem .8rem}
+#nav a{border-radius:10px}#nav .tl{display:block;font:800 1.15rem var(--fh);margin-bottom:.3rem}}
+main{padding:1rem;max-width:900px;min-width:0}
+.sec{--c:hsl(var(--h) 62% 44%);margin:2.2rem 0}
+h2{font:800 1.7rem/1.15 var(--fh);margin:0 0 .8rem;padding-left:.7rem;border-left:8px solid var(--c)}
+h3{font:700 1.1rem var(--fh);margin:.2rem 0 .4rem}
+.cd{background:var(--cd);border:2px solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 var(--c);padding:.9rem 1.1rem;margin:1.1rem 0}
+.cd p{margin:.5rem 0}.l{display:inline-block;font:700 .68rem var(--fm);background:var(--c);color:#fff;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+.fx{font-family:var(--fx);font-style:italic;font-size:1.05em}
+.alert{border-style:dashed;box-shadow:5px 5px 0 hsl(var(--h) 62% 44%)}
+pre{background:var(--cb);border:2px solid var(--ink);border-radius:10px;padding:.8rem;overflow-x:auto;font:500 .74rem/1.55 var(--fm);margin:.6rem 0;white-space:pre}
+code{font:500 .85em var(--fm);background:var(--cb);padding:0 .25em;border-radius:4px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{border:2px solid var(--ink);padding:.35rem .55rem;text-align:left;vertical-align:top}th{background:var(--cb);font-family:var(--fh)}
+.tr{display:flex;flex-wrap:wrap;gap:.6rem}.tr>div{flex:1 1 150px;text-align:center;font:500 .72rem var(--fm)}
+svg{max-width:100%;height:auto}svg text{fill:var(--ink);font:700 11px var(--fm);text-anchor:middle}
+svg circle{fill:var(--cd);stroke:var(--ink);stroke-width:2}svg line{stroke:var(--ink);stroke-width:2}svg rect{fill:var(--cd);stroke:var(--ink);stroke-width:2}
+.ck{display:block;margin:.3rem 0}.ck input{margin-right:.5rem;accent-color:hsl(var(--h) 62% 44%)}
+.q{margin:.8rem 0}.q button.o{display:block;width:100%;text-align:left;margin:.3rem 0;padding:.45rem .7rem;font:500 .9rem var(--fb);color:var(--ink);background:var(--cd);border:2px solid var(--ink);border-radius:10px;cursor:pointer}
+.q .ok{background:#bdeccb;color:#0b3a1c}.q .no{background:#f6c3c3;color:#4a0b0b}.fb{font-size:.88rem;color:var(--mu);margin:.2rem 0}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}.chips .bt.on{background:var(--ink);color:var(--bg)}
+input[type=number]{width:5rem;font:500 1rem var(--fm);padding:.2rem;border:2px solid var(--ink);border-radius:8px;background:var(--cd);color:var(--ink)}
+.gd b{font-family:var(--fh)}.gd small{font:500 .68rem var(--fm);color:var(--mu);margin-left:.4rem}
+.br .tw td,.br .fx,.br .ex,.br .gd i,.br .fd{filter:blur(6px);cursor:pointer}.br .rv{filter:none!important}
+[hidden]{display:none!important}
+.bt:disabled{opacity:.45;cursor:default}#fn.on{background:var(--ink);color:var(--bg)}
+#gs{width:100%;font:500 .95rem var(--fb);padding:.45rem .7rem;border:2px solid var(--ink);border-radius:10px;background:var(--cd);color:var(--ink);margin:.4rem 0}
+.hv svg{max-width:100%;height:auto}
+.hs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.4rem;margin:.6rem 0}
+.hcell{border:2px solid var(--ink);border-radius:10px;padding:.3rem .2rem;text-align:center;background:var(--cd);font:500 .7rem var(--fm)}
+.hcell small{display:block;color:var(--mu)}.hcell b{display:block;font:700 .95rem var(--fm);margin:.15rem 0}
+.hcell .hbd{display:inline-block;border:1.5px solid var(--ink);border-radius:6px;padding:0 .3rem;font-size:.62rem}
+.hcell.s1{background:var(--cb)}.hcell.s1 .hbd{background:var(--c);color:#fff;border-color:var(--c)}
+.hcell.s2{border-style:dashed;color:var(--mu)}.hcell.s2 .hbd{background:var(--ink);color:var(--bg)}
+@media(min-width:700px){#gl{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}#gl .gd{border:1.5px solid var(--ink);border-radius:10px;padding:.55rem .75rem;background:var(--bg);margin:0}}
+#thm{position:fixed;right:calc(.8rem + env(safe-area-inset-right));bottom:calc(.8rem + env(safe-area-inset-bottom));z-index:60;display:flex;gap:.4rem;padding:.4rem .6rem;background:var(--cd);border:2px solid var(--ink);border-radius:99px;box-shadow:3px 3px 0 var(--ink)}
+#thm label{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink);cursor:pointer;display:block}#thm input{position:absolute;opacity:0}
+#thm input:checked+span{outline:3px solid var(--ink);outline-offset:2px}#thm label span{display:block;width:100%;height:100%;border-radius:50%}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid hsl(260 80% 60%);outline-offset:2px}
+</style></head><body>
+<div id="prog"></div>
+<div class="wrap"><nav id="nav"><div class="tl">DS Guide</div><button class="bt" id="blr">Blur Recall</button><button class="bt" id="dl">Download HTML</button><button class="bt" id="fn">Finals Only</button></nav>
+<main>
+
+<section class="sec" id="s00" style="--h:185"><h2>00. Start here and exam blueprint</h2>
+<div class="cd alert"><h3>Convention alert: three things that change answers</h3>
+<div class="tw"><table><tr><th>Topic</th><th>Convention A</th><th>Convention B</th></tr>
+<tr><td>Tree height</td><td><b>Edge count</b>: empty = -1, leaf = 0 (Lecture 08, Lab Week 09)</td><td><b>Node count</b>: null = 0, leaf = 1 (AVL Lab, Lab Week 10 <code>countNodes</code>)</td></tr>
+<tr><td>Heap indexing</td><td><b>0-based</b>: parent (i-1)/2, kids 2i+1, 2i+2</td><td><b>1-based</b>: parent i/2, kids 2i, 2i+1</td></tr>
+<tr><td>Duplicate keys</td><td><b>Reject</b> (this course, Lecture 10)</td><td>Count field, or linked list at the node</td></tr></table></div>
+<p class="fb">Read the first line of any exam question for its convention before computing a balance factor or an index.</p></div>
+<div class="cd"><h3>Theory Finals pattern and study priority</h3>
+<p><b>Format:</b> mostly paper dry runs (trace a tree, heap, AVL, hash table or sort), plus short 5&ndash;15 line Java methods. No long programs.</p>
+<p><b>Out of scope:</b> midterm lectures 01&ndash;07 and advanced sorting (MergeSort, QuickSort, Counting, Radix, Bucket).</p>
+<div class="tw"><table><tr><th>Priority</th><th>Sections</th><th>Why</th></tr>
+<tr><td>High (Theory Finals)</td><td>01&ndash;11, 14&ndash;17</td><td>Trees, traversals, heaps, BST, AVL, hashing, elementary sorts, dry runs, quiz</td></tr>
+<tr><td>Lab only</td><td>12&ndash;13</td><td>Lab Week 08 coding and viva; not on the theory paper</td></tr></table></div>
+<p class="fb">Do Section 14A traces with a pencil first, then check the answers. Then 14B code from memory.</p></div>
+<div class="cd"><h3>Study checklist (saved on this device)</h3><div id="chk"></div></div></section>
+
+<section class="sec" id="s01" style="--h:175"><h2>01. Tree basics and terminology (L08)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>A tree is a finite, non-empty collection of nodes: one designated <b>root</b>, and the rest split into disjoint subtrees T<sub>1</sub>&hellip;T<sub>k</sub>, each itself a tree. A tree of n nodes has exactly n&minus;1 edges and exactly one path from the root to any node.</p>
+<p><span class="l">Layman</span>Arrays and linked lists are flat lines. They cannot say &ldquo;one boss, many reports.&rdquo; A tree can: every item has one parent above it and any number of children below it.</p>
+<p><span class="l">Analogy</span>A university org chart: the Chancellor is the root, vice-chancellors report to the Chancellor, campus directors to them, and so on. Unlike a family tree, nobody has two bosses, and the root sits at the top.</p>
+<p><span class="l">Formula decoder</span><span class="fx">edges = n &minus; 1</span>: every node except the root owns exactly one edge up to its parent, so 7 nodes give 6 edges. <span class="fx">depth(root) = 0, height(leaf) = 0, height(empty) = &minus;1</span> (edge-count convention).</p></div>
+<div class="cd"><div class="tw"><table><tr><th>Term</th><th>Meaning (example tree below)</th></tr>
+<tr><td>Root / leaf</td><td>No parent (A) / no children (D, E, F)</td></tr>
+<tr><td>Parent, child, siblings</td><td>B is parent of D and E; D and E are siblings</td></tr>
+<tr><td>Internal node</td><td>Has at least one child (A, B, C)</td></tr>
+<tr><td>Ancestor / descendant</td><td>Any node on the root path (A, C are ancestors of F)</td></tr>
+<tr><td>Degree</td><td>Number of children of a node (A = 2)</td></tr>
+<tr><td>Subtree / size</td><td>Node plus all descendants; size = how many nodes (size of C = 2)</td></tr>
+<tr><td>Depth</td><td>Edges from the root down to the node (F = 2)</td></tr>
+<tr><td>Height of node</td><td>Edges on the longest path down to a leaf (B = 1); tree height = height of root</td></tr>
+<tr><td>Level</td><td>All nodes at the same depth (D, E, F are level 2)</td></tr>
+<tr><td>Skew tree</td><td>Every non-leaf has one child: left-skew, right-skew; height n&minus;1</td></tr></table></div>
+<div class="tr"><div class="hv" data-a="A,B,C,D,E,_,F">Depth counts down from the root, height counts up from the leaves</div></div>
+<p class="fb">Used in: file systems (<code>ls -R</code> is preorder), the HTML DOM, compiler ASTs (3+4*5 becomes a tree), database B-trees.</p></div></section>
+
+<section class="sec" id="s02" style="--h:182"><h2>02. Binary trees and core recursive algorithms (L08 + Lab 09)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>A binary tree has at most two children per node (left, right); the empty tree is valid. <b>Strict/Full/Proper</b>: every node has 0 or 2 children. <b>Perfect</b>: every internal node has 2 children and all leaves share one depth. <b>Complete</b>: every level full except the last, which fills left to right.</p>
+<p><span class="l">Layman</span>Binary just means &ldquo;at most two kids.&rdquo; The shape names tell you how tidy the tree is: perfect is a neat triangle, complete has no gaps from the left, full never has a lonely child, skewed is a stick.</p>
+<p><span class="l">Analogy</span>A tournament bracket. A perfect bracket has all rounds full. A complete bracket has the last round filling from the left. A skewed bracket is a queue where one player faces a new opponent each round.</p>
+<p><span class="l">Formula decoder</span>Max nodes at depth d: <span class="fx">2<sup>d</sup></span> (depth 3 gives 8). Max nodes at height h: <span class="fx">2<sup>h+1</sup> &minus; 1</span> (h = 2 gives 7). Min height for n nodes: <span class="fx">&lfloor;log<sub>2</sub> n&rfloor;</span> (n = 10 gives 3). Max height: n&minus;1. Full tree: <span class="fx">L = I + 1</span> (4 leaves, 3 internal).</p></div>
+<div class="cd"><h3>Java: <code>Node</code> and all six Lab Week 09 algorithms (edge-count height)</h3>
+<pre>class Node { int data; Node left, right;           // data and two child links
+  Node(int d) { data = d; } }                        // left/right start as null
+class BinaryTree { Node root;
+  boolean isUnivalued(Node n) { return n == null || uni(n, n.data); } // empty tree = true (lab rule)
+  boolean uni(Node n, int v) {
+    if (n == null) return true;                      // nothing left to violate
+    if (n.data != v) return false;                   // mismatch: stop early
+    return uni(n.left, v) &amp;&amp; uni(n.right, v); }    // both subtrees must match
+  int tilt = 0;                                      // running total of node tilts
+  int findTilt(Node r) { tilt = 0; sum(r); return tilt; } // reset, then ONE postorder pass
+  int sum(Node n) {
+    if (n == null) return 0;                         // missing child sums to 0
+    int l = sum(n.left), r = sum(n.right);           // children first: postorder
+    tilt += Math.abs(l - r);                         // this node's tilt
+    return l + r + n.data; }                         // subtree sum handed to the parent
+  List&lt;String&gt; binaryTreePaths(Node r) {
+    List&lt;String&gt; out = new ArrayList&lt;&gt;();
+    if (r != null) walk(r, new StringBuilder(), out); return out; }
+  void walk(Node n, StringBuilder sb, List&lt;String&gt; out) {
+    int len = sb.length();                           // remember length so we can undo
+    sb.append(n.data);                               // add this node
+    if (n.left == null &amp;&amp; n.right == null) out.add(sb.toString()); // leaf: path complete
+    else { sb.append("-&gt;");                          // otherwise continue down
+      if (n.left != null) walk(n.left, sb, out);
+      if (n.right != null) walk(n.right, sb, out); }
+    sb.setLength(len); }                             // backtrack: next path starts clean
+  Node invertTree(Node n) {
+    if (n == null) return null;                      // base case
+    Node t = n.left;                                 // keep left before overwriting it
+    n.left = invertTree(n.right);                    // right becomes left, inverted
+    n.right = invertTree(t);                         // old left becomes right, inverted
+    return n; }                                      // every node swapped, not just root
+  boolean isBalanced(Node r) { return ht(r) != -2; } // -2 is the "unbalanced" marker
+  int ht(Node n) {
+    if (n == null) return -1;                        // empty = -1, so a leaf = 0
+    int l = ht(n.left);  if (l == -2) return -2;     // pass failure straight up
+    int r = ht(n.right); if (r == -2) return -2;
+    if (Math.abs(l - r) &gt; 1) return -2;              // this node is unbalanced
+    return 1 + Math.max(l, r); }                     // edge-count height
+}</pre>
+<p class="ex"><b>What breaks:</b> recomputing sums inside <code>findTilt</code> makes it O(n&sup2;). Skipping <code>setLength</code> leaks one path into the next. Overwriting <code>n.left</code> before saving it loses a subtree. Returning a plain boolean from <code>ht</code> forces repeated height scans. All are O(n) time and O(h) stack.</p></div></section>
+
+<section class="sec" id="s03" style="--h:190"><h2>03. Traversals and expression trees (L08 + Lab 09)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>Traversal visits every node exactly once (search may stop early). Depth-first: <b>preorder</b> N-L-R, <b>inorder</b> L-N-R, <b>postorder</b> L-R-N. Breadth-first: <b>level order</b> with a queue. Each is O(n) time and O(h) stack (O(width) queue for BFS).</p>
+<p><span class="l">Layman</span>The only difference is when you write down a node: before its kids, between them, or after them. Inorder on a general tree is not sorted; it is sorted only for a BST.</p>
+<p><span class="l">Analogy</span>Cleaning a building with rooms inside rooms. Preorder: note the room, then enter. Postorder: clean the inner rooms first, then the outer one (deleting a folder). Level order: sweep floor by floor.</p>
+<p><span class="l">Formula decoder</span>Tree 1,2,3,4,5 (2 has kids 4,5). Pre: 1 2 4 5 3. In: 4 2 5 1 3. Post: 4 5 2 3 1. Level: 1 2 3 4 5.</p></div>
+<div class="cd"><h3>Traversal tracer</h3><div class="hv" id="tt" data-a="1,2,3,4,5">Test tree: 1, with left child 2 (kids 4,5) and right child 3</div>
+<div class="chips" id="tm"><button class="bt on" data-m="pre">Preorder</button><button class="bt" data-m="in">Inorder</button><button class="bt" data-m="post">Postorder</button><button class="bt" data-m="lvl">Level order</button></div>
+<button class="bt" id="tn">Next step</button> <button class="bt" id="tr">Reset</button><p id="to" class="fd"></p></div>
+<div class="cd"><h3>Java: four traversals</h3>
+<pre>void pre(Node n)  { if (n == null) return;           // base case ends recursion
+  System.out.print(n.data + " ");                    // visit BEFORE children
+  pre(n.left); pre(n.right); }
+void in(Node n)   { if (n == null) return;
+  in(n.left);                                        // dive to the deepest left first
+  System.out.print(n.data + " ");                    // visit BETWEEN children
+  in(n.right); }
+void post(Node n) { if (n == null) return;
+  post(n.left); post(n.right);                       // children resolved first
+  System.out.print(n.data + " "); }                  // visit AFTER children
+void level(Node r) { if (r == null) return;
+  Queue&lt;Node&gt; q = new LinkedList&lt;&gt;(); q.add(r);      // queue holds the frontier
+  while (!q.isEmpty()) {
+    Node n = q.remove();                             // oldest node first (FIFO)
+    System.out.print(n.data + " ");
+    if (n.left != null) q.add(n.left);               // enqueue kids for the next level
+    if (n.right != null) q.add(n.right); } }</pre>
+<p class="ex"><b>What breaks:</b> a stack instead of a queue gives preorder-like order, not levels. Forgetting the null checks before <code>q.add</code> crashes later.</p>
+<h3>Expression trees: 3+4*5</h3><div class="tr"><div class="hv" data-a="+,3,*,_,_,4,5">Leaves are operands, internal nodes are operators</div></div>
+<div class="tw"><table><tr><th>Order</th><th>Result</th><th>Use</th></tr><tr><td>Inorder</td><td>3 + 4 * 5 (parentheses where needed)</td><td>infix</td></tr><tr><td>Preorder</td><td>+ 3 * 4 5</td><td>prefix</td></tr><tr><td>Postorder</td><td>3 4 5 * +</td><td>postfix, evaluate with a stack</td></tr></table></div></div></section>
+
+<section class="sec" id="s04" style="--h:198"><h2>04. Priority queues and binary heaps (L09)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>The <b>Priority Queue ADT</b> specifies insert, peek/getMax, extractMax and isEmpty/size. The <b>binary heap</b> is one implementation: a complete binary tree (shape property) where Key(parent) &ge; Key(child) in a max-heap, &le; in a min-heap (heap-order property). Invented by J. W. J. Williams (1964). Height is &lfloor;log<sub>2</sub> n&rfloor;.</p>
+<p><span class="l">Layman</span>A normal queue serves first come, first served, which is fatal in a hospital. A priority queue always serves the most urgent item. A heap is the cheap way to build one: biggest at the top, nothing else fully sorted.</p>
+<p><span class="l">Analogy</span>Emergency-room triage: the cardiac arrest jumps ahead of the headache. The ADT is the promise (&ldquo;serve the sickest&rdquo;); the heap is the actual waiting-room layout that keeps the promise cheaply.</p>
+<p><span class="l">Formula decoder</span>n inserts into an unsorted or sorted array cost O(n&sup2;) in total; a heap costs <span class="fx">O(log n)</span> each, so O(n log n). Height <span class="fx">&lfloor;log<sub>2</sub> n&rfloor;</span>: 7 items stack 3 levels, so any insert moves at most 2 steps.</p></div>
+<div class="cd"><div class="tw"><table><tr><th>Implementation</th><th>insert</th><th>extractMax</th><th>peek</th></tr><tr><td>Unsorted array</td><td>O(1)</td><td>O(n)</td><td>O(n)</td></tr><tr><td>Sorted array</td><td>O(n)</td><td>O(1)</td><td>O(1)</td></tr><tr><td>Balanced BST</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr><tr><td>Binary heap</td><td>O(log n)</td><td>O(log n)</td><td>O(1)</td></tr></table></div>
+<p><b>Heap vs BST:</b> a BST orders horizontally (left &lt; root &lt; right). A heap orders vertically only (parent &ge; child); siblings have no order, so a left child can be larger than the right. <b>Heap vs JVM heap:</b> the JVM heap is an unstructured memory pool for <code>new</code>; the heap data structure is an array-stored tree. They share a name by accident.</p>
+<p><b>Min-heap dual:</b> the same code with the comparison reversed, so <code>smallest</code> replaces <code>largest</code> and the root holds the minimum.</p>
+<p class="fb"><b>Applications:</b> OS scheduling (Linux CFS), Dijkstra and Prim (min-heap), Huffman coding (merge two least frequent), streaming top-K (min-heap of size K), k-way merge in external sort (min-heap of size k).</p></div></section>
+
+<section class="sec" id="s05" style="--h:205"><h2>05. Array-based heap operations and index math</h2>
+<div class="cd">
+<p><span class="l">Formal</span>A binary max-heap is a <b>complete</b> binary tree (shape property) where every node is &ge; its children (heap-order property). Stored in an array with no pointers.</p>
+<p><span class="l">Layman</span>A heap does one job well: the biggest item is always at the top, and you can grab it instantly. Items fill the tree left to right, level by level, so the tree can live in a plain array and you find relatives with arithmetic.</p>
+<p><span class="l">Analogy</span>An emergency-room waiting list. The most critical patient is always at the front desk. A new arrival sits at the back, then swaps upward past anyone less urgent (siftUp). When the front patient is treated, the person at the very back steps up and swaps downward with the more urgent of the two people below (siftDown).</p>
+<p><span class="l">Formula decoder</span><span class="fx">parent(i) = &lfloor;(i&minus;1)/2&rfloor;, left(i) = 2i+1, right(i) = 2i+2</span>. For i = 4: parent = &lfloor;3/2&rfloor; = 1; children = 9 and 10. First leaf = &lfloor;n/2&rfloor;; last internal = &lfloor;n/2&rfloor;&minus;1. With n = 6 the first leaf is index 3.</p></div>
+<div class="cd"><h3>Index calculator (0-based)</h3>n <input type="number" id="cn" value="10" min="1"> i <input type="number" id="ci" value="4" min="0"><p id="co" class="fd"></p>
+<div class="tr"><div class="hv" data-a="90,70,80,40,50,60" data-s="1">max-heap [90,70,80,40,50,60]</div></div></div>
+<div class="cd"><h3>Java: <code>MaxHeap</code> insert and extractMax</h3>
+<pre>class MaxHeap {
+  int[] a = new int[8]; int n = 0;                  // 0-based array; n = number of items
+  void insert(int v) {
+    if (n == a.length) a = java.util.Arrays.copyOf(a, n * 2); // full: double capacity (amortized O(1))
+    a[n] = v; int i = n++;                          // put at next free slot: keeps the tree complete
+    while (i > 0 &amp;&amp; a[(i-1)/2] &lt; a[i]) {         // siftUp: while bigger than parent...
+      swap(i, (i-1)/2); i = (i-1)/2; }              // ...swap up and move to the parent index
+  }
+  int extractMax() {
+    int top = a[0]; a[0] = a[--n];                  // save max; move LAST leaf to the root
+    int i = 0;
+    while (2*i + 1 &lt; n) {                           // siftDown: loop while a left child exists
+      int c = 2*i + 1;                              // c = left child
+      if (c + 1 &lt; n &amp;&amp; a[c+1] &gt; a[c]) c++;        // choose the LARGER child
+      if (a[i] &gt;= a[c]) break;                      // order restored: stop
+      swap(i, c); i = c; }                          // otherwise swap down and continue
+    return top; }
+  void swap(int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+}</pre>
+<p class="ex"><b>What breaks:</b> swapping with the smaller child in siftDown breaks heap order. Dropping <code>c + 1 &lt; n</code> reads a stale slot. Using <code>n * 2</code> before the length check overruns the array. Floyd buildHeap runs siftDown from index &lfloor;n/2&rfloor;&minus;1 down to 0 and costs O(n), because most nodes sit near the leaves.</p></div></section>
+
+<section class="sec" id="s06" style="--h:212"><h2>06. Floyd buildHeap and in-place HeapSort (L09 + Lab 10 Task 8)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>Floyd&rsquo;s buildHeap (1964) turns any array into a max-heap in O(n) by running siftDown for i = &lfloor;n/2&rfloor;&minus;1 down to 0. HeapSort = buildHeap, then repeatedly swap arr[0] with arr[heapSize], shrink the heap, and siftDown the root. Time O(n log n) in every case, extra space O(1), <b>not stable</b>.</p>
+<p><span class="l">Layman</span>Leaves are already tiny valid heaps, so skip them. Start at the last parent and fix each parent from the bottom up. To sort, keep pulling the biggest to the end of the array and re-fix the shrinking heap.</p>
+<p><span class="l">Analogy</span>A company reshuffle that starts with the lowest managers. Each manager swaps places with their stronger report until order holds. Then the CEO is sent to the back of the line (final position) and a new CEO is chosen from the rest.</p>
+<p><span class="l">Formula decoder</span>Nodes at height k number about <span class="fx">n/2<sup>k+1</sup></span>, each costing k swaps: <span class="fx">&sum; k&middot;n/2<sup>k+1</sup> &le; (n/2)&sum; k/2<sup>k</sup> = (n/2)&middot;2 = n</span>. So O(n), not O(n log n): half the nodes cost 0, a quarter cost 1.</p></div>
+<div class="cd"><h3>Java: <code>HeapSort</code> (Lecture 09 version)</h3>
+<pre>public static void sort(int[] arr) {
+  int n = arr.length;
+  for (int i = n / 2 - 1; i &gt;= 0; i--)               // Phase 1: last parent down to root
+    siftDown(arr, i, n);                             // leaves skipped: already valid heaps
+  for (int size = n - 1; size &gt; 0; size--) {         // Phase 2: shrink the heap one by one
+    int t = arr[0]; arr[0] = arr[size]; arr[size] = t; // max goes to its FINAL slot
+    siftDown(arr, 0, size); } }                      // repair only 0..size-1, not the full array
+static void siftDown(int[] a, int i, int n) {
+  while (true) {
+    int largest = i, l = 2 * i + 1, r = 2 * i + 2;   // 0-based children
+    if (l &lt; n &amp;&amp; a[l] &gt; a[largest]) largest = l;    // bounds check BEFORE reading a[l]
+    if (r &lt; n &amp;&amp; a[r] &gt; a[largest]) largest = r;    // largest of parent, left, right
+    if (largest == i) break;                         // heap order holds: stop
+    int t = a[i]; a[i] = a[largest]; a[largest] = t; // swap with the LARGER child
+    i = largest; } }                                 // continue from the child&rsquo;s slot</pre>
+<p class="ex"><b>What breaks:</b> using <code>n</code> instead of <code>size</code> in phase 2 re-sifts sorted elements back in. Starting buildHeap at <code>n-1</code> wastes work; starting above <code>n/2-1</code> is fine but unnecessary.</p></div>
+<div class="cd"><h3>Trace: [4, 10, 3, 5, 1]</h3><div class="tw"><table><tr><th>Step</th><th>Array</th><th>Action</th></tr>
+<tr><td>start</td><td>4 10 3 5 1</td><td>n = 5, first sift index = 1</td></tr><tr><td>i = 1</td><td>4 10 3 5 1</td><td>10 &ge; 5, 1: no swap</td></tr><tr><td>i = 0</td><td>10 5 3 4 1</td><td>4 swaps with 10, then with 5</td></tr>
+<tr><td>size 4</td><td>5 4 3 1 | 10</td><td>swap 10 with 1, sift 1 in 0..3</td></tr><tr><td>size 3</td><td>4 1 3 | 5 10</td><td>swap 5 with 1, sift</td></tr><tr><td>size 2</td><td>3 1 | 4 5 10</td><td>swap 4 with 3</td></tr><tr><td>size 1</td><td>1 3 4 5 10</td><td>swap 3 with 1: sorted</td></tr></table></div>
+<div class="tr"><div class="hv" data-a="10,5,3,4,1" data-s="1">heap after buildHeap</div></div>
+<p><b>Instability proof:</b> <code>[5_A, 5_B, 3]</code> is already a max-heap. Swap 5_A with 3: <code>[3, 5_B, 5_A]</code>. siftDown over 0..1 swaps 3 with 5_B: <code>[5_B, 3, 5_A]</code>. Final swap of arr[0] and arr[1]: <code>[3, 5_B, 5_A]</code>. 5_A came first in the input but 5_B comes first in the output, so HeapSort is unstable.</p>
+<p class="fb">Lab Task 8: <code>40 10 30 50 20</code> becomes <code>10 20 30 40 50</code>; in place, O(1) auxiliary space.</p></div></section>
+
+<section class="sec" id="s07" style="--h:225"><h2>07. BST: search, insert and queries (L10 + Lab 10 Tasks 1&ndash;5)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>In a BST, for every node x, <b>all</b> keys in the left subtree are &lt; x and <b>all</b> keys in the right subtree are &gt; x (the whole subtree, not just the children). Inorder traversal therefore yields sorted keys: a node sits between its left and right subtree values. Search/insert take O(h). <b>Duplicate policy (this course): reject.</b> Alternatives are a count field or a linked list at the node.</p>
+<p><span class="l">Layman</span>Every comparison throws away half the tree: smaller means go left, larger means go right. Inserting is just searching until you fall off the tree, then hanging the new node there.</p>
+<p><span class="l">Analogy</span>A library with signs at every junction: &ldquo;titles A&ndash;M left, N&ndash;Z right.&rdquo; You never walk both ways. A new book is shelved where the search for it would have ended.</p>
+<p><span class="l">Formula decoder</span>Balanced: h = &lfloor;log<sub>2</sub> n&rfloor;, so 45,000 items need about 16 steps. Sorted insertion: h = n&minus;1 = 44,999 steps (a chain). Range sum low = 7, high = 15 skips the left subtree when the key is below 7.</p></div>
+<div class="cd"><h3>Java: BST operations and Lab Week 10 queries</h3>
+<pre>boolean search(Node n, int k) {
+  if (n == null) return false;                       // fell off a null link: absent
+  if (k == n.data) return true;                      // match
+  return k &lt; n.data ? search(n.left, k) : search(n.right, k); } // only ONE side per step
+boolean searchIt(int k) { Node c = root;             // iterative: O(1) stack
+  while (c != null) { if (k == c.data) return true; c = k &lt; c.data ? c.left : c.right; }
+  return false; }
+Node insert(Node n, int k) {
+  if (n == null) return new Node(k);                 // empty spot found: new leaf
+  if (k &lt; n.data) n.left = insert(n.left, k);        // go left and re-link
+  else if (k &gt; n.data) n.right = insert(n.right, k); // go right and re-link
+  return n; }                                        // equal key: do nothing (reject)
+Node findMin(Node n) { while (n.left != null) n = n.left; return n; }   // leftmost
+Node findMax(Node n) { while (n.right != null) n = n.right; return n; } // rightmost
+Node searchBST(Node n, int v) {                      // returns the SUBTREE root or null
+  while (n != null &amp;&amp; n.data != v) n = v &lt; n.data ? n.left : n.right;
+  return n; }
+boolean findTarget(Node r, int k) { return two(r, k, new HashSet&lt;&gt;()); }
+boolean two(Node n, int k, Set&lt;Integer&gt; seen) {
+  if (n == null) return false;
+  if (seen.contains(k - n.data)) return true;        // complement was a DIFFERENT earlier node
+  seen.add(n.data);                                  // add AFTER checking: no self-pairing
+  return two(n.left, k, seen) || two(n.right, k, seen); }
+// Two-pointer variant: list = inorder keys, i = 0, j = size-1
+// while (i &lt; j) { int s = list[i] + list[j]; if (s == k) return true; if (s &lt; k) i++; else j--; }
+int rangeSumBST(Node n, int lo, int hi) {
+  if (n == null) return 0;
+  if (n.data &lt; lo) return rangeSumBST(n.right, lo, hi); // too small: whole left subtree out
+  if (n.data &gt; hi) return rangeSumBST(n.left, lo, hi);  // too big: whole right subtree out
+  return n.data + rangeSumBST(n.left, lo, hi) + rangeSumBST(n.right, lo, hi); } // endpoints included</pre>
+<p class="fb"><b>Two exam perspectives:</b> Lab 10 rejects duplicates, which is what the code above does. Lecture 10&rsquo;s insert slide sends keys greater than or equal to the node to the right subtree, so it keeps duplicates. Always follow the policy stated in the question.</p>
+<p class="ex"><b>What breaks:</b> checking only children (not whole subtrees) accepts invalid trees. Adding to the set before checking pairs a node with itself (k = 2 &times; value). HashSet: O(n) time, O(n) space; two pointers: O(n) time, O(n) space for the list. Range sum visits only the v nodes it cannot prune.</p></div></section>
+
+<section class="sec" id="s08" style="--h:240"><h2>08. BST deletion, degeneracy and complete-tree counting (L10 + Lab 10 Tasks 1 and 6)</h2>
+<div class="cd">
+<p><span class="l">Formal</span>Delete first finds the node, then: <b>leaf</b> &rarr; return null to the parent; <b>one child</b> &rarr; return that child (bypass); <b>two children</b> &rarr; copy the in-order predecessor (max of left subtree) or successor (min of right subtree) into the node, then delete that copy, which has at most one child. A BST is balanced at h = &lfloor;log<sub>2</sub> n&rfloor; and degenerate at h = n&minus;1; sorted or reverse-sorted insertion always gives the degenerate case.</p>
+<p><span class="l">Layman</span>Removing a leaf is trivial. A node with one child just lets that child take its place. A node with two children cannot leave a hole, so you borrow the closest value in sorted order, which is always safe to put there.</p>
+<p><span class="l">Analogy</span>A retiring manager with two teams: you promote the best member of the left team (the largest value below them). Order is preserved and the promoted person&rsquo;s old seat is easy to refill.</p>
+<p><span class="l">Formula decoder</span>Complete tree with equal leftmost and rightmost node-heights h is perfect: <span class="fx">count = 2<sup>h</sup> &minus; 1</span> (h = 3 gives 7). Cost <span class="fx">O(log&sup2; n)</span>: about log n levels of recursion, each measuring heights in O(log n).</p></div>
+<div class="cd"><h3>Delete 50 from 50,30,70,20,40,60,80 (predecessor 40)</h3><div class="tr"><div class="hv" data-a="50,30,70,20,40,60,80">before</div><div class="hv" data-a="40,30,70,20,_,60,80">after: 40 copied up, leaf 40 removed</div></div>
+<pre>Node delete(Node n, int k) {
+  if (n == null) return null;                        // key absent: nothing to do
+  if (k &lt; n.data) n.left = delete(n.left, k);        // search left
+  else if (k &gt; n.data) n.right = delete(n.right, k); // search right
+  else {                                             // found the node
+    if (n.left == null) return n.right;              // leaf or right child only: bypass
+    if (n.right == null) return n.left;              // left child only: bypass
+    Node p = findMax(n.left);                        // two kids: predecessor
+    n.data = p.data;                                 // copy its value up
+    n.left = delete(n.left, p.data); }               // remove the original (leaf/1 child)
+  return n; }                                        // re-link on the way back
+int countNodes(Node r) {                             // complete tree only, node-count height
+  if (r == null) return 0;
+  int lh = 0, rh = 0;
+  for (Node a = r; a != null; a = a.left)  lh++;     // leftmost path length
+  for (Node b = r; b != null; b = b.right) rh++;     // rightmost path length
+  if (lh == rh) return (1 &lt;&lt; lh) - 1;               // perfect: 2^h - 1, no recursion
+  return 1 + countNodes(r.left) + countNodes(r.right); } // else one side is perfect</pre>
+<p class="ex"><b>What breaks:</b> forgetting <code>n.left = delete(...)</code> never re-links. Deleting the copy from the wrong subtree removes the wrong key. Using <code>countNodes</code> on a non-complete tree gives wrong counts because equal edge heights no longer imply a perfect tree. Tests: [1,2,3,4,5,6] gives 6; empty gives 0; [1] gives 1.</p>
+<div class="tw"><table><tr><th>Structure</th><th>Search</th><th>Insert</th><th>Sorted output</th></tr><tr><td>Sorted array + binary search</td><td>O(log n)</td><td>O(n) shifting</td><td>yes</td></tr><tr><td>Balanced BST</td><td>O(log n)</td><td>O(log n)</td><td>yes (inorder)</td></tr><tr><td>Skewed BST</td><td>O(n)</td><td>O(n)</td><td>yes</td></tr><tr><td>Hash table</td><td>O(1) expected</td><td>O(1) expected</td><td>no</td></tr></table></div></div></section>
+
+<section class="sec" id="s09" style="--h:235"><h2>09. Balanced BSTs and AVL trees</h2>
+<div class="cd">
+<p><span class="l">Formal</span>An AVL tree is a BST in which every node has balance factor BF = height(left) &minus; height(right) &isin; {&minus;1, 0, +1}. After an insert or delete, walk up; at the first node with |BF| = 2, rotate. Height is at most 1.44 log<sub>2</sub> n, so search, insert and delete are O(log n).</p>
+<p><span class="l">Layman</span>A plain BST can turn into a linked list if you insert sorted data. AVL stops that: after each insert it checks the path back to the root, and if one side has become two levels taller than the other, it rotates a few pointers to even things out.</p>
+<p><span class="l">Analogy</span>A hanging mobile. If one arm gets too heavy, you do not rebuild it. You lift the heavy arm&rsquo;s middle piece up to become the new pivot, and the old pivot hangs below on the lighter side.</p>
+<p><span class="l">Formula decoder</span><span class="fx">BF(x) = h(left) &minus; h(right)</span>. Insert 30, 20, 10: node 30 has h(left) = 2 (node-count) and h(right) = 0, so BF = +2. The new key went left-left, so rotate right at 30.</p></div>
+<div class="cd"><h3>The four cases (before, then after)</h3>
+<div class="tw"><table><tr><th>Case</th><th>Insert order</th><th>Fix</th></tr><tr><td>LL</td><td>30, 20, 10</td><td>rotateRight(30)</td></tr><tr><td>RR</td><td>10, 20, 30</td><td>rotateLeft(10)</td></tr><tr><td>LR</td><td>30, 10, 20</td><td>rotateLeft(10), then rotateRight(30)</td></tr><tr><td>RL</td><td>10, 30, 20</td><td>rotateRight(30), then rotateLeft(10)</td></tr></table></div>
+<div class="tr"><div class="hv" data-a="30,20,_,10">LL before</div><div class="hv" data-a="10,_,20,_,_,_,30">RR before</div><div class="hv" data-a="30,10,_,_,20">LR before</div><div class="hv" data-a="10,_,30,_,_,20">RL before</div></div>
+<div class="tr"><div class="hv" data-a="20,10,30">After: all four become this</div></div></div>
+<div class="cd"><h3>Java: <code>AVLTree</code> rotations and insert (node-count height)</h3>
+<pre>class AVLTree {
+  class Node { int key, h = 1; Node l, r; Node(int k) { key = k; } } // new leaf has height 1
+  Node root;
+  int h(Node n)  { return n == null ? 0 : n.h; }          // null has height 0
+  int bf(Node n) { return n == null ? 0 : h(n.l) - h(n.r); } // balance factor
+  void fix(Node n) { n.h = 1 + Math.max(h(n.l), h(n.r)); }   // recompute height from children
+  Node rotR(Node x) {                                     // x = unbalanced node (case LL)
+    Node w = x.l;                                         // w becomes the new subtree root
+    x.l = w.r;                                            // w's right subtree moves under x
+    w.r = x;                                              // x drops to w's right
+    fix(x); fix(w);                                       // x first (now lower), then w
+    return w; }                                           // caller links parent to w
+  Node rotL(Node w) { Node x = w.r; w.r = x.l; x.l = w; fix(w); fix(x); return x; } // mirror
+  Node insert(Node n, int k) {
+    if (n == null) return new Node(k);                    // empty spot: create leaf
+    if (k &lt; n.key) n.l = insert(n.l, k);                  // go left
+    else if (k &gt; n.key) n.r = insert(n.r, k);             // go right
+    else return n;                                        // duplicate: reject
+    fix(n);                                               // update height on the way up
+    int b = bf(n);                                        // check EVERY ancestor
+    if (b &gt; 1 &amp;&amp; k &lt; n.l.key) return rotR(n);           // LL
+    if (b &lt; -1 &amp;&amp; k &gt; n.r.key) return rotL(n);          // RR
+    if (b &gt; 1)  { n.l = rotL(n.l); return rotR(n); }      // LR: two rotations
+    if (b &lt; -1) { n.r = rotR(n.r); return rotL(n); }      // RL: two rotations
+    return n; }                                           // balanced: unchanged
+  void add(int k) { root = insert(root, k); }             // always re-assign root: it may change
+}</pre>
+<p class="ex"><b>What breaks:</b> calling <code>fix(w)</code> before <code>fix(x)</code> leaves w with a stale height. Forgetting <code>root = insert(...)</code> loses a rotated root. Using edge-count height here would make a leaf 0 and shift every BF check. Keep one convention per program.</p></div></section>
+
+<section class="sec" id="s10" style="--h:250"><h2>10. Hashing and collision resolution</h2>
+<div class="cd">
+<p><span class="l">Formal</span>A hash table maps key k to slot h(k) in an array of size M. Load factor &alpha; = N/M. Collisions are resolved by separate chaining (a list per slot) or open addressing (probe for another slot: linear, quadratic, double hashing). Expected O(1) search and insert while &alpha; stays small.</p>
+<p><span class="l">Layman</span>You cannot make an array as big as every possible key (a CNIC has 13 digits). So you squash each key into a small number with a formula and use that number as the shelf. Two keys sometimes land on the same shelf, and you need a rule for that.</p>
+<p><span class="l">Analogy</span>Post-office pigeonholes. Chaining: each pigeonhole holds a stack of letters. Open addressing: if your hole is taken, you walk to the next free hole, which means a letter taken out must leave a &ldquo;was here&rdquo; marker, or later searches stop too early.</p>
+<p><span class="l">Formula decoder</span><span class="fx">h(k) = k mod M</span>: 44 mod 11 = 0, 88 mod 11 = 0, so they collide. <span class="fx">h = (h&times;31 + c) mod M</span> is Horner&rsquo;s rule: it uses character position, so &lsquo;stop&rsquo; and &lsquo;pots&rsquo; differ, while a plain ASCII sum gives the same value for both.</p></div>
+<div class="cd"><h3>Java: polynomial hash and linear probing with tombstones</h3>
+<pre>// state[]: 0 = EMPTY, 1 = OCCUPIED, 2 = DELETED (tombstone); table[] holds ints; M = size
+int hash(String s, int M) {
+  long h = 0;
+  for (char c : s.toCharArray()) h = (h * 31 + c) % M;   // Horner: shift old value, add new char
+  return (int) h; }
+boolean put(int k) {
+  int t = -1;                                            // first tombstone seen
+  for (int p = 0; p &lt; M; p++) {                          // at most M probes
+    int j = (k % M + p) % M;                             // linear probe sequence
+    if (state[j] == 1 &amp;&amp; table[j] == k) return false;  // duplicate: reject
+    if (state[j] == 2 &amp;&amp; t &lt; 0) t = j;                // remember first reusable slot
+    if (state[j] == 0) {                                 // EMPTY ends the search
+      int s = (t &lt; 0) ? j : t; table[s] = k; state[s] = 1; return true; } }
+  if (t &gt;= 0) { table[t] = k; state[t] = 1; return true; }
+  return false; }                                        // table full</pre>
+<p class="ex"><b>What breaks:</b> marking a deleted slot EMPTY cuts the probe chain so later keys look absent. Stopping at a tombstone during search misses keys beyond it. Rehash by re-inserting every key into a table of about 2M (prime) slots: copying positions fails because h depends on M.</p></div>
+<div class="cd"><h3>Interactive sandbox: open addressing with tombstones (M = 11)</h3>
+<div class="chips" id="hsmo"><button class="bt on" data-m="lin">Linear</button><button class="bt" data-m="quad">Quadratic</button><button class="bt" data-m="dbl">Double Hashing h2 = 7 - (k % 7)</button></div>
+<div class="chips"><input type="number" id="hk" min="0" placeholder="key"> <button class="bt" id="hi">Insert</button> <button class="bt" id="hse">Search</button> <button class="bt" id="hd">Delete</button> <button class="bt" id="hp">Load Preset [12, 44, 13, 88, 23, 94, 11]</button> <button class="bt" id="hr">Clear</button></div>
+<div class="hs-grid" id="hsg"></div>
+<p id="hpl" class="fd"></p><p id="hml" class="fd"></p>
+<p class="ex"><b>Try it:</b> load the preset, delete 88 (slot 3 becomes DEL), then search 23. Its home slot is 1, so the probe passes slot 3 and finds it at slot 4.</p></div></section>
+
+<section class="sec" id="s11" style="--h:265"><h2>11. Sorting foundations and elementary sorts</h2>
+<div class="cd">
+<p><span class="l">Formal</span>An inversion is a pair i &lt; j with A[i] &gt; A[j]. An array is sorted iff it has 0 inversions; the maximum is n(n&minus;1)/2. An adjacent swap or an insertion shift removes exactly one inversion, so insertion sort runs in &Theta;(n + I) for I inversions.</p>
+<p><span class="l">Layman</span>Sorting means fixing every pair that is in the wrong order. Elementary sorts fix them one neighbor at a time, which is fine for small or almost-sorted data and slow for big data.</p>
+<p><span class="l">Analogy</span>Sorting playing cards in your hand: pick up the next card, slide the bigger cards one place right, and drop the card into the gap. If the hand is nearly sorted, you barely slide anything.</p>
+<p><span class="l">Formula decoder</span><span class="fx">I = n(n&minus;1)/2</span> for reverse order: n = 5 gives 10, so <code>[9,7,5,3,1]</code> needs 10 comparisons and 10 shifts in insertion sort. <code>[1,2,3,5,4]</code> has I = 1.</p></div>
+<div class="cd"><h3>Lab Week 08 Task 1: counted insertion sort</h3>
+<pre>static void insertion(int[] a) {
+  int cmp = 0, shifts = 0;                         // define counting rules up front
+  for (int i = 1; i &lt; a.length; i++) {             // a[0..i-1] is already sorted
+    int key = a[i], j = i - 1;                     // key = card to insert
+    while (j &gt;= 0) {
+      cmp++;                                       // count every key comparison
+      if (a[j] &lt;= key) break;                      // &lt;= keeps equal keys in order (stable)
+      a[j + 1] = a[j]; shifts++; j--; }            // shift bigger value right
+    a[j + 1] = key; }                              // drop key into the gap
+  System.out.println("cmp=" + cmp + " shifts=" + shifts);
+}</pre>
+<div class="tw"><table><tr><th>Input</th><th>Bubble (flag)</th><th>Selection</th><th>Insertion</th></tr>
+<tr><td>[9,7,5,3,1]</td><td>10 cmp, 10 swaps</td><td>10 cmp, 2 swaps</td><td>10 cmp, 10 shifts</td></tr>
+<tr><td>[1,2,3,5,4]</td><td>7 cmp, 1 swap</td><td>10 cmp, 1 swap</td><td>5 cmp, 1 shift</td></tr></table></div>
+<p class="fb">Counts use: 1 comparison per element test, 1 swap per exchange, and selection swaps only when minIdx differs from i. Bubble on [1,2,3,5,4]: pass 1 = 4 cmp, pass 2 = 3 cmp with no swap, then it exits.</p></div></section>
+
+<section class="sec" id="s12" style="--h:255"><h2>12. Divide and conquer: MergeSort, QuickSort and hybrids (L12/L13) <span class="l">Not in Theory Finals</span></h2></section>
+<section class="sec" id="s13" style="--h:268"><h2>13. Non-comparison sorts and Lab Week 08 patterns (L13 + Lab 08 Tasks 4&ndash;9) <span class="l">Not in Theory Finals</span></h2></section>
+
+<section class="sec" id="s14" style="--h:200"><h2>14. Paper-exam dry runs, short-code bank and lab viva prep</h2>
+<div class="cd alert"><h3>How to use this section</h3><p>Rule of thumb for every dry run: <b>write the state after every step</b>. Graders give marks per correct intermediate state, not only the final answer. Conventions: AVL uses node-count height (null = 0, leaf = 1); general trees use edge-count (empty = &minus;1, leaf = 0); heaps are 0-based.</p></div>
+<h3>14A. Dry-run problems</h3>
+<div class="cd"><h3>1. Trees: measures and rebuilding from Preorder + Inorder</h3>
+<p><b>Given</b> Preorder <code>A B D E C F</code>, Inorder <code>D B E A F C</code>. <b>Rule:</b> the first preorder item is the root; it splits the inorder list into left and right parts. <b>Intuition:</b> preorder tells you who is the boss, inorder tells you who sits on which side of the boss.</p>
+<pre>root A: inorder left = [D B E], right = [F C]
+left  (pre B D E): root B, left [D], right [E]
+right (pre C F)  : root C, left [F], right []
+Postorder = D E B F C A</pre>
+<div class="hv" data-a="A,B,C,D,E,F">Rebuilt tree (level-order array view)</div>
+<div class="tw"><table><tr><th>Measure</th><th>Answer</th></tr><tr><td>Depth of D (edges from root)</td><td>2</td></tr><tr><td>Height of tree (edge count)</td><td>2 (empty = &minus;1)</td></tr><tr><td>Size / leaves / internal</td><td>6 / 3 (D, E, F) / 3 (A, B, C)</td></tr><tr><td>Degree of A, B, C</td><td>2, 2, 1</td></tr></table></div>
+<p class="fb">L = I + 1 fails here because C has one child, so the tree is not full.</p></div>
+<div class="cd"><h3>2. BST: insert, then delete a node with two children</h3>
+<p>Insert <code>50 30 70 20 40 60 80 35</code> (35 goes 50 &rarr; 30 &rarr; 40 &rarr; left). Delete <b>30</b> (kids 20 and 40).</p>
+<div class="hv" data-a="50,30,70,20,40,60,80,_,_,35">Before delete</div>
+<pre>Predecessor = max(left of 30) = 20 : copy 20 into 30's slot, delete the old leaf 20
+Successor   = min(right of 30) = 35 : copy 35 into 30's slot, delete the old leaf 35</pre>
+<div class="hv" data-a="50,20,70,_,40,60,80,_,_,35">After, predecessor version (root left = 20)</div>
+<div class="hv" data-a="50,35,70,20,40,60,80">After, successor version (root left = 35)</div>
+<p class="fb">Both results are valid BSTs. Say which one you used. The donor node has at most one child, so its removal is the easy case.</p></div>
+<div class="cd"><h3>3. AVL: balance factors before and after each rotation</h3>
+<p>BF = h(left) &minus; h(right), node-count heights. Insert <code>10 20 30 5 4 8 25</code>.</p>
+<div class="tw"><table><tr><th>Insert</th><th>Problem node</th><th>BF before</th><th>Case and fix</th><th>BF after</th><th>Tree</th></tr>
+<tr><td>10,20,30</td><td>10</td><td>&minus;2 (child 20: &minus;1)</td><td>RR: rotateLeft(10)</td><td>20: 0</td><td>20(10,30)</td></tr>
+<tr><td>5, 4</td><td>10</td><td>+2 (child 5: +1)</td><td>LL: rotateRight(10)</td><td>5: 0</td><td>20(5(4,10),30)</td></tr>
+<tr><td>8</td><td>20</td><td>+2 (child 5: &minus;1)</td><td>LR: rotateLeft(5), rotateRight(20)</td><td>10: 0, 5: 0, 20: &minus;1</td><td>10(5(4,8),20(_,30))</td></tr>
+<tr><td>25</td><td>20</td><td>&minus;2 (child 30: +1)</td><td>RL: rotateRight(30), rotateLeft(20)</td><td>25: 0</td><td>10(5(4,8),25(20,30))</td></tr></table></div>
+<div class="hv" data-a="20,5,30,4,10,_,_,_,_,_,8">LR case before fix (8 under 10)</div>
+<div class="hv" data-a="10,5,25,4,8,20,30">Final tree</div>
+<p class="fb">Single rotation when the child BF has the same sign as the node BF (LL, RR). Double rotation when signs differ (LR, RL). One insertion needs at most one fix.</p></div>
+<div class="cd"><h3>4. Heap: insert, extractMax, buildHeap and HeapSort (max-heap, 0-based)</h3>
+<pre>insert 8 into [10 5 3 4 1]: place idx5 -> [10 5 3 4 1 8]
+  parent idx2=3 < 8 swap -> [10 5 8 4 1 3]; parent idx0=10 stop
+extractMax from [10 5 8 4 1 3]: move last to root -> [3 5 8 4 1]
+  children 5, 8: swap with 8 -> [8 5 3 4 1]
+buildHeap [4 10 3 5 1], n=5, start i = floor(5/2)-1 = 1
+  siftDown(1): 10 >= 5,1 no change
+  siftDown(0): 4 vs 10,3 swap -> [10 4 3 5 1]; 4 vs 5,1 swap -> [10 5 3 4 1]</pre>
+<div class="tw"><table><tr><th>HeapSort step</th><th>Array (| = sorted part)</th></tr><tr><td>heap</td><td>10 5 3 4 1</td></tr><tr><td>swap 10 with last, siftDown</td><td>5 4 3 1 | 10</td></tr><tr><td>swap 5, siftDown</td><td>4 1 3 | 5 10</td></tr><tr><td>swap 4, siftDown</td><td>3 1 | 4 5 10</td></tr><tr><td>swap 3</td><td>1 | 3 4 5 10</td></tr><tr><td>done</td><td>1 3 4 5 10</td></tr></table></div>
+<div class="hv" data-a="10,5,3,4,1" data-s="1">Heap after buildHeap</div></div>
+<div class="cd"><h3>5. Hashing traces: keys <code>12 44 13 88 23 94 11</code>, M = 11</h3>
+<p>Home slots h = k mod 11: 12&rarr;1, 44&rarr;0, 13&rarr;2, 88&rarr;0, 23&rarr;1, 94&rarr;6, 11&rarr;0.</p>
+<div class="tw"><table><tr><th>Method</th><th>Final table</th></tr>
+<tr><td>Separate chaining (tail insert)</td><td>[0]: 44, 88, 11 &nbsp; [1]: 12, 23 &nbsp; [2]: 13 &nbsp; [6]: 94</td></tr>
+<tr><td>Linear probing</td><td>[0]44 [1]12 [2]13 [3]88 [4]23 [5]11 [6]94. Probes: 88 takes 4, 23 takes 4, 11 takes 6</td></tr>
+<tr><td>Double hashing, h2 = 7 &minus; (k mod 7) (assumed; use your lecture's h2)</td><td>88: 0 full, +3 &rarr; [3]. 23: 1 full, +5 &rarr; [6]. 94: 6 full, +4 &rarr; [10]. 11: 0 full, +3 full, +6 full, +9 &rarr; [9]. Table: [0]44 [1]12 [2]13 [3]88 [6]23 [9]11 [10]94</td></tr></table></div>
+<pre>Tombstone trace on the linear-probing table
+delete 88  -> [3] = DELETED (not EMPTY)
+search 23  : [1]12 no, [2]13 no, [3]DELETED keep going, [4]23 found
+if [3] were EMPTY: search stops at [3], wrongly reports absent
+insert 55 (home 0): [0],[1],[2] full, [3] DELETED -> remember it, keep probing
+  until EMPTY or the key is found, then place 55 in [3]</pre>
+<pre>Polynomial rolling hash, p = 31, Horner: h = h*31 + c
+stop (115,116,111,112): 115 -> 3681 -> 114222 -> 3540994, mod 11 = 6
+pots (112,111,116,115): 112 -> 3583 -> 111189 -> 3446974, mod 11 = 3
+plain character sum is 454 for both (collision); position weights separate them</pre></div>
+<div class="cd"><h3>6. Inversions and elementary sorts</h3>
+<div class="tw"><table><tr><th>Input</th><th>Inversions</th><th>Bubble (isSwapped)</th><th>Selection</th><th>Insertion</th></tr>
+<tr><td>9 7 5 3 1</td><td>10</td><td>P1 7 5 3 1 9; P2 5 3 1 7 9; P3 3 1 5 7 9; P4 1 3 5 7 9. 10 cmp, 10 swaps</td><td>i0: 1 7 5 3 9; i1: 1 3 5 7 9; i2, i3 no swap. 2 swaps</td><td>10 shifts: 7 9 5 3 1; 5 7 9 3 1; 3 5 7 9 1; 1 3 5 7 9</td></tr>
+<tr><td>1 2 3 5 4</td><td>1</td><td>P1: 4 cmp, 1 swap; P2: 3 cmp, no swap, exit</td><td>10 cmp always, 1 swap</td><td>1 shift, 4 cmp</td></tr></table></div>
+<p class="fb">Swaps in bubble and shifts in insertion both equal the inversion count. Selection always does about n(n&minus;1)/2 comparisons.</p></div>
+<h3>14B. Short-code bank (write from memory)</h3>
+<div class="cd"><h3>Traversals and tree measures (edge-count height)</h3>
+<pre>void pre(Node n){ if(n==null) return; visit(n); pre(n.left); pre(n.right); }
+void in(Node n){ if(n==null) return; in(n.left); visit(n); in(n.right); }
+void post(Node n){ if(n==null) return; post(n.left); post(n.right); visit(n); }
+void level(Node r){ if(r==null) return; Queue&lt;Node&gt; q=new LinkedList&lt;&gt;(); q.add(r);
+  while(!q.isEmpty()){ Node n=q.remove(); visit(n);
+    if(n.left!=null) q.add(n.left); if(n.right!=null) q.add(n.right); } }
+int count(Node n){ return n==null?0:1+count(n.left)+count(n.right); }
+int leaves(Node n){ if(n==null) return 0; if(n.left==null&amp;&amp;n.right==null) return 1; return leaves(n.left)+leaves(n.right); }
+int height(Node n){ return n==null?-1:1+Math.max(height(n.left),height(n.right)); }
+int chk(Node n){ if(n==null) return -1; int l=chk(n.left); if(l==-2) return -2;
+  int r=chk(n.right); if(r==-2||Math.abs(l-r)&gt;1) return -2; return 1+Math.max(l,r); }
+boolean isBalanced(Node r){ return chk(r)!=-2; }</pre>
+<p class="fb">Line by line: the null check is the base case; visit position (before, between, after the two calls) is the only difference between the three orders. Level order swaps recursion for a queue. <code>chk</code> returns height or the sentinel &minus;2 so each node is visited once: O(n).</p>
+<p class="ex"><b>What breaks:</b> a missing null check gives a NullPointerException. Returning 0 for null makes leaf height 1 (wrong convention here). Calling <code>height</code> inside <code>isBalanced</code> at every node gives O(n&sup2;). Using a stack instead of a queue gives a different order.</p></div>
+<div class="cd"><h3>BST search, insert, min, max</h3>
+<pre>Node search(Node n,int k){ if(n==null||n.key==k) return n; return k&lt;n.key?search(n.left,k):search(n.right,k); }
+Node searchI(Node n,int k){ while(n!=null&amp;&amp;n.key!=k) n=k&lt;n.key?n.left:n.right; return n; }
+Node insert(Node n,int k){ if(n==null) return new Node(k);
+  if(k&lt;n.key) n.left=insert(n.left,k); else if(k&gt;n.key) n.right=insert(n.right,k); return n; }
+Node findMin(Node n){ while(n.left!=null) n=n.left; return n; }
+Node findMax(Node n){ while(n.right!=null) n=n.right; return n; }</pre>
+<p class="fb">Each step discards one whole subtree. <code>n.left=insert(...)</code> reattaches the (possibly new) child. The <code>else if</code> rejects duplicates (Lab Week 10); the Lecture 10 slide sends equal keys right instead (<code>else</code>).</p>
+<p class="ex"><b>What breaks:</b> writing <code>insert(n.left,k);</code> without assigning loses the new node. Calling <code>findMin(null)</code> crashes. Searching a skewed tree is O(n).</p></div>
+<div class="cd"><h3>Max-heap siftUp / siftDown (0-based) and AVL rotations (node-count height)</h3>
+<pre>void siftUp(int[] a,int i){ while(i&gt;0){ int p=(i-1)/2; if(a[p]&gt;=a[i]) break; swap(a,p,i); i=p; } }
+void siftDown(int[] a,int n,int i){ while(2*i+1&lt;n){ int c=2*i+1;
+    if(c+1&lt;n&amp;&amp;a[c+1]&gt;a[c]) c++; if(a[i]&gt;=a[c]) break; swap(a,i,c); i=c; } }
+int h(Node n){ return n==null?0:n.h; }
+void fix(Node n){ n.h=1+Math.max(h(n.left),h(n.right)); }
+Node rotateRight(Node y){ Node x=y.left; y.left=x.right; x.right=y; fix(y); fix(x); return x; }
+Node rotateLeft(Node x){ Node y=x.right; x.right=y.left; y.left=x; fix(x); fix(y); return y; }</pre>
+<p class="fb">siftDown picks the larger child (<code>c++</code>) and stops when the parent is already &ge; it. In a rotation the pivot moves up, the pivot's inner subtree changes parent, then heights are fixed bottom-up: old root first, new root second.</p>
+<p class="ex"><b>What breaks:</b> swapping with the smaller child, dropping <code>c+1&lt;n</code>, fixing the new root before the old one (stale height), forgetting to return and assign the new subtree root.</p></div>
+<div class="cd"><h3>Hash table insert and search</h3>
+<pre>// chaining: LinkedList&lt;Integer&gt;[] b
+void insertC(int k){ int i=k%M; if(!b[i].contains(k)) b[i].add(k); }
+boolean searchC(int k){ return b[k%M].contains(k); }
+// linear probing with tombstones: EMPTY=-1, DEL=-2
+void insertP(int k){ int f=-1; for(int j=0;j&lt;M;j++){ int p=(k%M+j)%M;
+    if(t[p]==k) return; if(t[p]==DEL&amp;&amp;f&lt;0) f=p;
+    if(t[p]==EMPTY){ t[f&lt;0?p:f]=k; return; } } if(f&gt;=0) t[f]=k; }
+boolean searchP(int k){ for(int j=0;j&lt;M;j++){ int p=(k%M+j)%M;
+    if(t[p]==EMPTY) return false; if(t[p]==k) return true; } return false; }</pre>
+<p class="ex"><b>What breaks:</b> stopping search at DEL misses later keys. Stopping insert at the first DEL can create a duplicate of a key further along. Forgetting <code>% M</code> on the probe overruns the array. Looping without the <code>j&lt;M</code> bound spins forever on a full table.</p></div>
+<h3>14C. Lab viva bank</h3>
+<div class="cd"><p class="fb">Compiled from this guide's lab sections.</p>
+<p><b>Why is HeapSort not stable?</b><br><span class="ex">Swapping the root with the last element moves equal keys across long distances, so their original order can flip.</span></p>
+<p><b>Why is Floyd buildHeap O(n) and not O(n log n)?</b><br><span class="ex">Half the nodes are leaves and sift zero levels; the sum over levels of k/2^k converges to a constant.</span></p>
+<p><b>How do you delete a BST node with two children?</b><br><span class="ex">Copy max(left) or min(right) into it, then delete that donor, which has at most one child.</span></p>
+<p><b>What does inorder traversal of a BST give?</b><br><span class="ex">Keys in sorted order; this is also how you validate a BST.</span></p>
+<p><b>Why is <code>isBalanced</code> O(n) bottom-up but O(n&sup2;) top-down?</b><br><span class="ex">Top-down recomputes subtree heights at every node; bottom-up returns height and balance together in one pass.</span></p>
+<p><b>When does an AVL tree need a double rotation?</b><br><span class="ex">When the heavy child leans the opposite way (LR or RL): rotate the child first, then the unbalanced node.</span></p>
+<p><b>Why does the AVL lab use node-count height?</b><br><span class="ex">null = 0 and leaf = 1 let <code>h(null)</code> work without a special case; keep one convention per program.</span></p>
+<p><b>What is the cost of a bad BST?</b><br><span class="ex">Sorted insertion makes a chain of height n&minus;1, so search, insert and delete are O(n).</span></p>
+<p><b>Which elementary sort is best on nearly sorted data and why?</b><br><span class="ex">Insertion sort (or flagged bubble): work is about n plus the inversion count.</span></p>
+<p><b>Why a tombstone instead of EMPTY on delete?</b><br><span class="ex">EMPTY ends a probe chain, so later keys in the chain become unreachable.</span></p>
+<p><b>Two-Sum in a BST (findTarget): what are the two approaches?</b><br><span class="ex">HashSet: visit each node and check whether k minus its value is already in the set. O(n) time, O(n) space. Inorder plus two pointers: inorder gives a sorted list in O(n), then move the pointers inward. O(n) time and O(n) space for the list.</span></p>
+<p><b>How does rangeSumBST avoid visiting the whole tree?</b><br><span class="ex">If node.val &lt; low, all left descendants are below the range, so skip the left subtree. If node.val &gt; high, skip the right subtree. Only boundary paths and in-range nodes are visited.</span></p>
+<p><b>Why is countNodes on a complete tree O(log<sup>2</sup> n) and not O(n)?</b><br><span class="ex">Leftmost and rightmost heights each cost O(log n). If they match, the subtree is perfect: return 2<sup>h</sup> &minus; 1 at once. Otherwise one child is perfect, so only one path recurses: about log n levels of O(log n) work.</span></p>
+<p><b>Why does search(root, k) return boolean while searchBST(root, val) returns a Node?</b><br><span class="ex">The boolean version only reports presence. The Node version returns the matching subtree root (or null), so the caller can read or change it. Both take O(h) time.</span></p>
+<p><b>Why does AVL insertion need at most one rotation fix, but deletion may need O(log n)?</b><br><span class="ex">After an insert, the first unbalanced ancestor regains its old height after one single or double rotation, so higher nodes are unaffected. A delete can shrink a subtree and push imbalance upward, so rotations can repeat along the path: up to O(log n).</span></p></div></section>
+
+<section class="sec" id="s15" style="--h:190"><h2>15. Searchable glossary</h2><div class="cd"><input type="search" id="gs" placeholder="Search 56 terms & definitions..."><div class="chips" id="gf"></div><div id="gl"></div></div></section>
+
+<section class="sec" id="s16" style="--h:215"><h2>16. Shuffled practice quiz</h2><div class="cd"><div class="chips" id="qf"></div><p id="sc"><b>Score 0 / 0</b> <button class="bt" id="rs">Restart and reshuffle</button> <button class="bt" id="rm" disabled>Retry Missed</button></p><div id="qz"></div></div></section>
+
+<section class="sec" id="s17" style="--h:270"><h2>17. Scenario decision matrix and last-minute cheat sheet</h2>
+<div class="cd"><h3>Which structure or sort should I use?</h3><div class="tw"><table><tr><th>Clue in the question</th><th>Pick</th><th>Time / space</th><th>Trade-off</th></tr>
+<tr><td>Exact lookup by key, order irrelevant</td><td>Hash table</td><td>O(1) expected; O(n) space</td><td>No sorted output; needs good h and low load</td></tr>
+<tr><td>Ordered output, range or min/max queries, with inserts</td><td>AVL BST</td><td>O(log n) all ops</td><td>Rotation code; plain BST can degrade to O(n)</td></tr>
+<tr><td>Repeated "give me the largest/smallest"</td><td>Binary heap</td><td>insert, extract O(log n); peek O(1); build O(n)</td><td>No fast search for arbitrary keys</td></tr>
+<tr><td>Static data, many searches</td><td>Sorted array + binary search</td><td>O(log n) search; O(n) insert</td><td>Shifting on update</td></tr>
+<tr><td>Small or nearly sorted array</td><td>Insertion sort</td><td>O(n + inversions); O(1)</td><td>O(n&sup2;) worst; stable</td></tr>
+<tr><td>Few writes allowed</td><td>Selection sort</td><td>O(n&sup2;) compares; at most n&minus;1 swaps</td><td>Not stable, not adaptive</td></tr>
+<tr><td>In-place O(n log n) worst case</td><td>HeapSort</td><td>O(n log n); O(1)</td><td>Not stable</td></tr></table></div></div>
+<div class="cd"><h3>Formula and complexity reference</h3><div class="tw"><table><tr><th>Topic</th><th>Formula</th></tr>
+<tr><td>Binary tree, edge height h</td><td>nodes &le; 2<sup>h+1</sup>&minus;1; leaves &le; 2<sup>h</sup>; min nodes = h+1; n nodes &rArr; h &ge; &lfloor;log&#8322; n&rfloor;</td></tr>
+<tr><td>Full binary tree</td><td>L = I + 1; edges = n &minus; 1 in any tree</td></tr>
+<tr><td>Heap, 0-based</td><td>parent (i&minus;1)/2; left 2i+1; right 2i+2; first leaf &lfloor;n/2&rfloor;; last internal &lfloor;n/2&rfloor;&minus;1</td></tr>
+<tr><td>Heap costs</td><td>siftUp / siftDown O(log n); buildHeap O(n); HeapSort O(n log n)</td></tr>
+<tr><td>AVL</td><td>BF = h(L) &minus; h(R) in {&minus;1,0,1}; h &le; 1.44 log&#8322; n; N(h) = N(h&minus;1) + N(h&minus;2) + 1</td></tr>
+<tr><td>Hashing</td><td>&alpha; = N/M; chaining keep &alpha; &lt; 0.75; open addressing about &lt; 0.5&ndash;0.7; rehash to about 2M (prime)</td></tr>
+<tr><td>Sorting</td><td>Inversions max n(n&minus;1)/2; bubble swaps = insertion shifts = inversions</td></tr></table></div></div>
+<div class="cd"><h3>Top 30 exam-winning facts and convention traps</h3><ol>
+<li>Edge-count height: empty &minus;1, leaf 0. AVL and Lab 10 countNodes: null 0, leaf 1.</li>
+<li>Heaps here are 0-based: kids 2i+1, 2i+2.</li><li>Last internal node is &lfloor;n/2&rfloor;&minus;1.</li>
+<li>Preorder first item is the root; the last postorder item is the root.</li>
+<li>Pre + In (or Post + In) rebuilds a unique tree; Pre + Post does not.</li>
+<li>Inorder of a BST is sorted.</li><li>Level order uses a queue.</li>
+<li>Edges = n &minus; 1.</li><li>Full tree: leaves = internal + 1.</li>
+<li>Check the whole subtree for BST validity, not only children.</li>
+<li>Two-child delete: max(left) or min(right).</li>
+<li>Lab 10 rejects duplicates; Lecture 10 sends them right.</li>
+<li>Sorted insertions make a skewed BST of height n&minus;1.</li>
+<li>siftDown swaps with the larger child (max-heap).</li>
+<li>insert = place last, siftUp; extractMax = last to root, siftDown.</li>
+<li>buildHeap is O(n); n inserts are O(n log n).</li>
+<li>HeapSort: build, then swap root with the end and shrink; unstable, in place.</li>
+<li>AVL single rotation when child sign matches (LL, RR); double when it differs (LR, RL).</li>
+<li>Fix the lower node's height first in a rotation.</li>
+<li>One insertion needs at most one rotation fix; deletion may need many.</li>
+<li>Always use <code>root = insert(root, k)</code>.</li>
+<li>Hash home slot is k mod M; compute it before probing.</li>
+<li>Linear probing: +1, +2, ... mod M; primary clustering.</li>
+<li>Double hashing step h2 must never be 0.</li>
+<li>Delete in open addressing writes DELETED, never EMPTY.</li>
+<li>Search skips DELETED; insert may reuse the first DELETED after confirming the key is absent.</li>
+<li>Rehash re-inserts every key; positions depend on M.</li>
+<li>Inversions: n(n&minus;1)/2 max; 0 means sorted.</li>
+<li>Stable: bubble, insertion. Not stable: selection, heap.</li>
+<li>Bubble with isSwapped exits after a pass with no swaps (best case O(n)).</li></ol></div></section>
+</main></div>
+<div id="thm" aria-label="Theme"></div>
+<script>
+// Pass 2 content cards: C(sectionId,title,formal,layman,analogy,formulaDecoder,javaCode,whatBreaks,extraHtml)
+function C(id,t,f,l,a,x,code,br,ex){var d=document.createElement('div');d.className='cd';d.innerHTML='<h3>'+t+'</h3>'+[['Formal',f],['Layman',l],['Analogy',a],['Formula decoder',x]].map(function(p){return p[1]?'<p><span class="l">'+p[0]+'</span>'+p[1]+'</p>':''}).join('')+(ex||'');
+if(code){var r=document.createElement('pre');r.textContent=code;d.appendChild(r)}if(br){var q=document.createElement('p');q.className='ex';q.innerHTML='<b>What breaks:</b> '+br;d.appendChild(q)}document.getElementById(id).appendChild(d)}
+// ---- 05 heaps
+C('s05','Resizing, Min-Heap dual, Lab 10 Task 7',`Dynamic resizing: when size equals capacity, allocate capacity*2 and copy (Lecture 09 resize()). Min-heap: Key(parent) &le; Key(child), so the root is the minimum.`,`When the array is full you move into one twice as big, so you rarely move. A min-heap is the same machine with every comparison flipped.`,`A bus that doubles its seats when full. The min-heap is an ER where the lowest number is most urgent (Dijkstra picks the nearest city).`,`Doubling from 10 copies 10+20+40+&hellip;, under 2n in total, so insert stays O(log n) amortized. Lab order 40,20,30,10,15,25,5 builds 40 20 30 10 15 25 5 with no swaps; extractMax then gives 30 20 25 10 15 5.`,
+`private void resize() {
+  cap = cap * 2;                                   // double the capacity
+  heap = java.util.Arrays.copyOf(heap, cap);       // new array, old items copied in order
+}
+static void siftDownMin(int[] a, int i, int n) {
+  while (true) {
+    int s = i, l = 2*i + 1, r = 2*i + 2;           // s = smallest of parent and children
+    if (l < n && a[l] < a[s]) s = l;               // only the comparison flips vs max-heap
+    if (r < n && a[r] < a[s]) s = r;               // bounds check before reading a[r]
+    if (s == i) break;                             // order holds: stop
+    int t = a[i]; a[i] = a[s]; a[s] = t; i = s; } }
+static boolean isMaxHeap(int[] a) {                // Lecture 09 challenge, O(n)
+  for (int i = 1; i < a.length; i++)
+    if (a[(i-1)/2] < a[i]) return false;           // a parent smaller than a child breaks order
+  return true; }`,`resizing after writing a[size] overruns the array; mixing max and min comparisons gives a tree that is neither.`,
+`<p><b>Top 6 pitfalls (Lecture 09):</b> (1) assuming left &lt; right as in a BST; (2) swapping with the smaller child; (3) writing 2*i for the left child of index 0 (loops forever, use 2*i+1); (4) believing buildHeap is O(n log n); (5) reading arr[right] without right &lt; size; (6) sifting across the full array instead of the shrinking heapSize in HeapSort.</p>`);
+// ---- 09 AVL
+C('s09','HB(k), height bound and the four cases with balance factors',`HB(k) is the family of height-balanced trees where k = |height(left) &minus; height(right)| at every node; AVL is HB(1), node-count height (null = 0, leaf = 1, Lab Node.height starts at 1). Violation means BF = &plusmn;2; walk up from the inserted node updating heights. Minimal AVL tree of height h: N(h) = N(h&minus;1) + N(h&minus;2) + 1 (Fibonacci-like), so <b>h &le; 1.44 log<sub>2</sub> n</b>.`,`AVL lets neighbours differ by at most one level. The sparsest legal tree grows like Fibonacci numbers, so even the worst AVL tree is only 44% taller than a perfect one.`,`A mobile whose arms may differ by one bead of height: a heavy arm is fixed by lifting its middle piece to the pivot.`,`N(1)=1, N(2)=2, N(3)=4, N(4)=7: each new level needs about 1.6 times more nodes (golden ratio), so n &ge; 1.6<sup>h</sup> gives h &le; log<sub>1.6</sub> n = 1.44 log<sub>2</sub> n. For 45,000 nodes AVL height is at most about 22 against a perfect tree&rsquo;s 15.`,null,null,
+`<div class="tw"><table><tr><th>Insert order</th><th>Imbalance found</th><th>Case</th><th>Fix and result</th></tr><tr><td>30,20,10</td><td>BF(30)=+2, BF(20)=+1</td><td>LL</td><td>rotateRight(30): root 20 (10, 30), all BF 0</td></tr><tr><td>10,20,30</td><td>BF(10)=&minus;2, BF(20)=&minus;1</td><td>RR</td><td>rotateLeft(10): root 20</td></tr><tr><td>30,10,20</td><td>BF(30)=+2, BF(10)=&minus;1</td><td>LR</td><td>rotateLeft(10) gives chain 30-20-10, then rotateRight(30): root 20</td></tr><tr><td>10,30,20</td><td>BF(10)=&minus;2, BF(30)=+1</td><td>RL</td><td>rotateRight(30) gives chain 10-20-30, then rotateLeft(10): root 20</td></tr></table></div>
+<div class="tr"><div class="hv" data-a="X,W,C,A,B">abstract LL before: X unbalanced, W its left child</div><div class="hv" data-a="W,A,X,_,_,B,C">after rotateRight(X): B moves under X</div></div>`);
+C('s09','AVL delete with ancestor height and balance updates (optional lab activity 3)',`Delete by BST rules (leaf, one child, two children via successor), then on the way back up update height and balance factor of every ancestor and rotate where |BF| = 2. Unlike insert, one deletion can trigger rotations at several levels; a tie (child BF = 0) after deletion is treated as the single-rotation case.`,`Remove the key the normal way, then re-check every ancestor on the path back to the root, because the removal may have shortened one side at any level.`,`Removing a bead from a mobile: the arm you took it from may now be too light at several joints higher up, so you re-balance joint by joint up the chain.`,`Delete 40 from 30(20(10), 40): BF(30) = 2 &minus; 0 = +2; child BF(20) = +1 &ge; 0, so LL: rotateRight(30) gives root 20 (10, 30).`,
+`Node delete(Node n, int k) {
+  if (n == null) return null;                       // key absent
+  if (k < n.key) n.left = delete(n.left, k);        // search left
+  else if (k > n.key) n.right = delete(n.right, k); // search right
+  else {
+    if (n.left == null || n.right == null)          // zero or one child
+      return (n.left != null) ? n.left : n.right;   // bypass (may return null)
+    Node s = n.right;                               // two children: find successor
+    while (s.left != null) s = s.left;              // minimum of the right subtree
+    n.key = s.key;                                  // copy successor up
+    n.right = delete(n.right, s.key); }             // remove the copy below
+  n.height = 1 + Math.max(height(n.left), height(n.right)); // update THIS ancestor
+  int bf = getBalanceFactor(n);
+  if (bf > 1 && getBalanceFactor(n.left) >= 0) return rotateRight(n);        // LL (tie counts as LL)
+  if (bf > 1) { n.left = rotateLeft(n.left); return rotateRight(n); }       // LR
+  if (bf < -1 && getBalanceFactor(n.right) <= 0) return rotateLeft(n);       // RR (tie counts as RR)
+  if (bf < -1) { n.right = rotateRight(n.right); return rotateLeft(n); }    // RL
+  return n; }                                       // still balanced
+// Lab names: height(), getBalanceFactor(), rotateRight(y), rotateLeft(x), insert(node,key), inorderTraversal(node)`,`using &gt; 0 instead of &gt;= 0 for the tie case picks the double rotation and leaves the tree unbalanced. Returning early for a one-child node is fine, but forgetting to update heights for two-child deletion corrupts every ancestor.`);
+// ---- 10 hashing
+C('s10','Why not arrays? Direct-address tables and why they fail',`Unordered array: search O(n). Ordered array: search O(log n) but insert and delete O(n) by shifting. Direct-address table: A[value] = value, all operations O(1), but only when keys are small non-negative integers and the universe |U| is not much larger than N. Hashing maps h: U &rarr; {0..M&minus;1}.`,`An array indexed by the key itself is the fastest possible, but real keys are huge, text, negative or fractional, so the table would be almost entirely empty.`,`A hotel with one room for every possible guest ID: perfect lookup, but you build a skyscraper for a handful of guests. Hashing is a small front desk that assigns each guest a room number by a formula.`,`A 13-digit CNIC has 10<sup>13</sup> possible values. At 8 bytes each that is 8&times;10<sup>13</sup> bytes = 80 TB of RAM, while 50,000 customers fill under 0.000001% of it. Strings, negatives (temperature) and floats (GPS) cannot be array indices at all.`,null,null);
+C('s10','Hash functions, division method and string hashing',`A good hash is <b>deterministic</b> (same key, same index; no random numbers), <b>uniform</b> (SUHA: every slot equally likely), <b>fast</b> (O(1)) and <b>low-collision</b>. Division method: h(k) = k mod M. Naive string hash sums ASCII values; polynomial (Horner) hash: h = (h&times;p + c) mod M with prime p = 31 or 37.`,`Division is one remainder instruction. For text you need the position of each letter to matter, or every anagram lands in the same slot.`,`A postal sorter who only adds letter values sends &ldquo;stop&rdquo;, &ldquo;pots&rdquo;, &ldquo;tops&rdquo; and &ldquo;spot&rdquo; to one pigeonhole. Weighting each letter by its place (like digits in a number) separates them.`,`ASCII sum of stop and pots: 115+116+111+112 = 454 for both, a 100% collision. Polynomial trace for CAT, p = 31, M = 101: 67, then (67&times;31+65) mod 101 = 21, then (21&times;31+84) mod 101 = 28. 25 mod 10 = 5; 123456789 mod 1000 = 789.`,
+`static int hash(String s, int M) {
+  int h = 0;                                       // start state
+  for (char c : s.toCharArray())                   // left to right
+    h = (h * 31 + c) % M;                          // Horner: shift previous value, add this char, stay in range
+  return h; }                                      // deterministic: no Random, no time
+static int hashInt(int k, int M) { return ((k % M) + M) % M; } // fixes negative remainders in Java`,`h = c.length() % M or first character only clusters keys; using Random makes later searches miss; (h*31+c) without % M can overflow before the final mod.`);
+C('s10','Collisions, pigeonhole principle and load factor',`With |U| &gt; M, two keys must share an index (pigeonhole). Load factor &alpha; = N/M. Chaining: &alpha; is the average chain length and may exceed 1; expected search O(1 + &alpha;). Open addressing needs &alpha; &lt; 1.`,`You cannot prevent collisions; you spread them evenly and handle them.`,`More letters than pigeonholes: some hole must hold two. &alpha; is how crowded the average hole is.`,`N = 200, M = 100 gives &alpha; = 2 (chaining works, open addressing cannot). Keep &alpha; &lt; 1 by resizing and search stays O(1).`,null,null);
+C('s10','Separate chaining (all operations, rehash)',`Each table slot holds the head of a linked list of all keys with that index (closed addressing). Insert at head O(1); search and delete walk one chain, O(1 + &alpha;) average, O(n) worst case. Rehash when &alpha; &ge; 0.75.`,`Colliding keys simply queue up in a list at their shared slot, so the table never fills.`,`Pigeonholes with overflow folders: one pigeonhole, a stack of letters.`,`M = 7, h = k mod 7, keys 15,22,8,29,36,10,43: all but 10 hit slot 1, giving chain 43&rarr;36&rarr;29&rarr;8&rarr;22&rarr;15 (six items) and slot 3 = 10. Homework M = 11, keys 12,44,13,88,23,94,11: [0] 11&rarr;88&rarr;44, [1] 23&rarr;12, [2] 13, [6] 94.`,
+`class ChainHash {
+  class E { int k; E next; E(int k, E n) { this.k = k; next = n; } }
+  E[] t; int M, N = 0;
+  ChainHash(int m) { M = m; t = new E[M]; }          // every slot starts empty (null)
+  int h(int k) { return ((k % M) + M) % M; }         // index in 0..M-1
+  boolean contains(int k) {
+    for (E e = t[h(k)]; e != null; e = e.next)       // walk ONE chain only
+      if (e.k == k) return true;
+    return false; }
+  void put(int k) {
+    if (contains(k)) return;                         // reject duplicates
+    int i = h(k); t[i] = new E(k, t[i]); N++;        // new node becomes the head: O(1)
+    if ((double) N / M >= 0.75) rehash(); }          // alpha threshold for chaining
+  boolean remove(int k) {
+    int i = h(k); E prev = null;
+    for (E e = t[i]; e != null; prev = e, e = e.next)
+      if (e.k == k) {
+        if (prev == null) t[i] = e.next; else prev.next = e.next; // plain list unlink
+        N--; return true; }
+    return false; }
+  void rehash() {
+    E[] old = t; M = nextPrime(2 * M);               // new prime capacity about 2M
+    t = new E[M]; N = 0;
+    for (E head : old) for (E e = head; e != null; e = e.next)
+      put(e.k); }                                    // re-insert with the NEW M, never copy by index
+  static int nextPrime(int x) {
+    while (true) { x++; boolean p = true;
+      for (int d = 2; d * d <= x; d++) if (x % d == 0) { p = false; break; }
+      if (p) return x; } } }`,`copying old[i] to new[i] puts keys where the new h would never look. Forgetting <code>t[i]</code> in the new node loses the old chain.`);
+C('s10','Open addressing: linear, quadratic, double hashing and tombstones',`All keys live in the array; on collision follow a probe sequence until an empty slot. <b>Linear</b> h(k,i) = (h&prime;(k)+i) mod M (primary clustering: runs of full slots grow). <b>Quadratic</b> (h&prime;(k)+i&sup2;) mod M (removes primary clustering; secondary clustering: same start, same path). <b>Double</b> (h<sub>1</sub>(k)+i&middot;h<sub>2</sub>(k)) mod M with h<sub>2</sub> never 0, e.g. 7 &minus; (k mod 7). Slot states: EMPTY (stops search), OCCUPIED, DELETED (tombstone: search continues, insert may reuse). Rehash at &alpha; &ge; 0.50&ndash;0.70.`,`If your slot is taken, step to another by a fixed rule. Deleting must leave a marker, otherwise later searches stop too early.`,`A parking lot where you walk to the next free space. Removing a car without a cone breaks the trail: someone looking for a car parked beyond it would stop at the empty space.`,`Linear, M = 11, keys 12,44,13,88,23,94,11 give 44 12 13 88 23 11 94 in slots 0..6; probe counts 1,1,1,4,4,1,6, one primary cluster of 7. Delete 88 (tombstone); search 11 probes 0,1,2,3(DELETED),4,5 and finds it; insert 27 starts at 27 mod 11 = 5, so it lands in slot 7. Double hashing, same keys: 44,12,13,88(slot 3),23(slot 6),94(slot 10),11(slot 9).`,
+`class OAHash {
+  static final int EMPTY = 0, OCC = 1, DEL = 2;      // slot states
+  int[] key, st; int M, N = 0, mode;                 // mode 0 linear, 1 quadratic, 2 double
+  OAHash(int m, int mode) { M = m; this.mode = mode; key = new int[M]; st = new int[M]; }
+  int h1(int k) { return k % M; }
+  int h2(int k) { return 7 - (k % 7); }              // step 1..7, never 0
+  int probe(int k, int i) {                          // slot for the i-th attempt
+    return mode == 0 ? (h1(k) + i) % M
+         : mode == 1 ? (h1(k) + i * i) % M
+         : (h1(k) + i * h2(k)) % M; }
+  int find(int k) {
+    for (int i = 0; i < M; i++) { int j = probe(k, i);
+      if (st[j] == EMPTY) return -1;                 // never used: key cannot be further along
+      if (st[j] == OCC && key[j] == k) return j; }   // DELETED is skipped, search continues
+    return -1; }
+  boolean insert(int k) {
+    if (find(k) >= 0) return false;                  // search first: reject duplicates
+    for (int i = 0; i < M; i++) { int j = probe(k, i);
+      if (st[j] != OCC) { key[j] = k; st[j] = OCC; N++; return true; } } // EMPTY or DELETED is reusable
+    return false; }                                  // no slot found (table too full)
+  boolean delete(int k) {
+    int j = find(k); if (j < 0) return false;
+    st[j] = DEL; N--; return true; } }               // tombstone, NEVER EMPTY
+// rehash: allocate prime about 2M and insert() every OCC key again with the new M`,`marking a deleted slot EMPTY cuts the probe chain, so later keys look absent. Stopping at DELETED during search misses keys beyond it. Double hashing with h2 = 0 never moves. Quadratic probing may miss free slots unless M is prime and &alpha; &lt; 0.5.`,
+`<div class="tw"><table><tr><th>Dimension</th><th>Separate chaining</th><th>Open addressing</th></tr><tr><td>Storage</td><td>Array of linked lists</td><td>Flat array</td></tr><tr><td>Capacity</td><td>&alpha; may exceed 1</td><td>N &lt; M strictly</td></tr><tr><td>Cache</td><td>Poor (scattered nodes)</td><td>Good (contiguous)</td></tr><tr><td>Overhead</td><td>A next pointer per node</td><td>State array</td></tr><tr><td>High load</td><td>Degrades gracefully, O(1+&alpha;)</td><td>Degrades sharply</td></tr><tr><td>Deletion</td><td>Trivial unlink</td><td>Tombstones</td></tr><tr><td>Clustering</td><td>None</td><td>Primary and secondary</td></tr><tr><td>Rehash at</td><td>&alpha; &ge; 0.75</td><td>&alpha; &ge; 0.50&ndash;0.70</td></tr></table></div><p class="fb">Rehash: new prime about 2M and re-insert every key; key 15 sits at 15 mod 7 = 1 in a table of 7 but at 15 mod 17 = 15 in a table of 17, so copying by index corrupts the table.</p>`);
+// ---- 11 sorting
+C('s11','Six classifications, inversions and the &Omega;(n log n) bound',`Sorted iff 0 inversions; max n(n&minus;1)/2. Any comparison sort needs at least log<sub>2</sub>(n!) = &Theta;(n log n) comparisons: n! outcomes, each comparison halves the possibilities, so tree height h satisfies 2<sup>h</sup> &ge; n!.`,`Every out-of-order pair must be fixed. Adjacent-only fixing removes one pair per step, so it needs about n&sup2;/2 steps at worst.`,`Guessing a number among n! possibilities with yes/no questions needs about log(n!) questions.`,`[8,3,5,2,9,1]: inversions (8,3)(8,5)(8,2)(8,1)(3,2)(3,1)(5,2)(5,1)(2,1)(9,1) = 10.`,null,null,
+`<div class="tw"><table><tr><th>Dimension</th><th>Meaning</th><th>Examples</th></tr><tr><td>Comparison vs non-comparison</td><td>Pairwise compares vs digit/bit structure (O(n) possible)</td><td>Merge, Quick vs Counting, Radix, Bucket</td></tr><tr><td>Internal vs external</td><td>Fits in RAM vs disk (external merge sort)</td><td>500 GB on 16 GB</td></tr><tr><td>In-place vs out-of-place</td><td>O(1) extra vs buffer</td><td>Bubble, Selection, Insertion, Heap vs Merge O(n)</td></tr><tr><td>Stable vs unstable</td><td>Equal keys keep order</td><td>Stable: Bubble, Insertion, Merge. Unstable: Selection, Quick, Heap</td></tr><tr><td>Adaptive vs not</td><td>Faster on nearly sorted</td><td>Insertion, flagged Bubble vs Selection</td></tr><tr><td>Online</td><td>Sorts a live stream item by item</td><td>Insertion</td></tr></table></div>`);
+C('s11','Bubble Sort with isSwapped flag (Lab 08 Task 1)',`Repeatedly compare adjacent pairs and swap if out of order; after pass i the i largest sit at the end. With the flag it exits when a pass has no swaps: best O(n), average and worst O(n&sup2;), stable, in-place.`,`Biggest values float to the end like bubbles. If a full pass swaps nothing, you are done.`,`Fizzy drink: lighter bubbles rise one step per pass.`,`Inner bound n&minus;1&minus;i skips the sorted tail. [9,7,5,3,1]: 4+3+2+1 = 10 comparisons, 10 swaps. [1,2,3,5,4]: 4 + 3 = 7 comparisons, 1 swap.`,
+`static void bubble(int[] a) {
+  int cmp = 0, sw = 0;                              // counting rules fixed up front
+  for (int i = 0; i < a.length - 1; i++) {          // at most n-1 passes
+    boolean swapped = false;                        // reset every pass
+    for (int j = 0; j < a.length - 1 - i; j++) {    // tail of length i is already sorted
+      cmp++;                                        // one comparison per adjacent pair
+      if (a[j] > a[j + 1]) {                        // strict > keeps equal keys in order (stable)
+        int t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; sw++; swapped = true; } }
+    if (!swapped) break; }                          // clean pass: array is sorted
+  System.out.println("cmp=" + cmp + " swaps=" + sw); }`,`dropping the flag makes sorted input O(n&sup2;); using &gt;= swaps equal keys and breaks stability.`);
+C('s11','Selection Sort (Lab 08 Task 1)',`Each pass finds the minimum of the unsorted part and swaps it to position i: always n(n&minus;1)/2 comparisons, at most n&minus;1 swaps, non-adaptive, unstable, in-place.`,`Scan the pile for the smallest and put it first; repeat on the rest.`,`Picking the lowest score from 50 exam papers each time. Ideal for Flash/EEPROM where writes wear the chip: only O(n) writes.`,`[9,7,5,3,1]: 10 comparisons, 2 swaps. [1,2,3,5,4]: 10 comparisons, 1 swap. Instability: [5_A,5_B,2] becomes [2,5_B,5_A].`,
+`static void selection(int[] a) {
+  int cmp = 0, sw = 0;
+  for (int i = 0; i < a.length - 1; i++) {
+    int m = i;                                      // assume first unsorted item is the minimum
+    for (int j = i + 1; j < a.length; j++) {        // scan the rest
+      cmp++;
+      if (a[j] < a[m]) m = j; }                     // remember the index only
+    if (m != i) { int t = a[i]; a[i] = a[m]; a[m] = t; sw++; } } // at most ONE swap per pass
+  System.out.println("cmp=" + cmp + " swaps=" + sw); }`,`swapping inside the inner loop turns it into an O(n&sup2;)-swap sort.`);
+C('s11','Lab 08 Task 2: concatenate two arrays, then sort',`Copy both arrays into a third array of length a.length + b.length, then sort it ascending. This is concatenate-then-sort, not a merge of two sorted arrays.`,`Pour both piles into one box and sort the box.`,`Two decks shuffled into one before dealing.`,`[8,2,5] + [7,1,4] = [8,2,5,7,1,4], sorted [1,2,4,5,7,8]; length 3 + 3 = 6.`,
+`int[] c = new int[a.length + b.length];             // third array sized for both
+System.arraycopy(a, 0, c, 0, a.length);              // array 1 goes to the front
+System.arraycopy(b, 0, c, a.length, b.length);       // array 2 starts right after it
+insertion(c);                                        // any sort works; print a, b and c`,`copying b to index 0 overwrites a; sizing c with max instead of sum drops items.`);
+C('s11','Lab 08 Task 3: sort Student records by GPA (descending)',`Store name, CMS-ID and GPA in a Student object, and move whole records while comparing only GPA. Insertion sort with the comparison reversed is stable for equal GPAs.`,`Reorder whole student files by one number written on them.`,`Re-ranking exam sheets by marks without tearing off the names.`,`Ali 3.20, Sara 3.85, Ahmed 3.50 becomes Sara 3.85, Ahmed 3.50, Ali 3.20.`,
+`class Student { String name, cms; double gpa;
+  Student(String n, String c, double g) { name = n; cms = c; gpa = g; }
+  public String toString() { return name + " (" + cms + ", " + gpa + ")"; } }
+static void sortByGpa(Student[] s) {
+  for (int i = 1; i < s.length; i++) {
+    Student key = s[i]; int j = i - 1;              // key is the WHOLE record
+    while (j >= 0 && s[j].gpa < key.gpa) {          // lower GPA must go right for descending order
+      s[j + 1] = s[j]; j--; }                       // shift records, not just numbers
+    s[j + 1] = key; } }                             // equal GPAs keep their input order`,`sorting a separate gpa[] array detaches names from marks; using &gt; sorts ascending.`);
+// ---- 12 merge/quick
+C('s12','Divide and conquer and MergeSort',`T(n) = aT(n/b) + D(n) + C(n). MergeSort: a = 2, b = 2, D = O(1), C = O(n), so T(n) = 2T(n/2) + O(n) = &Theta;(n log n) in every case; every level does cn work over log<sub>2</sub>n + 1 levels. Stable (take left on ties with <=), O(n) buffer, mid = low + (high &minus; low)/2 avoids int overflow.`,`Split until each piece has one item, then zip sorted pieces together. All the hard work is the zip.`,`Census forms: split a pile of 1,000,000 between two assistants repeatedly, then merge sorted stacks.`,`Merging [2,5,8] and [1,3,6,9]: 1,2,3,5,6,8,9 using at most n&minus;1 = 6 comparisons. Tree depth for 7 items is &lceil;log<sub>2</sub> 7&rceil; = 3.`,
+`static void merge(int[] a, int low, int mid, int high) {
+  int n1 = mid - low + 1, n2 = high - mid;
+  int[] L = new int[n1], R = new int[n2];           // O(n) auxiliary buffers
+  for (int i = 0; i < n1; i++) L[i] = a[low + i];   // copy left run
+  for (int j = 0; j < n2; j++) R[j] = a[mid + 1 + j]; // copy right run
+  int i = 0, j = 0, k = low;
+  while (i < n1 && j < n2) {
+    if (L[i] <= R[j]) a[k++] = L[i++];              // <= : tie goes LEFT, so equal keys stay stable
+    else a[k++] = R[j++]; }
+  while (i < n1) a[k++] = L[i++];                   // drain leftovers
+  while (j < n2) a[k++] = R[j++]; }
+static void sort(int[] a, int low, int high) {
+  if (low >= high) return;                          // 0 or 1 element: sorted
+  int mid = low + (high - low) / 2;                 // overflow-safe midpoint
+  sort(a, low, mid); sort(a, mid + 1, high);        // conquer both halves
+  merge(a, low, mid, high); }                       // combine`,`using &lt; instead of &lt;= makes it unstable; (low+high)/2 can overflow for huge arrays.`,
+`<div class="tr"><div class="hv" data-a="7,4,3,2,2,2,1">recursion tree for 7 items: subarray sizes</div></div><p class="fb">38 27 43 3 9 82 10 splits to [38 27 43 3] and [9 82 10], down to singles, then merges to 3 9 10 27 38 43 82.</p>`);
+C('s12','QuickSort and partitioning',`Hard divide, zero combine: partition around a pivot so it lands in its final slot, then sort both sides. Lomuto: pivot = arr[high], boundary i, scan j. Hoare: two inward pointers, about 3 times fewer swaps. Best/average O(n log n); worst O(n&sup2;) on sorted input with last-element pivot, since T(n) = T(n&minus;1) + O(n). In-place, O(log n) stack on average, unstable.`,`Pick a pivot, put smaller items left and bigger items right. The pivot is now final; repeat on each side.`,`Tariq stands as the pivot: shorter students go left, taller right. He never moves again.`,`Lomuto on [10,80,30,90,40,50,70], pivot 70: swaps give 10 30 40 50 80 90 then pivot to index 4: [10,30,40,50,<b>70</b>,90,80]. Sorted [1..5] costs 4+3+2+1 = n(n&minus;1)/2 comparisons.`,
+`static int partition(int[] a, int low, int high) {
+  int pivot = a[high], i = low - 1;                 // i = end of the "<= pivot" zone
+  for (int j = low; j < high; j++)
+    if (a[j] <= pivot) { i++; swap(a, i, j); }      // grow the small zone
+  swap(a, i + 1, high);                             // pivot to its final slot
+  return i + 1; }
+static void sort(int[] a, int low, int high) {
+  if (low < high) {
+    int r = low + (int)(Math.random() * (high - low + 1)); // Randomized pivot
+    swap(a, r, high);                               // move it to the end, then partition as usual
+    int pi = partition(a, low, high);               // a[pi] is final
+    sort(a, low, pi - 1); sort(a, pi + 1, high); } }  // no combine step
+static void swap(int[] a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }`,`a fixed last-element pivot degrades to O(n&sup2;) on sorted data (deep recursion, StackOverflowError). Median-of-three (median of low, mid, high) or random pivots avoid it; Dual-pivot (Yaroslavskiy 2009) is Java&rsquo;s Arrays.sort(int[]).`);
+C('s12','Cache locality, Timsort and Introsort',`QuickSort scans contiguous memory, so it is typically 2&ndash;3 times faster than HeapSort in RAM, which jumps between i and 2i+1, 2i+2. Timsort (Python, Java Arrays.sort(Object[])): MergeSort + Insertion Sort on natural runs, stable, O(n) on sorted data. Introsort (C++ std::sort): QuickSort, HeapSort when depth exceeds 2 log<sub>2</sub> n, Insertion Sort below about 16 elements.`,`Real sorting libraries mix algorithms so each handles the case it is best at.`,`A kitchen crew: fast chopper (Quick), safety inspector (Heap), detail finisher for tiny jobs (Insertion).`,`n = 10<sup>6</sup>: n&sup2; = 10<sup>12</sup> steps (about 17 minutes) vs n log n = 2&times;10<sup>7</sup> (0.02 s).`,null,null,
+`<div class="tw"><table><tr><th>Property</th><th>MergeSort</th><th>QuickSort</th><th>HeapSort</th></tr><tr><td>Best / avg</td><td>n log n</td><td>n log n</td><td>n log n</td></tr><tr><td>Worst</td><td>n log n</td><td>n&sup2;</td><td>n log n</td></tr><tr><td>Extra space</td><td>O(n)</td><td>O(log n) stack</td><td>O(1)</td></tr><tr><td>Stable</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td>Best for</td><td>Linked lists, disk, stability</td><td>RAM arrays</td><td>Safety-critical, tight memory</td></tr></table></div>`);
+// ---- 13 non-comparison and Lab 08 Tasks 4-9
+C('s13','Counting Sort',`For integer keys 0..k: tally counts, take prefix sums, place elements from right to left. &Theta;(n + k) time and space, stable. It beats &Omega;(n log n) because it never compares pairs.`,`Count how many of each value exist, then write them out in order.`,`A post office dropping each letter into a numbered pigeonhole.`,`[4,2,2,8,3,3,1]: counts then prefix sums give end positions; the right-to-left pass keeps equal keys in input order. Fails when k is huge compared with n.`,
+`static void counting(int[] a, int k) {
+  int[] c = new int[k + 1], out = new int[a.length];
+  for (int x : a) c[x]++;                           // tally each value
+  for (int i = 1; i <= k; i++) c[i] += c[i - 1];    // prefix sums: c[v] = end position of v
+  for (int i = a.length - 1; i >= 0; i--)           // RIGHT to LEFT keeps stability
+    out[--c[a[i]]] = a[i];
+  System.arraycopy(out, 0, a, 0, a.length); }`,`a left-to-right placement pass reverses equal keys; negative values need an offset.`);
+C('s13','LSD Radix Sort',`Sort by each digit from least to most significant with a stable counting sort. &Theta;(d(n + k)), k = base (10).`,`Sort by ones, then tens, then hundreds; stability preserves earlier work.`,`Sorting a deck by suit then by rank, finishing with the most important key.`,`170,45,75,90,802,24,2,66: by ones 170 90 802 2 24 45 75 66; by tens 802 2 24 45 66 170 75 90; by hundreds 2 24 45 66 75 90 170 802.`,
+`static void radix(int[] a) {
+  int max = 0; for (int x : a) max = Math.max(max, x);
+  for (int e = 1; max / e > 0; e *= 10) {            // one pass per digit
+    int[] c = new int[10], out = new int[a.length];
+    for (int x : a) c[(x / e) % 10]++;
+    for (int i = 1; i < 10; i++) c[i] += c[i - 1];
+    for (int i = a.length - 1; i >= 0; i--) out[--c[(a[i] / e) % 10]] = a[i]; // stable digit sort
+    System.arraycopy(out, 0, a, 0, a.length); } }`,`an unstable digit sort scrambles earlier passes.`);
+C('s13','Bucket Sort',`Spread values in [0,1) into n buckets, sort each bucket, concatenate. O(n + k) average for uniform data, O(n&sup2;) if everything lands in one bucket.`,`Sort into shelves first, then tidy each shelf.`,`Mail sorted by region, then by street inside each region.`,`0.78 with n = 10 goes to bucket (int)(0.78*10) = 7.`,
+`static void bucket(double[] a) {
+  int n = a.length; List<List<Double>> b = new ArrayList<>();
+  for (int i = 0; i < n; i++) b.add(new ArrayList<>());
+  for (double x : a) b.get((int)(x * n)).add(x);    // bucket index from the value
+  int k = 0;
+  for (List<Double> l : b) { Collections.sort(l); for (double x : l) a[k++] = x; } }`,`clumped data fills one bucket and costs O(n&sup2;); x = 1.0 gives index n and crashes.`);
+C('s13','Lab 08 Task 4: Insertion Sort on a linked list',`Take nodes one at a time from the unsorted list and relink each into the sorted list by changing next pointers.`,`Same as sorting cards, but you rewire links instead of shifting.`,`Threading beads onto a string in order.`,`4&rarr;2&rarr;5&rarr;1 becomes 1&rarr;2&rarr;4&rarr;5; O(n&sup2;) time, O(1) space.`,
+`class LNode { int v; LNode next; LNode(int v) { this.v = v; } }
+static LNode insertionSort(LNode head) {
+  LNode dummy = new LNode(0), cur = head;           // dummy front of the sorted list
+  while (cur != null) {
+    LNode nxt = cur.next;                           // SAVE the unsorted remainder first
+    LNode p = dummy;
+    while (p.next != null && p.next.v <= cur.v) p = p.next; // find insert spot, <= keeps stability
+    cur.next = p.next; p.next = cur;                // splice cur between p and p.next
+    cur = nxt; }                                    // continue with the saved remainder
+  return dummy.next; }`,`not saving cur.next before relinking loses the rest of the list.`);
+C('s13','Lab 08 Task 5: reconstruct a shuffled sentence',`Each word ends with its 1-based position (at most 9 words). Place word at index position&minus;1 and strip the digit.`,`The number tells each word its seat.`,`Seat numbers on theatre tickets.`,`is2 sentence4 This1 a3 gives This is a sentence.`,
+`static String restore(String s) {
+  String[] w = s.split(" "), r = new String[w.length];
+  for (String x : w) {
+    int pos = x.charAt(x.length() - 1) - '0';       // last char is the digit
+    if (pos < 1 || pos > w.length || r[pos - 1] != null)
+      throw new IllegalArgumentException("bad position"); // missing or duplicate position
+    r[pos - 1] = x.substring(0, x.length() - 1); }  // strip the digit
+  return String.join(" ", r); }`,`using the digit as a 0-based index shifts every word by one.`);
+C('s13','Lab 08 Task 6: Dutch National Flag (0,1,2)',`Sort 0,1,2 in place without a library sort using three pointers: lo (end of 0s), mid (scanner), hi (start of 2s). O(n) time, O(1) space.`,`Throw reds to the front and blues to the back as you scan.`,`Sorting red, white and blue flags into three zones in one walk.`,`[2,0,2,1,1,0] gives [0,0,1,1,2,2].`,
+`static void sortColors(int[] a) {
+  int lo = 0, mid = 0, hi = a.length - 1;
+  while (mid <= hi) {
+    if (a[mid] == 0) swap(a, lo++, mid++);          // red: to the front, both advance
+    else if (a[mid] == 1) mid++;                    // white: stays
+    else swap(a, mid, hi--); } }                    // blue: to the back, do NOT advance mid (unseen value)`,`advancing mid after a blue swap skips an unchecked value.`);
+C('s13','Lab 08 Task 7: rearrange by index parity',`Even values go to even indices and odd values to odd indices (equal counts guaranteed). Two pointers, O(n) time, O(1) space.`,`Fix each wrongly seated person by swapping with another wrongly seated one.`,`Pairing seats E-O-E-O: anyone in the wrong kind of seat swaps with a mismatched partner.`,`[1,2,3,4] gives [2,1,4,3].`,
+`static void parity(int[] a) {
+  int j = 1;                                        // j scans odd indices
+  for (int i = 0; i < a.length; i += 2)             // i scans even indices
+    if (a[i] % 2 != 0) {                            // odd value on an even index
+      while (a[j] % 2 != 0) j += 2;                 // find an even value on an odd index
+      int t = a[i]; a[i] = a[j]; a[j] = t; } }      // swap both into place`,`checking the value&rsquo;s old position instead of index parity misplaces items.`);
+C('s13','Lab 08 Task 8: sort characters by frequency',`Count characters (case-sensitive), then output most frequent first, equal counts grouped.`,`Tally, then write the most common letters first.`,`A leaderboard of letter counts.`,`tree gives eert or eetr; Aabb gives bbAa or bbaA.`,
+`static String byFreq(String s) {
+  int[] f = new int[128];
+  for (char c : s.toCharArray()) f[c]++;            // frequency table
+  Character[] cs = new Character[128];
+  for (int i = 0; i < 128; i++) cs[i] = (char) i;
+  Arrays.sort(cs, (x, y) -> f[y] - f[x]);           // higher frequency first
+  StringBuilder sb = new StringBuilder();
+  for (char c : cs) for (int k = 0; k < f[c]; k++) sb.append(c); // repeat each char f times
+  return sb.toString(); }`,`toLowerCase merges A and a, which the task forbids; characters above 127 overflow the table.`);
+C('s13','Lab 08 Task 9: merge two sorted linked lists (reuse nodes)',`Compare heads, link the smaller existing node, advance, then attach the remaining list. O(m + n) time, O(1) space.`,`Zip two sorted lines by always taking the smaller front person.`,`Merging two lanes of traffic.`,`[1,2,4] and [1,3,4] gives [1,1,2,3,4,4]; handle empty lists and ties.`,
+`static LNode merge(LNode a, LNode b) {
+  LNode d = new LNode(0), t = d;                    // dummy anchor
+  while (a != null && b != null) {
+    if (a.v <= b.v) { t.next = a; a = a.next; }     // reuse the existing node
+    else { t.next = b; b = b.next; }
+    t = t.next; }
+  t.next = (a != null) ? a : b;                     // attach the remaining list in one step
+  return d.next; }`,`creating new nodes breaks the reuse rule; forgetting the leftover loses a tail.`);
+C('s13','Grand comparison of all 9 sorts',null,null,null,null,null,null,
+`<div class="tw"><table><tr><th>Sort</th><th>Best</th><th>Avg</th><th>Worst</th><th>Space</th><th>Stable</th></tr><tr><td>Bubble</td><td>n (flag)</td><td>n&sup2;</td><td>n&sup2;</td><td>1</td><td>Yes</td></tr><tr><td>Selection</td><td>n&sup2;</td><td>n&sup2;</td><td>n&sup2;</td><td>1</td><td>No</td></tr><tr><td>Insertion</td><td>n</td><td>n&sup2;</td><td>n&sup2;</td><td>1</td><td>Yes</td></tr><tr><td>Merge</td><td>n log n</td><td>n log n</td><td>n log n</td><td>n</td><td>Yes</td></tr><tr><td>Quick</td><td>n log n</td><td>n log n</td><td>n&sup2;</td><td>log n</td><td>No</td></tr><tr><td>Heap</td><td>n log n</td><td>n log n</td><td>n log n</td><td>1</td><td>No</td></tr><tr><td>Counting</td><td colspan=3>n + k</td><td>n + k</td><td>Yes</td></tr><tr><td>Radix (LSD)</td><td colspan=3>d(n + k)</td><td>n + k</td><td>Yes</td></tr><tr><td>Bucket</td><td>n + k</td><td>n + k</td><td>n&sup2;</td><td>n + k</td><td>Yes</td></tr></table></div>`);
+</script>
+<script>
+function $(s,e){return(e||document).querySelector(s)}function $$(s,e){return[].slice.call((e||document).querySelectorAll(s))}
+function sv(k,v){try{localStorage.setItem(k,v)}catch(e){}}function ld(k){try{return localStorage.getItem(k)}catch(e){return null}}
+// themes
+var TH=[['aqua','#bfeaf2'],['notebook','#c9d3f5'],['parchment','#e9d3a0'],['bubblegum','#f9b9da'],['midnight','#1b2a55'],['lagoon','#0f6b73']];
+var tb=$('#thm');TH.forEach(function(t,i){var l=document.createElement('label');l.title=t[0];l.innerHTML='<input type=radio name=th value='+t[0]+'><span style="background:'+t[1]+'"></span>';tb.appendChild(l);l.firstChild.onchange=function(){document.documentElement.dataset.t=t[0];sv('theme',t[0])}});
+var st=ld('theme');if(st&&TH.some(function(t){return t[0]==st}))document.documentElement.dataset.t=st;
+$$('#thm input').forEach(function(r){r.checked=r.value==document.documentElement.dataset.t});
+// nav + scrollspy + progress
+var nv=$('#nav');$$('section.sec').forEach(function(s){var a=document.createElement('a');a.href='#'+s.id;a.textContent=$('h2',s).textContent.split(' ').slice(0,3).join(' ');nv.appendChild(a)});
+var links=$$('#nav a');function spy(){var y=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;$('#prog').style.width=(h>0?y/h*100:0)+'%';var cur=0;$$('section.sec').forEach(function(s,i){if(!s.hidden&&s.getBoundingClientRect().top<150)cur=i});links.forEach(function(a,i){var on=i==cur;if(on&&!a.classList.contains('on')){a.scrollIntoView({block:'nearest',inline:'nearest'})}a.classList.toggle('on',on)})}
+addEventListener('scroll',spy,{passive:true});spy();
+// blur recall + download
+$('#blr').onclick=function(){document.body.classList.toggle('br')};
+document.addEventListener('click',function(e){if(document.body.classList.contains('br')){var t=e.target.closest('td,.fx,.ex,.gd i,.fd');if(t)t.classList.toggle('rv')}});
+$('#dl').onclick=function(){var b=new Blob(['<!doctype html>'+document.documentElement.outerHTML],{type:'text/html'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Data_Structures_Complete_Theory_and_Lab_Guide.html';a.click()};
+// finals-only toggle: hides Lab-only sections s12/s13 and their nav links
+var FO=ld('finals')=='1';function applyFinals(){['s12','s13'].forEach(function(id){document.getElementById(id).hidden=FO;$('#nav a[href="#'+id+'"]').hidden=FO});$('#fn').classList.toggle('on',FO)}
+$('#fn').onclick=function(){FO=!FO;sv('finals',FO?'1':'0');applyFinals();spy()};applyFinals();
+// checklist
+var CK=['Convention alert (S00)', 'S01 Tree terminology and counts', 'S02 Binary tree recursion: height, leaves, isBalanced', 'S03 Traversals and tree reconstruction', 'S04 Heap basics', 'S05 Heap index math, siftUp, siftDown', 'S06 buildHeap and HeapSort traces', 'S07 BST search, insert, queries', 'S08 BST deletion: predecessor and successor', 'S09 AVL four rotation cases', 'S10 Hashing, tombstones, rehash', 'S11 Elementary sorts and inversions', 'S14 Dry runs, short code, viva', 'S15 Glossary pass', 'S16 Quiz 80% or better', 'S17 Decoder table and 30 facts'],sc=JSON.parse(ld('chk3')||'{}');
+CK.forEach(function(t,i){var l=document.createElement('label');l.className='ck';l.innerHTML='<input type=checkbox'+(sc[i]?' checked':'')+'>'+t;l.firstChild.onchange=function(){sc[i]=this.checked;sv('chk3',JSON.stringify(sc))};$('#chk').appendChild(l)});
+// heap calculator
+function calc(){var n=+$('#cn').value,i=+$('#ci').value,f=function(x){return x>=0&&x<n?x:x+' (outside)'};$('#co').innerHTML='parent = '+(i>0?f(Math.floor((i-1)/2)):'none (root)')+' | left = '+f(2*i+1)+' | right = '+f(2*i+2)+' | first leaf = '+Math.floor(n/2)+' | last internal = '+(Math.floor(n/2)-1)}
+$('#cn').oninput=$('#ci').oninput=calc;calc();
+// tree/array renderer from level-order data ('_' = null)
+$$('.hv').forEach(function(d){var a=d.dataset.a.split(','),L=0;a.forEach(function(v,i){if(v!='_')L=Math.max(L,Math.floor(Math.log2(i+1)))});var W=Math.max(300,Math.pow(2,L)*46),H=46+L*48+(d.dataset.s?44:0),o='',P=[];
+a.forEach(function(v,i){var lv=Math.floor(Math.log2(i+1)),p=i-(Math.pow(2,lv)-1);P[i]=[(p+.5)*W/Math.pow(2,lv),22+lv*48]});
+a.forEach(function(v,i){if(v!='_'&&i>0){var q=P[Math.floor((i-1)/2)];o+='<line x1='+q[0]+' y1='+q[1]+' x2='+P[i][0]+' y2='+P[i][1]+' />'}});
+a.forEach(function(v,i){if(v!='_')o+='<circle cx='+P[i][0]+' cy='+P[i][1]+' r=14 /><text x='+P[i][0]+' y='+(P[i][1]+4)+'>'+v+'</text>'});
+if(d.dataset.s)a.forEach(function(v,i){var x=i*(W/a.length);o+='<rect x='+(x+2)+' y='+(H-38)+' width='+(W/a.length-4)+' height=22 /><text x='+(x+W/a.length/2)+' y='+(H-23)+'>'+v+'</text><text x='+(x+W/a.length/2)+' y='+(H-5)+' style="font-size:8px">'+i+'</text>'});
+d.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+o+'</svg><div>'+d.textContent+'</div>'});
+// glossary
+var G=[['L08','Height (edge count)','Longest root-to-leaf path in edges; empty tree = -1, leaf = 0.'],['L08','Complete tree','All levels full except possibly the last, filled left to right.'],['L08','Leaves','L = I + 1 in a full binary tree with I internal nodes.'],['L09','Heap-order property','Every node is >= its children in a max-heap.'],['L09','siftDown','Swap a node with its larger child until heap order holds.'],['L09','buildHeap','Floyd bottom-up construction; siftDown from floor(n/2)-1 to 0; O(n).'],['L10','BST invariant','Every key in the left subtree is smaller and every key in the right subtree is larger, for the whole subtree.'],['L10','In-order predecessor','Maximum of the left subtree; used to delete a node with two children.'],['L11','Balance factor','height(left) - height(right); AVL allows -1, 0, +1.'],['L11','LR rotation','Rotate left at the left child, then right at the unbalanced node.'],['L12','Inversion','Pair i<j with A[i] > A[j]; sorted iff zero inversions.'],['L12','Stable sort','Equal keys keep their input order: bubble, insertion, merge are stable; selection, quick, heap are not.'],['L12','Adaptive','Running time improves on partially sorted input (insertion, flagged bubble).'],['L14','Load factor','alpha = N/M; keep below 0.75 for chaining and below about 0.5 to 0.7 for open addressing.'],['L14','Tombstone','DELETED marker in open addressing so probe chains are not broken.'],['L14','Primary clustering','Linear probing builds long runs of occupied slots.'],['Labs','countNodes','O(log^2 n): compare leftmost and rightmost heights; if equal, size = 2^h - 1.'],['Labs','Dutch National Flag','Three-way in-place partition with low, mid, high pointers for 0/1/2.']],gt='All',gf=$('#gf');
+function gr(){var s=$('#gs').value.trim().toLowerCase();var h=G.filter(function(g){return(gt=='All'||g[0]==gt)&&(!s||(g[0]+' '+g[1]+' '+g[2]).toLowerCase().indexOf(s)>-1)}).map(function(g){return'<p class=gd><b>'+g[1]+'</b><small>'+g[0]+'</small><br><i style="font-style:normal">'+g[2]+'</i></p>'}).join('');$('#gl').innerHTML=h||'<p class=fd>No matches.</p>'}
+$('#gs').oninput=gr;
+['All','L08','L09','L10','L11','L12','L13','L14','Labs'].forEach(function(t){var b=document.createElement('button');b.className='bt'+(t=='All'?' on':'');b.textContent=t;b.onclick=function(){gt=t;$$('.bt',gf).forEach(function(x){x.classList.toggle('on',x==b)});gr()};gf.appendChild(b)});gr();
+// quiz: [topic, question, options joined by |, index of correct, explanation]
+var Q=[['Heaps','0-based heap: parent of index i is','floor((i-1)/2)|i/2|2i+1|floor(i/2)-1',0,'Children are 2i+1 and 2i+2, so invert with (i-1)/2 floored.'],['Heaps','In extractMax, siftDown swaps the node with','the larger child|the smaller child|the parent|the last leaf',0,'The larger child must move up so it is still >= its sibling.'],['Heaps','Cost of Floyd buildHeap','O(n)|O(n log n)|O(log n)|O(n^2)',0,'Most nodes are near the leaves and sift only a short way; sum k/2^k = 2.'],['Heaps','Is HeapSort stable?','No|Yes|Only for distinct keys|Only for min-heaps',0,'Long-distance swaps: [5_A,5_B,3] reorders the 5s.'],['BST','Inorder traversal of a BST gives','sorted order|reverse order|level order|random order',0,'Left < root < right at every node.'],['BST','Deleting a node with two children uses','in-order predecessor or successor|its parent|its left child only|rotation',0,'Copy max(left) or min(right) up, then delete that node (leaf or one child).'],['BST','Inserting 1..n in sorted order gives height','n-1|log n|n/2|1',0,'A right-skewed chain: every operation is O(n).'],['AVL','New key goes into left subtree of left child. Fix:','single right rotation|single left rotation|LR double|RL double',0,'Case LL is solved by rotateRight at the unbalanced node.'],['AVL','Insert 30,10,20 into an AVL tree. Root becomes','20|10|30|none',0,'LR case: rotateLeft(10) then rotateRight(30) gives 20 with kids 10 and 30.'],['AVL','AVL height bound','1.44 log2 n|log2 n exactly|n/2|sqrt n',0,'Worst-case AVL trees are Fibonacci-like.'],['Hashing','Ascii-sum hash of "stop" and "pots"','collide (anagrams)|differ|are negative|depend on M only',0,'Order is ignored; polynomial hashing fixes this.'],['Hashing','Why mark deleted slots with a tombstone?','to keep probe chains unbroken|to save memory|to speed rehash|to avoid duplicates',0,'EMPTY would end a search early and hide later keys.'],['Hashing','Linear probing suffers from','primary clustering|secondary clustering only|no collisions|stack overflow',0,'Runs of occupied slots grow and attract more keys.'],['Simple Sorts','Insertion sort shifts equal exactly','the number of inversions|n log n|n|n^2 always',0,'Each shift removes one inversion: time Theta(n + I).'],['Simple Sorts','Which sort does at most n-1 swaps?','Selection|Bubble|Insertion|Merge',0,'One swap per pass; good for Flash/EEPROM writes.'],['Simple Sorts','Which is unstable?','Selection|Bubble|Insertion|Merge',0,'Its long swap jumps over equal keys.'],['Trees','Number of edges in a tree with n nodes','n-1|n|n+1|2n',0,'Every node except the root has one parent edge.']],qt='All',qa=0,qn=0;
+function sh(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+var curSet=[],tot=0,missRun=[];
+function qr(set){qa=qn=0;missRun=[];$('#sc').firstChild.textContent='Score 0 / 0';$('#rm').disabled=true;
+var list=sh((set||Q.filter(function(q){return qt=='All'||q[0]==qt})).slice());curSet=list;tot=list.length;
+var box=$('#qz');box.textContent='';
+list.forEach(function(q,k){var d=document.createElement('div');d.className='q';d.dataset.k=k;d.dataset.e=q[4];
+ var b=document.createElement('b');b.textContent=(k+1)+'. '+q[1];d.appendChild(b);
+ sh(q[2].split('|').map(function(t,i){return[t,i==q[3]]})).forEach(function(x){var o=document.createElement('button');o.className='o';o.dataset.c=x[1]?1:0;o.textContent=x[0];d.appendChild(o)});
+ var f=document.createElement('div');f.className='fb';d.appendChild(f);box.appendChild(d)})}
+$('#qz').onclick=function(e){var b=e.target.closest('button.o');if(!b)return;var q=b.parentNode;if(q.dataset.done)return;q.dataset.done=1;qa++;var c=b.dataset.c=='1';if(c)qn++;else missRun.push(curSet[+q.dataset.k]);
+ $$('button.o',q).forEach(function(x){x.disabled=true;if(x.dataset.c=='1')x.classList.add('ok')});if(!c)b.classList.add('no');
+ $('.fb',q).textContent=(c?'Correct. ':'Not quite. ')+q.dataset.e;
+ $('#sc').firstChild.textContent='Score '+qn+' / '+qa;
+ $('#rm').disabled=!(qa==tot&&missRun.length>0)};
+$('#rs').onclick=function(){qr()};
+$('#rm').onclick=function(){var m=missRun.slice();if(m.length)qr(m)};
+var qf=$('#qf');['All','Heaps','BST','AVL','Hashing','Simple Sorts','Trees','Merge/Quick','Non-Comparison'].forEach(function(t){var b=document.createElement('button');b.className='bt'+(t=='All'?' on':'');b.textContent=t;b.onclick=function(){qt=t;$$('.bt',qf).forEach(function(x){x.classList.toggle('on',x==b)});qr()};qf.appendChild(b)});qr();
+// open-addressing sandbox (M = 11): state 0 EMPTY, 1 OCCUPIED, 2 DELETED (tombstone)
+var HM=11,hsm='lin',HT=[];function hclr(){HT=[];for(var i=0;i<HM;i++)HT.push({s:0,k:0})}hclr();
+function hp(k,j){var h1=k%HM;if(hsm=='quad')return(h1+j*j)%HM;if(hsm=='dbl')return(h1+j*(7-k%7))%HM;return(h1+j)%HM}
+function hl(p){return p+(HT[p].s==2?'(DEL)':'')}
+function hput(k){var g=[],f=-1,m=null;for(var j=0;j<HM&&m===null;j++){var p=hp(k,j);g.push(hl(p));
+ if(HT[p].s==1&&HT[p].k==k)m='duplicate: '+k+' is already at slot '+p;
+ else if(HT[p].s==2){if(f<0)f=p}
+ else if(HT[p].s==0){var t=f<0?p:f;HT[t]={s:1,k:k};m='inserted '+k+' at slot '+t+(t!=p?' (reused first tombstone)':'')}}
+ if(m===null){if(f>=0){HT[f]={s:1,k:k};m='inserted '+k+' at slot '+f+' (reused first tombstone)'}else m='table full: no slot for '+k}
+ return[g,m]}
+function hfind(k){var g=[];for(var j=0;j<HM;j++){var p=hp(k,j);g.push(hl(p));if(HT[p].s==0)return[g,-1,'ended at EMPTY slot '+p+', so absent'];if(HT[p].s==1&&HT[p].k==k)return[g,p,'found at slot '+p]}return[g,-1,'probed all slots, absent']}
+function hdraw(g,m){$('#hsg').innerHTML=HT.map(function(c,i){return'<div class="hcell s'+c.s+'"><small>['+i+']</small><b>'+(c.s==1?c.k:'&ndash;')+'</b><span class="hbd">'+['EMPTY','OCC','DEL'][c.s]+'</span></div>'}).join('');$('#hpl').textContent=g?'Probe: '+g.join(' -> '):'';$('#hml').textContent=m||''}
+function hkey(){var k=parseInt($('#hk').value,10);if(k>=0)return k;$('#hml').textContent='enter a non-negative integer key';return null}
+$('#hi').onclick=function(){var k=hkey();if(k===null)return;var r=hput(k);hdraw(r[0],r[1])};
+$('#hse').onclick=function(){var k=hkey();if(k===null)return;var r=hfind(k);hdraw(r[0],'search '+k+': '+r[2])};
+$('#hd').onclick=function(){var k=hkey();if(k===null)return;var r=hfind(k);if(r[1]>=0){HT[r[1]]={s:2,k:0};hdraw(r[0],'deleted '+k+': slot '+r[1]+' is now a tombstone (DEL)')}else hdraw(r[0],'delete failed: '+k+' '+r[2])};
+$('#hp').onclick=function(){hclr();[12,44,13,88,23,94,11].forEach(function(k){hput(k)});hdraw(null,'preset loaded ('+hsm+' probing)')};
+$('#hr').onclick=function(){hclr();hdraw(null,'table cleared')};
+$$('#hsmo .bt').forEach(function(b){b.onclick=function(){hsm=b.dataset.m;$$('#hsmo .bt').forEach(function(x){x.classList.toggle('on',x==b)});hclr();hdraw(null,'mode changed: table cleared, load the preset or insert keys')}});
+hdraw(null,'');
+// traversal tracer (tree 1,2,3,4,5 in level order)
+var TT=[1,2,3,4,5],tm='pre',ts=0;
+function trav(k){var o=[];(function f(i){if(i>=TT.length)return;if(k=='pre')o.push(TT[i]);f(2*i+1);if(k=='in')o.push(TT[i]);f(2*i+2);if(k=='post')o.push(TT[i])})(0);return k=='lvl'?TT.slice():o}
+function tshow(){var o=trav(tm).slice(0,ts);$('#to').textContent=tm+' visited: '+(o.join(' ')||'(press Next step)');$$('#tt svg text').forEach(function(t){var c=t.previousSibling,k=o.indexOf(+t.textContent);if(!c||c.tagName!='circle')return;if(k<0){c.style.fill='';c.style.stroke='';c.style.strokeWidth='';t.style.fill=''}else if(k==o.length-1){c.style.fill='var(--c)';c.style.stroke='var(--c)';c.style.strokeWidth='3';t.style.fill='#ffffff'}else{c.style.fill='var(--cb)';c.style.stroke='var(--c)';c.style.strokeWidth='3';t.style.fill=''}})}
+$('#tn').onclick=function(){if(ts<TT.length)ts++;tshow()};$('#tr').onclick=function(){ts=0;tshow()};
+$$('#tm .bt').forEach(function(b){b.onclick=function(){tm=b.dataset.m;ts=0;$$('#tm .bt').forEach(function(x){x.classList.toggle('on',x==b)});tshow()}});tshow();
+</script>
+<script>
+G.push(['L08','Depth','Edges from the root to a node; root = 0.'],['L08','Degree','Number of children of a node.'],['L08','Internal node','A node with at least one child.'],['L08','Preorder','Root, left, right; first item is the root.'],['L08','Inorder','Left, root, right; sorted for a BST.'],['L08','Postorder','Left, right, root; last item is the root.'],['L08','Level order','Breadth first with a queue, one level at a time.'],['L08','Full binary tree','Every node has 0 or 2 children.'],['L08','Perfect tree','All leaves on one level; 2^(h+1)-1 nodes.'],['L08','Tree edges','n - 1 edges in any tree of n nodes.'],['L09','Priority queue','ADT that always removes the highest-priority item first.'],['L09','Complete tree shape','Array-friendly heap shape: no gaps in level order.'],['L09','siftUp','After insert, swap with parent while larger than it (max-heap).'],['L09','extractMax','Move last to root, shrink, siftDown; O(log n).'],['L09','First leaf index','floor(n/2) with 0-based indexing.'],['L09','HeapSort','buildHeap, then repeatedly swap root to the end; O(n log n), in place, unstable.'],['L10','BST search','Compare and go left or right, discarding a subtree; O(h).'],['L10','Skewed BST','Chain from sorted inserts; height n-1.'],['L10','Duplicate policy','Lab 10 rejects duplicates; Lecture 10 sends them right.'],['L10','In-order successor','Minimum of the right subtree.'],['L11','Left-left case','Insert in left of left child; rotateRight.'],['L11','Right-right case','Insert in right of right child; rotateLeft.'],['L11','RL rotation','rotateRight at the right child, then rotateLeft at the node.'],['L11','AVL height (node count)','null = 0, leaf = 1; h = 1 + max(children).'],['L11','AVL minimum nodes','N(h) = N(h-1) + N(h-2) + 1.'],['L12','Bubble sort','Swap adjacent out-of-order pairs; isSwapped flag exits early.'],['L12','Selection sort','Pick the minimum each pass; at most n-1 swaps.'],['L12','Insertion sort','Shift larger items right and insert; O(n + inversions).'],['L14','Hash function','Maps a key to a slot, usually k mod M.'],['L14','Separate chaining','Each slot holds a list of colliding keys.'],['L14','Linear probing','Try h, h+1, h+2 mod M.'],['L14','Double hashing','Step size from a second hash h2; avoids primary clustering.'],['L14','EMPTY vs DELETED','EMPTY ends a probe; DELETED does not.'],['L14','Rehashing','Grow to about 2M (prime) and re-insert every key.'],['L14','Polynomial rolling hash','h = h*p + c (Horner); position-sensitive.'],['Labs','isBalanced (Lab 09)','Bottom-up check with edge-count height, O(n).'],['Labs','countNodes (Lab 10)','Node-count recursion: 1 + left + right.'],['Labs','AVL fix(n)','Recompute n.h from the children after a change.']);
+Q.push(['Trees','Preorder A B D E C F, inorder D B E A F C. Postorder is','D E B F C A|D B E F C A|E D B C F A|D E B C F A',0,'A is the root; B has kids D and E; C has left kid F.'],['Trees','Edge-count height of a single node','0|1|-1|2',0,'Leaf = 0, empty = -1.'],['Trees','Full binary tree with 7 internal nodes has leaves','8|7|6|14',0,'L = I + 1.'],['Trees','Max nodes in a binary tree of edge height h','2^(h+1) - 1|2^h|2h + 1|h squared',0,'Perfect tree.'],['Heaps','Max-heap 10 5 3 4 1, insert 8. Array is','10 5 8 4 1 3|10 8 3 4 1 5|8 10 3 5 1 4|10 5 3 4 1 8',0,'8 sits at index 5, swaps with parent 3 at index 2, then stops under 10.'],['Heaps','Max-heap 10 5 8 4 1 3, extractMax. Array is','8 5 3 4 1|5 4 3 1 8|8 5 3 1 4|5 8 3 4 1',0,'3 goes to root, swaps with the larger child 8.'],['Heaps','buildHeap on 4 10 3 5 1 (max) gives','10 5 3 4 1|10 4 3 5 1|10 5 4 3 1|5 10 3 4 1',0,'siftDown(1) no change; siftDown(0) swaps with 10 then 5.'],['Heaps','HeapSort on heap 10 5 3 4 1: after first swap and siftDown','5 4 3 1 10|1 5 3 4 10|5 1 3 4 10|4 5 3 1 10',0,'Swap 10 to the end, then 1 sinks past 5 and 4.'],['Heaps','n = 11, 0-based. Last internal node index','4|5|3|10',0,'floor(11/2) - 1 = 4.'],['Heaps','0-based parent of index 6','2|3|1|4',0,'(6-1)/2 = 2.'],['BST','Insert 50,30,70,20,40,60,80,35; delete 30 by predecessor. Root left child','20|35|40|70',0,'max(left of 30) = 20.'],['BST','Same tree, delete 30 by successor. Root left child','35|20|40|60',0,'min(right of 30) = 35.'],['BST','Preorder of BST from inserting 8,3,10,1,6,14','8 3 1 6 10 14|8 3 10 1 6 14|1 3 6 8 10 14|8 10 14 3 6 1',0,'Tree is 8(3(1,6),10(_,14)).'],['BST','Lab 10 insert of a key that already exists','rejects it|goes right|goes left|replaces the root',0,'Lecture 10 theory instead routes duplicates right.'],['AVL','Insert 10,20,30. BF of node 10 before rotation (node-count)','-2|2|-1|0',0,'Left height 0, right height 2.'],['AVL','Tree 20(5(4,10),30); insert 8. Case and new subtree root','LR, root 10|LL, root 5|RL, root 10|LR, root 5',0,'BF(20)=+2, BF(5)=-1: rotateLeft(5) then rotateRight(20).'],['AVL','Tree 10(5(4,8),20(_,30)); insert 25. Case','RL at node 20|RR at node 30|LR at node 10|LR at node 20',0,'BF(20)=-2, BF(30)=+1.'],['AVL','New subtree root after that fix','25|20|30|10',0,'rotateRight(30) then rotateLeft(20) lifts 25.'],['AVL','Leaf height in the AVL lab','1|0|-1|2',0,'Node-count convention.'],['AVL','Minimum nodes in an AVL tree of node-count height 4','7|8|15|5',0,'N: 1, 2, 4, 7.'],['AVL','Rebalance work for one insertion is at most','one single or double rotation|log n rotations|n rotations|two double rotations',0,'Insertion restores the height; deletion may cascade.'],['Hashing','M=11, linear probing, insert 12,44,13,88,23. Slot of 23','4|1|3|5',0,'1, 2, 3 are taken, so 4.'],['Hashing','Same table: slot of 88','3|0|2|1',0,'0, 1, 2 full.'],['Hashing','Chaining, tail insert 44, 88, 11: chain at slot 0','44, 88, 11|11, 88, 44|44, 11|88, 44',0,'All hash to 0 and append in order.'],['Hashing','Double hashing h2 = 7 - (k mod 7); 23 collides at 1. Next probe','6|2|5|3',0,'h2(23) = 5, so 1 + 5 = 6.'],['Hashing','Slot 3 is DELETED; search 23 (home 1) ends at','index 4, found|index 3, absent|index 2, absent|index 1, found',0,'Skip the tombstone and continue.'],['Hashing','Slot 3 wrongly set EMPTY; search 23 would','stop and say absent|still find it|loop forever|trigger rehash',0,'EMPTY ends the probe chain.'],['Hashing','Load factor with 9 keys in M = 11','0.82|0.5|1.2|9',0,'9/11.'],['Hashing','Character-sum hash of stop and pots','collide at 454|differ|are both 0|overflow',0,'Same letters, same sum; polynomial hash separates them.'],['Simple Sorts','Inversions in 9 7 5 3 1','10|4|5|9',0,'n(n-1)/2 for reversed order.'],['Simple Sorts','Selection sort swaps on 9 7 5 3 1 (skip equal indices)','2|4|10|0',0,'Passes 0 and 1 swap; 2 and 3 do not.'],['Simple Sorts','Insertion sort shifts on 1 2 3 5 4','1|0|4|10',0,'Only 5 moves.'],['Simple Sorts','Flagged bubble on 1 2 3 5 4: passes executed','2|1|4|5',0,'Pass 1 swaps once; pass 2 sees no swap and exits.'],['Simple Sorts','Stable and adaptive','insertion sort|selection sort|heap sort|none of them',0,'Insertion keeps equal order and speeds up on sorted input.']);
+Q.push(['Merge/Quick','MergeSort worst-case running time','O(n log n)|O(n^2)|O(n)|O(log n)',0,'It always halves the array, so there are about log n levels, each merged in O(n).'],['Merge/Quick','QuickSort on sorted input with the first element as pivot','O(n^2)|O(n log n)|O(n)|O(n log^2 n)',0,'Each partition peels off one element, so there are n levels of O(n) work.'],['Merge/Quick','Is merge sort stable?','Yes, if ties take from the left run|No, never|Only for distinct keys|Only with a heap',0,'Taking the left element on equal keys keeps their input order.'],['Merge/Quick','Extra space for array-based MergeSort','O(n) auxiliary|O(1)|O(log n)|O(n^2)',0,'Merging needs a temporary buffer the size of the input.'],['Merge/Quick','Which pivot choice avoids the O(n^2) trap on sorted input?','random or median-of-three pivot|always the first element|always the largest element|the array length',0,'A random or median-of-three pivot makes bad splits unlikely: expected O(n log n).'],['Non-Comparison','Counting sort on n keys in range 0..k runs in','O(n + k)|O(n log n)|O(n^2)|O(k log n)',0,'One pass to count, one pass to place, plus k for the count array.'],['Non-Comparison','Which of these never compares two elements?','Counting sort|Merge sort|Heap sort|Quick sort',0,'It uses key values as array indices.'],['Non-Comparison','LSD radix sort on d-digit keys in base b runs in','O(d(n + b))|O(n^2)|O(n log n) always|O(b^d)',0,'Each of the d passes is a stable counting sort costing O(n + b).'],['Non-Comparison','Why must the per-digit sort in LSD radix sort be stable?','Earlier digit order must survive ties|It must not be stable|Stability only matters for negatives|It does not matter',0,'Each pass keeps the order set by earlier, less significant digits.'],['Non-Comparison','How many passes does LSD radix sort need for 4-digit decimal keys?','4|3|10|1',0,'One stable pass per digit place.']);
+gr();qr();
+</script>
+</body></html>

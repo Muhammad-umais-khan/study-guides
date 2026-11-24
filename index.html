@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f2">
+  <meta name="description" content="A home for my study guides: calculus, data structures, and software engineering.">
+  <title>Study Shelf — My Study Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1e302d;
+      --muted: #65756e;
+      --paper: #f5f7f2;
+      --card: #fffefa;
+      --line: #dce5dc;
+      --green: #2c6e59;
+      --green-soft: #e6f1e9;
+      --shadow: 0 18px 50px rgba(34, 62, 48, .09);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(ellipse at 82% 0%, rgba(201, 226, 205, .55), transparent 34rem),
+        linear-gradient(rgba(55, 102, 78, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55, 102, 78, .045) 1px, transparent 1px);
+      background-size: auto, 28px 28px, 28px 28px;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .page {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 34px 0 42px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: clamp(56px, 10vh, 108px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font: 800 .98rem/1 "Manrope", sans-serif;
+      letter-spacing: -.04em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      color: #fff;
+      background: var(--green);
+      border-radius: 12px;
+      box-shadow: 3px 3px 0 #b5cdb9;
+    }
+
+    .top-note {
+      color: var(--muted);
+      font: 500 .7rem/1.4 "DM Mono", monospace;
+      letter-spacing: .06em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin-bottom: 42px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 16px;
+      color: var(--green);
+      font: 500 .72rem/1.4 "DM Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 0;
+      font: 800 clamp(3rem, 8vw, 6.4rem)/.98 "Manrope", sans-serif;
+      letter-spacing: -.075em;
+    }
+
+    h1 span {
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -.08em;
+    }
+
+    .intro-copy {
+      max-width: 510px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .shelf-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .shelf-head h2 {
+      margin: 0;
+      font: 700 1.15rem "Manrope", sans-serif;
+      letter-spacing: -.035em;
+    }
+
+    .count {
+      margin: 0;
+      color: var(--muted);
+      font: 400 .7rem "DM Mono", monospace;
+      white-space: nowrap;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: min(240px, 48%);
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      width: 16px;
+      height: 16px;
+      color: var(--muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .search {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      color: var(--ink);
+      background: rgba(255, 254, 250, .8);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+      font-size: .85rem;
+    }
+
+    .search:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(44, 110, 89, .12); }
+    .search::placeholder { color: #87958d; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      padding-top: 22px;
+    }
+
+    .guide {
+      --accent: #477a64;
+      --tint: #eaf3eb;
+      position: relative;
+      display: flex;
+      min-height: 300px;
+      flex-direction: column;
+      padding: 22px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 5px 16px rgba(34, 62, 48, .035);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .guide::after {
+      position: absolute;
+      top: -50px;
+      right: -48px;
+      width: 140px;
+      height: 140px;
+      background: var(--tint);
+      border-radius: 50%;
+      content: "";
+      transition: transform .25s ease;
+    }
+
+    .guide:hover {
+      z-index: 1;
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+    }
+
+    .guide:hover::after { transform: scale(1.12); }
+    .guide.calculus { --accent: #3d7481; --tint: #e0f0f0; }
+    .guide.structures { --accent: #a46135; --tint: #f5e9d8; }
+    .guide.engineering { --accent: #68548c; --tint: #eee8f5; }
+
+    .card-top, .guide h3, .guide p, .card-bottom { position: relative; z-index: 1; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      color: var(--accent);
+      background: var(--tint);
+      border: 1px solid color-mix(in srgb, var(--accent) 13%, transparent);
+      border-radius: 14px;
+    }
+
+    .icon svg { width: 25px; height: 25px; }
+
+    .subject {
+      padding: 6px 9px;
+      color: var(--accent);
+      background: var(--tint);
+      border-radius: 99px;
+      font: 500 .63rem "DM Mono", monospace;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+    }
+
+    .guide h3 {
+      margin: 0 0 8px;
+      font: 700 1.35rem/1.2 "Manrope", sans-serif;
+      letter-spacing: -.045em;
+    }
+
+    .guide p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.65;
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    .topic {
+      color: var(--muted);
+      font: 400 .65rem "DM Mono", monospace;
+    }
+
+    .open-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      color: var(--accent);
+      background: var(--tint);
+      border: 1px solid transparent;
+      border-radius: 9px;
+      font-size: .78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .15s ease, gap .15s ease;
+    }
+
+    .open-link:hover { gap: 12px; background: color-mix(in srgb, var(--tint) 75%, white); }
+    .open-link svg { width: 14px; height: 14px; }
+
+    .empty {
+      display: none;
+      padding: 36px 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty.visible { display: block; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 46px;
+      padding-top: 16px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font: 400 .67rem/1.5 "DM Mono", monospace;
+    }
+
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid #78a98d;
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .guide { min-height: 280px; }
+    }
+
+    @media (max-width: 540px) {
+      .page { width: min(100% - 32px, 420px); padding-top: 22px; }
+      .topline { margin-bottom: 64px; }
+      .top-note { max-width: 130px; }
+      .intro { margin-bottom: 32px; }
+      .intro-copy { font-size: .98rem; }
+      .shelf-head { align-items: flex-start; flex-direction: column; }
+      .search-wrap { width: 100%; }
+      .grid { grid-template-columns: 1fr; gap: 13px; padding-top: 16px; }
+      .guide { min-height: 260px; }
+      footer { flex-direction: column; gap: 5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topline">
+      <a class="brand" href="./" aria-label="Study Shelf home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h7"/></svg>
+        </span>
+        study shelf
+      </a>
+      <div class="top-note">A little home for<br>the things I’m learning</div>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">My learning library</p>
+      <h1 id="page-title">Study a little.<br><span>Know a lot.</span></h1>
+      <p class="intro-copy">A collection of notes, exam prep, and ideas worth coming back to. Pick a subject and jump right in.</p>
+    </section>
+
+    <section aria-labelledby="shelf-title">
+      <div class="shelf-head">
+        <div>
+          <h2 id="shelf-title">On the shelf</h2>
+          <p class="count" id="guide-count">03 guides</p>
+        </div>
+        <label class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <input class="search" id="search" type="search" placeholder="Find a subject…" aria-label="Search study guides">
+        </label>
+      </div>
+
+      <div class="grid" id="guide-grid">
+        <article class="guide calculus" data-search="calculus multivariate partial derivatives functions several variables math">
+          <div class="card-top">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19h18M5 17c2-1 3-5 5-5s3 4 5 4 3-4 6-10"/><path d="M16 6h5v5"/></svg>
+            </span>
+            <span class="subject">Mathematics</span>
+          </div>
+          <h3>Multivariable Calculus</h3>
+          <p>Chapter 13 review, from functions of several variables to partial derivatives and differentials.</p>
+          <div class="card-bottom">
+            <span class="topic">CHAPTER 13 · FINAL</span>
+            <a class="open-link" href="./Calculus_Ch13_Final_Study_Guide_v2.html">
+              Open guide
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="guide structures" data-search="data structures computer science theory lab trees heaps hashing sorting">
+          <div class="card-top">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4m0 0-7 5m7-5 7 5"/></svg>
+            </span>
+            <span class="subject">Computer Science</span>
+          </div>
+          <h3>Data Structures</h3>
+          <p>A complete theory and lab guide covering trees, heaps, hashing, sorting, and exam practice.</p>
+          <div class="card-bottom">
+            <span class="topic">THEORY + LAB</span>
+            <a class="open-link" href="./Data_Structures_Complete_Theory_and_Lab_Guide.html">
+              Open guide
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="guide engineering" data-search="software engineering agile scrum framework swe 250">
+          <div class="card-top">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>
+            </span>
+            <span class="subject">Software Engineering</span>
+          </div>
+          <h3>Software Engineering</h3>
+          <p>Post-midterm study guide to the Agile mindset, Scrum framework, and the ideas behind the process.</p>
+          <div class="card-bottom">
+            <span class="topic">SWE-250 · POST-MIDTERM</span>
+            <a class="open-link" href="./final_se_study_guide.html">
+              Open guide
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+      <p class="empty" id="empty-state">No guides match that search. Try another subject.</p>
+    </section>
+
+    <footer>
+      <span>Made for curious minds.</span>
+      <span>Keep learning, one page at a time.</span>
+    </footer>
+  </main>
+  <script>
+    const search = document.getElementById("search");
+    const guides = Array.from(document.querySelectorAll(".guide"));
+    const count = document.getElementById("guide-count");
+    const emptyState = document.getElementById("empty-state");
+
+    search.addEventListener("input", () => {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+
+      guides.forEach((guide) => {
+        const matches = guide.dataset.search.includes(query);
+        guide.hidden = !matches;
+        if (matches) visible += 1;
+      });
+
+      count.textContent = `${String(visible).padStart(2, "0")} ${visible === 1 ? "guide" : "guides"}`;
+      emptyState.classList.toggle("visible", visible === 0);
+    });
+  </script>
+</body>
+</html>
