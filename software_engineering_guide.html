@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Software Engineering Study Guide: Agile and Scrum</title>
+<style>
+:root{
+  --ink:#14202b;
+  --mut:#4d5b68;
+  --bg:#e9eef2;
+  --card:#fbfcfd;
+  --blue:#1d4f91;
+  --blueL:#dde8f5;
+  --amb:#9a6410;
+  --ambL:#fdf3dc;
+  --grn:#2e6f4e;
+  --grnL:#e0f1e8;
+  --red:#9c3434;
+  --redL:#f8e3e3;
+  --purp:#5b3a82;
+  --purpL:#efe8f8;
+  --line:#c5d0da;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.72 Georgia,'Iowan Old Style',serif}
+.wrap{display:grid;grid-template-columns:235px minmax(0,1fr);gap:34px;max-width:1120px;margin:0 auto;padding:24px}
+nav{position:sticky;top:20px;align-self:start;font:500 14.5px/1.4 'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 10px}
+nav .nav-title{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);padding:2px 10px 8px;border-bottom:1px solid var(--line);margin-bottom:6px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:6px 10px;border-left:3px solid transparent;border-radius:0 4px 4px 0;transition:all .15s}
+nav a:hover{color:var(--blue);border-color:var(--blue);background:var(--blueL)}
+.ctrl-bar{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.btn{cursor:pointer;border:1px solid var(--blue);background:#fff;color:var(--blue);font:600 13px/1.3 'Franklin Gothic Medium',Arial,sans-serif;padding:7px 10px;border-radius:5px;text-align:center;transition:all .15s}
+.btn:hover{background:var(--blue);color:#fff}
+.btn.active{background:var(--amb);border-color:var(--amb);color:#fff}
+main{min-width:0;max-width:790px}
+header{background:var(--ink);color:#fff;padding:26px 30px;border-radius:8px;box-shadow:0 2px 8px rgba(20,32,43,.12)}
+header .meta{font:600 13px/1.3 'Franklin Gothic Medium',Arial,sans-serif;text-transform:uppercase;letter-spacing:.07em;color:#9ec2f0;margin-bottom:6px}
+header h1{margin:0 0 8px;font:700 30px/1.2 'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif}
+header p{margin:0;opacity:.92;font-size:15.5px;line-height:1.55}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;font:600 13px/1.2 'Franklin Gothic Medium',Arial,sans-serif}
+.legend span{padding:4px 10px;border-radius:4px;color:var(--ink)}
+.legend .lg-def{background:var(--grnL);border-left:4px solid var(--grn)}
+.legend .lg-mem{background:var(--ambL);border-left:4px solid var(--amb)}
+.legend .lg-trap{background:var(--redL);border-left:4px solid var(--red)}
+.legend .lg-lay{background:var(--purpL);border-left:4px solid var(--purp)}
+
+h2{font:700 25px/1.25 'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif;color:var(--blue);margin:48px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--blue)}
+h2 .tag{display:inline-block;font-size:12px;vertical-align:middle;padding:3px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase;letter-spacing:.05em}
+.tag-bridge{background:#dce3ea;color:#334150}
+.tag-core{background:var(--blueL);color:var(--blue)}
+h3{font:700 19px/1.3 'Franklin Gothic Medium',Arial,sans-serif;margin:26px 0 8px;color:#1b2d3e}
+h4{font:700 15.5px/1.3 'Franklin Gothic Medium',Arial,sans-serif;margin:0 0 6px}
+p,li{margin:.5em 0}ul,ol{padding-left:22px}
+
+.box{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:15px 18px;margin:16px 0}
+.def{background:var(--grnL);border-left:5px solid var(--grn);border-radius:6px;padding:14px 18px;margin:16px 0}
+.def h4{color:var(--grn)}
+.mem{background:var(--ambL);border-left:5px solid var(--amb);border-radius:6px;padding:14px 18px;margin:16px 0}
+.mem h4{color:var(--amb)}
+.trap{background:var(--redL);border-left:5px solid var(--red);border-radius:6px;padding:14px 18px;margin:16px 0}
+.trap h4{color:var(--red)}
+.layman{background:var(--purpL);border-left:5px solid var(--purp);border-radius:6px;padding:16px 20px;margin:18px 0}
+.layman h4{color:var(--purp)}
+
+body.recall-mode .mem ul,
+body.recall-mode .mem ol,
+body.recall-mode .mem p,
+body.recall-mode .mem table{filter:blur(5px);cursor:pointer;transition:filter .2s}
+body.recall-mode .mem:hover ul,
+body.recall-mode .mem:hover ol,
+body.recall-mode .mem:hover p,
+body.recall-mode .mem:hover table,
+body.recall-mode .mem.revealed ul,
+body.recall-mode .mem.revealed ol,
+body.recall-mode .mem.revealed p,
+body.recall-mode .mem.revealed table{filter:none}
+
+table{width:100%;border-collapse:collapse;font:14.5px/1.45 'Franklin Gothic Medium',Arial,sans-serif;background:var(--card);margin:12px 0}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--blueL);color:#102a4c}
+tr:nth-child(even) td{background:#f5f8fa}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pill{display:inline-block;background:var(--blueL);color:var(--blue);font:700 12.5px/1.2 'Franklin Gothic Medium',Arial,sans-serif;padding:3px 8px;border-radius:4px;margin-right:5px}
+.cap{font:13.5px/1.45 Arial,sans-serif;color:var(--mut);margin:4px 0 14px}
+.svg-wrap{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:12px 0;overflow-x:auto}
+svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+@media(max-width:860px){
+  .wrap{grid-template-columns:1fr;padding:14px}
+  nav{position:static;display:flex;flex-wrap:wrap;gap:4px}
+  nav .nav-title,.ctrl-bar{width:100%}
+  nav a{border:0;background:#eef3f7;border-radius:4px;padding:5px 9px}
+  .two,.three{grid-template-columns:1fr}
+}
+@media print{
+  nav,.ctrl-bar{display:none}
+  .wrap{grid-template-columns:1fr;max-width:100%;padding:0}
+  main{max-width:100%}
+  body.recall-mode .mem *{filter:none !important}
+}
+
+.warn{margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line);font:14px/1.45 Arial,sans-serif;color:var(--red)}
+
+/* Search */
+nav input[type=search]{width:100%;margin:2px 0 8px;padding:7px 9px;border:1px solid var(--line);border-radius:5px;font:14px Arial,sans-serif;background:#fff;color:var(--ink)}
+nav input[type=search]:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+#sres{display:none;width:100%}
+nav.searching a{display:none}
+nav.searching #sres{display:block}
+#sres button{display:block;width:100%;text-align:left;background:none;border:0;border-left:3px solid transparent;padding:6px 8px;font:13px/1.35 Arial,sans-serif;color:var(--ink);cursor:pointer;border-radius:0 4px 4px 0}
+#sres button:hover,#sres button:focus{background:var(--blueL);border-color:var(--blue);outline:none}
+#sres small{display:block;color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+#sres mark{background:var(--ambL);color:inherit;font-weight:700}
+#sres .none{font:13px Arial,sans-serif;color:var(--mut);padding:6px 8px}
+.flash{outline:3px solid var(--amb);outline-offset:2px;background:var(--ambL)}
+@media print{#sres,nav input{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="nav-title">SWE-250 Study Map</div>
+  <input type="search" id="sq" placeholder="Search the guide ( / )" aria-label="Search the guide" autocomplete="off">
+  <div id="sres" role="listbox" aria-live="polite"></div>
+  <a href="#bridge">1. Traditional vs. Agile Models</a>
+  <a href="#agile">2. Agility &amp; Manifesto</a>
+  <a href="#scrum-core">3. Scrum Origin &amp; Theory</a>
+  <a href="#artifacts">4. Artifacts &amp; Criteria</a>
+  <a href="#team">5. Scrum Team &amp; Roles</a>
+  <a href="#events">6. The 5 Scrum Events</a>
+  <a href="#diagrams">7. 3 Workflow Diagrams</a>
+  <a href="#chains">7b. Causal Chains</a>
+  <a href="#layman">8. Layman Summary</a>
+  <div class="ctrl-bar">
+    <button class="btn" id="recallBtn" onclick="toggleRecall()">Active Recall: Blur Memorize Boxes</button>
+    <button class="btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</nav>
+
+<main>
+<header>
+  <div class="meta">Software Engineering (SWE-250) &bull; Agile and Scrum Concepts</div>
+  <h1>Software Engineering: Agile &amp; Scrum Guide</h1>
+  <p>A concept-focused guide to Agile, Scrum, requirements, artifacts, roles, events, and iterative software development, with a comparison to traditional process models.</p>
+  <div class="legend">
+    <span class="lg-def">Definition / Core Rule</span>
+    <span class="lg-mem">Key Concept</span>
+    <span class="lg-trap">Common Pitfall</span>
+    <span class="lg-lay">Easy / Layman View</span>
+  </div>
+</header>
+
+<!-- ========================================================= -->
+<!-- SECTION 1: TRADITIONAL AND AGILE PROCESS MODELS            -->
+<!-- ========================================================= -->
+<h2 id="bridge">1. Traditional and Agile Process Models <span class="tag tag-bridge">Context &amp; Comparison</span></h2>
+<p>This comparison shows how modern Agile and Scrum differ from traditional plan-driven models and when each approach may be appropriate.</p>
+
+<h3>Old Models vs. New Models: What Each Is Good For</h3>
+<table>
+  <tr>
+    <th style="width:19%">Model / Approach</th>
+    <th style="width:27%">What It Was Good For (Strengths)</th>
+    <th style="width:27%">Main Weakness (Why It Struggled)</th>
+    <th style="width:27%">How New Models (Agile / Scrum) Improve It</th>
+  </tr>
+  <tr>
+    <td><b>Waterfall &amp; Iterative Waterfall</b><br><span class="cap">(Royce, 1970s &bull; Linear / Loop-back)</span></td>
+    <td>Small, stable projects with fixed requirements, clear upfront budgets, and heavy documentation needs (team turnover doesn't break the project).</td>
+    <td>Rigid to change; working software and testing happen only at the very end; backward loops in iterative waterfall are slow and costly.</td>
+    <td>Delivers working software every <b>1–4 weeks (Sprint)</b> and welcomes changing requirements at any stage without costly contract renegotiations.</td>
+  </tr>
+  <tr>
+    <td><b>V-Model</b><br><span class="cap">(Verification &amp; Validation extension)</span></td>
+    <td>Safety-critical or strict-compliance projects needing early test planning (test cases created at every SDLC stage to prevent bias).</td>
+    <td>Still linear and plan-driven; requires heavy upfront documentation and more planning work; struggles when user requirements evolve mid-project.</td>
+    <td>Replaces single end-of-project validation with continuous <b>Inspection</b> (Daily Scrum, Sprint Review) and <b>Adaptation</b> every Sprint.</td>
+  </tr>
+  <tr>
+    <td><b>Prototyping</b><br><span class="cap">(Throwaway/Reference vs. Evolutionary/Foundation)</span></td>
+    <td>Clarifying unclear UI/UX or unknown requirements early using <b>Low, Medium, or High fidelity</b> mockups before full-scale production.</td>
+    <td>Throwaway prototypes get discarded (extra cost); evolutionary prototypes risk poor architecture if rushed without discipline.</td>
+    <td>Every Scrum <b>Increment</b> acts like a real, production-quality evolutionary slice reviewed directly by stakeholders in the <b>Sprint Review</b>.</td>
+  </tr>
+  <tr>
+    <td><b>Incremental (Staged &amp; Parallel)</b><br><span class="cap">(Module/time grouping &amp; concurrent teams)</span></td>
+    <td><b>Staged IDM:</b> delivering modules in timed stages. <b>Parallel / Subsystem Construction:</b> overlapping spec/dev/val or splitting subsystems across teams to cut calendar time.</td>
+    <td>Plan-driven incremental still tries to identify all increments upfront; parallel teams still rely on rigid upfront architecture specs.</td>
+    <td><b>Agile Incremental (Scrum):</b> only top-priority items are detailed upfront; the Product Backlog stays <b>emergent</b> and adapts after every Sprint.</td>
+  </tr>
+  <tr>
+    <td><b>Integration &amp; Configuration</b><br><span class="cap">(Reuse-oriented / COTS)</span></td>
+    <td>Fast, lower-cost delivery by assembling tested components (<b>Integration</b> = connecting modules) and tuning generic apps (<b>Configuration</b> = adapting to user reqs).</td>
+    <td>Requirements often have to bend to fit what the COTS software offers; vendor lock-in and interface mismatches.</td>
+    <td>Agile teams still reuse libraries/APIs inside Sprints, but keep user value and continuous customer collaboration in control rather than vendor limits.</td>
+  </tr>
+</table>
+
+<div class="two">
+  <div class="box">
+    <h4>Key Process Model Terms</h4>
+    <ul>
+      <li><b>Plan-Driven (Predictive) vs. Evolutionary (Adaptive):</b> Plan-driven plans everything upfront assuming stable requirements (Waterfall, V-Model); Evolutionary expects change and adapts continuously (Prototyping, Agile, Scrum).</li>
+      <li><b>Verification vs. Validation:</b> <b>Verification</b> checks whether the product conforms to its specifications (static analysis, such as SRS, design, and code reviews). <b>Validation</b> checks whether the product satisfies user needs (dynamic analysis by executing the software).</li>
+      <li><b>Stage vs. Increment:</b> A <b>stage</b> is a step in a cycle (or module/time grouping in Staged IDM); an <b>increment</b> is a delivered slice of working functionality.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>Why Plan-Driven Approaches Struggle with Change</h4>
+    <p>Five structural weaknesses drove the shift to Agile:</p>
+    <ol>
+      <li><b>Significant overhead</b> from comprehensive planning and documentation.</li>
+      <li><b>Overhead dominates</b> actual development and testing in small &amp; medium projects.</li>
+      <li><b>No flexibility</b> to adapt when requirements change.</li>
+      <li><b>Late demonstrations</b> of working software to users.</li>
+      <li><b>Process bureaucracy</b> and rigid contract orientation.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SECTION 2: AGILITY & THE AGILE MANIFESTO                  -->
+<!-- ========================================================= -->
+<h2 id="agile">2. Agility &amp; The Agile Manifesto (2001) <span class="tag tag-core">Core Concepts</span></h2>
+
+<div class="def">
+  <h4>Core Definitions</h4>
+  <ul>
+    <li><b>Agility (Literal meaning: <i>Swift</i>):</b> The ability to respond rapidly and effectively to change; a way to succeed in uncertain and turbulent environments by understanding what is happening today, identifying uncertainty, and adapting as you go.</li>
+    <li><b>Agile Software Development:</b> An umbrella term for frameworks and practices (such as Scrum, XP, and Kanban) built on the <b>Agile Manifesto's 4 values and 12 principles</b>. Above all, Agile is a <b>mindset</b>: face uncertainty by trying something small, getting feedback, and adjusting.</li>
+  </ul>
+</div>
+
+<h3>The Four Values of the Agile Manifesto (2001)</h3>
+<table>
+  <tr><th style="width:45%">We Value (Left Side — Higher Priority)</th><th style="width:30%">Over (Right Side — Lower Priority)</th><th style="width:25%">Meaning</th></tr>
+  <tr><td><b>1. Individuals and interactions</b></td><td>Processes and tools</td><td>Team communication principle: skilled people talking directly solve problems faster than rigid tools.</td></tr>
+  <tr><td><b>2. Working software</b></td><td>Comprehensive documentation</td><td>Real, running functionality proves actual progress far better than hundreds of pages of specs.</td></tr>
+  <tr><td><b>3. Customer collaboration</b></td><td>Contract negotiation</td><td>Work alongside the customer continuously instead of arguing over rigid upfront contract clauses.</td></tr>
+  <tr><td><b>4. Responding to change</b></td><td>Following a plan</td><td>Adapt quickly when business priorities shift rather than blindly following an outdated plan.</td></tr>
+</table>
+
+<div class="trap">
+  <h4>Common Misconception About the Agile Values</h4>
+  <p>The Manifesto says <i>"while there is value in the items on the right, we value the items on the left more."</i> Agile does <b>NOT</b> mean zero documentation, zero planning, or zero tools—it means lightweight, just-enough documentation and adaptable plans.</p>
+</div>
+
+<h3>The Twelve Principles of Agile Software</h3>
+<table>
+  <tr><th style="width:6%">#</th><th style="width:26%">Principle Name</th><th style="width:68%">Core Meaning</th></tr>
+  <tr><td><b>1</b></td><td>Customer Satisfaction</td><td>Highest priority is satisfying the customer through early and continuous delivery of valuable software.</td></tr>
+  <tr><td><b>2</b></td><td>Welcome Change</td><td>Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage.</td></tr>
+  <tr><td><b>3</b></td><td>Deliver Frequently</td><td>Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.</td></tr>
+  <tr><td><b>4</b></td><td>Working Together</td><td>Business people and developers must work together daily throughout the project.</td></tr>
+  <tr><td><b>5</b></td><td>Motivated Team</td><td>Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.</td></tr>
+  <tr><td><b>6</b></td><td>Face-to-Face Conversation</td><td>The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.</td></tr>
+  <tr><td><b>7</b></td><td>Working Software</td><td>Working software is the primary measure of progress.</td></tr>
+  <tr><td><b>8</b></td><td>Sustainable Pace</td><td>Agile processes promote sustainable development. Sponsors, developers, and users should be able to maintain a constant pace indefinitely.</td></tr>
+  <tr><td><b>9</b></td><td>Technical Excellence</td><td>Continuous attention to technical excellence and good design enhances agility.</td></tr>
+  <tr><td><b>10</b></td><td>Simplicity</td><td>Simplicity—the art of maximizing the amount of work not done—is essential.</td></tr>
+  <tr><td><b>11</b></td><td>Self-Organizing Teams</td><td>The best architectures, requirements, and designs emerge from self-organizing teams.</td></tr>
+  <tr><td><b>12</b></td><td>Reflect and Adjust</td><td>At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.</td></tr>
+</table>
+<p class="cap"><b>Historical note:</b> The Agile Manifesto was published in 2001. Some course materials date the twelve principles to 2005, while many sources associate them with the 2001 Manifesto.</p>
+
+<!-- ========================================================= -->
+<!-- SECTION 3: SCRUM ORIGIN, THEORY, PILLARS & VALUES         -->
+<!-- ========================================================= -->
+<h2 id="scrum-core">3. Scrum Framework: Origin, Theory, Pillars &amp; Values <span class="tag tag-core">Theory</span></h2>
+
+<h3>History &amp; Rugby Analogy ("Scrummage")</h3>
+<ul>
+  <li><b>Creators &amp; 1990s Origin:</b> Developed in the early 1990s by <b>Ken Schwaber</b> and <b>Jeff Sutherland</b>, predating the formal publication of the Agile Manifesto (2001). Alongside Extreme Programming (XP), its creators recognized their iterative, people-centered philosophy differed from traditional waterfall processes and co-authored the Agile Manifesto.</li>
+  <li><b>Origin of the Word "Scrum":</b> Short for <b>"scrummage"</b>, a <b>rugby</b> term used to restart play after a minor rule infringement—where players pack closely together to gain possession of the ball and push forward as one unified unit.</li>
+  <li><b>1986 Harvard Business Review Paper:</b> <b>Hirotaka Takeuchi</b> and <b>Ikujiro Nonaka</b> introduced this rugby analogy to product development in 1986 to describe a cross-functional team working tightly together to incrementally move a project forward.</li>
+</ul>
+
+<div class="def">
+  <h4>Formal Definitions of Scrum</h4>
+  <ol>
+    <li><b>Lightweight Framework:</b> A low-overhead framework that helps people, teams, and organizations generate value through adaptive solutions for complex problems under the umbrella of Agile software development.</li>
+    <li><b>Agile Project Management Framework:</b> A framework based on an <b>incremental approach</b> to development that helps teams structure and manage their work through a set of values and practices (both Scrum's own and broader Agile practices).</li>
+    <li><b>Teamwork, Accountability &amp; Iterative Progress:</b> A framework emphasizing <b>teamwork</b>, <b>accountability</b>, and <b>evolutionary/iterative progress</b> (iterating across the entire software product rather than building isolated phases) toward a well-defined goal.</li>
+    <li><b>Process Flexibility (Scrum vs. XP):</b> Scrum is an Agile-based framework that <b>does not mandate specific software engineering or coding practices</b> (such as <b>pair programming</b> or <b>test-first development / TDD</b>), giving teams high technical flexibility—unlike <b>Extreme Programming (XP)</b>, which prescribes strict engineering rules.</li>
+  </ol>
+  <p><b>Core Empirical Premise:</b> <i>"Start with what can be seen or known. After that, track the progress and tweak as necessary."</i></p>
+  <h4>Complete Personal Definition of Scrum</h4>
+  <p>Scrum is a lightweight Agile project management framework that helps people, teams and organizations generate value through adaptive solutions for complex problems. It is based on an incremental approach to development and on empiricism (start with what can be seen or known, then track progress and adapt as necessary), and it structures teamwork through a set of values and practices that emphasize teamwork, accountability and iterative progress of the whole product, rather than isolated phases, toward a well-defined goal. Unlike Extreme Programming (XP), Scrum does not mandate specific engineering or coding practices, such as pair programming or test-driven development, so teams keep technical flexibility.</p>
+</div>
+
+<h3>Scrum Theory</h3>
+<div class="three">
+  <div class="box">
+    <h4>1. Empiricism &amp; Lean Thinking</h4>
+    <p><b>Empiricism:</b> Making decisions based on real-world <b>observation</b> and experience rather than guesswork.<br><b>Lean Thinking:</b> Focusing strictly on <b>essentials</b> and reducing waste by <b>avoiding extras</b>.</p>
+  </div>
+  <div class="box">
+    <h4>2. Incremental Flow &amp; Risk Control</h4>
+    <p>Uses an <b>incremental approach/flow</b> to optimize <b>predictability</b> and <b>control risk</b> through continuous customer collaboration.</p>
+  </div>
+  <div class="box">
+    <h4>3. Collective Capability</h4>
+    <p>Engages people who <b>collectively possess all the skills</b> needed to do the work and actively <b>share those skills</b> across the team as needed.</p>
+  </div>
+</div>
+
+<h3>The Three Pillars of Scrum &amp; Five Scrum Values</h3>
+<div class="two">
+  <div class="mem">
+    <h4>The Three Pillars of Scrum</h4>
+    <ol>
+      <li><b>Transparency:</b> Process and work visibility to all stakeholders—everyone performing and receiving the work shares the exact same understanding and information.</li>
+      <li><b>Inspection:</b> Artifacts and processes are inspected frequently to detect variances, bottlenecks, or defects early.</li>
+      <li><b>Adaptation:</b> Whenever inspection reveals process deviation or product variance outside acceptable limits, adjustments must be made as soon as possible to minimize further deviation.</li>
+    </ol>
+  </div>
+  <div class="mem">
+    <h4>The Five Scrum Values</h4>
+    <ul>
+      <li><b>Commitment:</b> Personal dedication toward achieving the team's goals and supporting one another.</li>
+      <li><b>Focus:</b> Concentrating effort on the work of the current Sprint to make steady progress toward goals.</li>
+      <li><b>Openness:</b> Being transparent and honest about the process, ongoing work, and work challenges.</li>
+      <li><b>Respect:</b> Mutual respect in communication, collaboration, feedback, and knowledge sharing.</li>
+      <li><b>Courage:</b> Courage to face challenges, do the right thing, and work on tough problems.</li>
+    </ul>
+    <p class="cap"><b>In Practice:</b> Guides priority-driven planning, time/effort estimation, and ranking requirements strictly by priority.</p>
+  </div>
+</div>
+
+<h3>Scrum vs. Extreme Programming (XP) at a Glance</h3>
+<div class="box"><p class="cap" style="margin-top:0">Key distinction: Scrum organizes <i>how work is managed</i>; XP prescribes <i>how code is written</i>. The two are often combined.</p>
+<table><tr><th>Aspect</th><th>Scrum</th><th>Extreme Programming (XP)</th></tr>
+<tr><td>Primary focus</td><td>Management framework for organizing work</td><td>Engineering practices for building software</td></tr>
+<tr><td>Prescribed roles</td><td>Product Owner, Scrum Master, Developers</td><td>On-site customer, programmers, coach</td></tr>
+<tr><td>Iteration length</td><td>Sprint of one month or less</td><td>Short iterations (typically 1 to 2 weeks) with frequent small releases</td></tr>
+<tr><td>Requirements</td><td>Ordered Product Backlog of user stories</td><td>User stories prioritized and planned with the customer in the Planning Game</td></tr>
+<tr><td>Coding practices</td><td>Not mandated (teams choose their own)</td><td>Mandated: pair programming, test-driven development, continuous integration, refactoring, simple design</td></tr>
+<tr><td>Handling change</td><td>Changing requirements welcomed; reprioritized through the Product Backlog and Sprint Review</td><td>Changing requirements welcomed; absorbed through short iterations and the Planning Game</td></tr>
+</table>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- SECTION 4: SCRUM ARTIFACTS & QUALITY CRITERIA             -->
+<!-- ========================================================= -->
+<h2 id="artifacts">4. Scrum Artifacts &amp; Requirement Quality Criteria <span class="tag tag-core">DEEP &bull; INVEST &bull; CTF</span></h2>
+<p>Scrum Artifacts represent work or value designed to maximize transparency across the team and stakeholders.</p>
+
+<div class="def">
+  <h4>The Three Scrum Artifacts</h4>
+  <ol>
+    <li><b>Product Backlog:</b> A single, centralized <b>repository/database</b> (not an increment backlog) containing an <b>emergent, ordered, and prioritized list of user needs</b> for the entire product, written as <b>User Stories</b> (concise, clear, not overly vague). It is never written completely in one go upfront—it fills up and evolves <b>increment by increment</b>.</li>
+    <li><b>Sprint Backlog:</b> The plan for a <b>single increment (Sprint)</b> containing three things: the <b>Sprint Goal (Why)</b>, the <b>selected items/user stories (What)</b>, and an <b>actionable plan for delivering them (How)</b>. It is <b>owned by the Developers</b>, who decide who does which task, self-manage the work, and <b>update the Sprint Backlog throughout the Sprint</b> as they learn more.</li>
+    <li><b>Increment:</b> Concrete <b>working functionality (piece of software)</b> achieved through the work completed in a Sprint that meets quality standards and integrates seamlessly with all prior Increments.</li>
+  </ol>
+</div>
+
+<h3>DEEP Criteria (For a Healthy Product Backlog)</h3>
+<table>
+  <tr><th style="width:8%">Letter</th><th style="width:24%">Criterion</th><th style="width:68%">What It Means in Practice</th></tr>
+  <tr><td><b>D</b></td><td><b>Detailed Appropriately</b></td><td>Top-priority user stories ready for the next Sprint have rich detail; lower-priority stories further down remain broader until needed.</td></tr>
+  <tr><td><b>E</b></td><td><b>Emergent</b></td><td>The backlog is never frozen; new stories are added, outdated ones removed, and items refined as user feedback emerges.</td></tr>
+  <tr><td><b>E</b></td><td><b>Estimated</b></td><td>Every backlog item carries a relative size or effort estimate so the team can forecast delivery capacity.</td></tr>
+  <tr><td><b>P</b></td><td><b>Prioritized</b></td><td>Items are strictly ordered by business value, risk, and dependencies so the most valuable features are built first.</td></tr>
+</table>
+
+<h3>INVEST vs. CTF Criteria (For Writing Good User Stories)</h3>
+<div class="two">
+  <div class="box">
+    <h4>INVEST Criteria (6 Rules)</h4>
+    <ul>
+      <li><b>I — Independent:</b> Self-contained with minimal dependencies so stories can be built in any order.</li>
+      <li><b>N — Negotiable:</b> A reminder for conversation between Product Owner &amp; Developers, not a rigid contract.</li>
+      <li><b>V — Valuable:</b> Delivers clear, tangible value to the end user or customer.</li>
+      <li><b>E — Estimable:</b> Clear enough for Developers to reasonably estimate implementation effort.</li>
+      <li><b>S — Small:</b> Sized small enough to be designed, coded, and tested within a single Sprint.</li>
+      <li><b>T — Testable:</b> Has clear acceptance criteria so completion can be objectively verified.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>CTF Criteria (3-Rule Alternative)</h4>
+    <p class="cap" style="margin-top:0"><b>Terminology:</b> in this guide, <b>CTF = Clear, Testable, Feasible</b>. The <b>3 Cs</b> (Card, Conversation, Confirmation) are a separate idea about how a story is written and verified; keep the two labels distinct.</p>
+    <ul>
+      <li><b>C — Clear:</b> Written in plain, unambiguous language understood identically by developers, testers, and stakeholders.</li>
+      <li><b>T — Testable:</b> Structured with verifiable pass/fail conditions for QA testing.</li>
+      <li><b>F — Feasible:</b> Realistic and achievable within technical constraints, resources, and Sprint timeframe.</li>
+    </ul>
+    <div class="mem" style="margin-top:14px">
+      <h4>Quick Memory Hook</h4>
+      <p><b>DEEP</b> = whole Product Backlog.<br><b>INVEST</b> or <b>CTF</b> = individual User Stories inside the backlog.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- SECTION 5: SCRUM TEAM & SPECIFIC ROLES                    -->
+<!-- ========================================================= -->
+<h2 id="team">5. The Scrum Team &amp; Specific Roles <span class="tag tag-core">Accountabilities</span></h2>
+<ul>
+  <li><b>Cross-Functional &amp; Self-Managing / Self-Organizing:</b> Collectively possesses all skills needed to create value every Sprint (analysis, design, coding, testing) and decides internally who works on what and how—no external manager assigns tasks.</li>
+  <li><b>Optimal Team Size (10 or Fewer):</b> Small enough to stay agile and communicate quickly, yet large enough to complete significant work within a Sprint.</li>
+  <li><b>End-to-End Accountability:</b> Responsible for all product-related activities—stakeholder collaboration, verification, maintenance, operation, experimentation, and R&amp;D.</li>
+</ul>
+
+<table>
+  <tr><th style="width:20%">Role</th><th style="width:55%">Responsibilities</th><th style="width:25%">Core Focus</th></tr>
+  <tr>
+    <td><b>1. Product Owner</b><br><span class="cap">(1 person, not a committee)</span></td>
+    <td>
+      <ul>
+        <li>Responsible for <b>Product Backlog creation</b>.</li>
+        <li>Accountable for <b>Product Backlog management</b> (ordering items to maximize product value).</li>
+        <li>Ensures Product Backlog <b>visibility and understandability</b> to all stakeholders.</li>
+        <li><b>Modifies the Product Backlog only when need arises.</b></li>
+      </ul>
+    </td>
+    <td><b>Value &amp; Direction</b><br>(Building the <i>right</i> product)</td>
+  </tr>
+  <tr>
+    <td><b>2. Scrum Master</b><br><span class="cap">(Servant-leader &amp; coach)</span></td>
+    <td>
+      <ul>
+        <li><b>Establishes and executes</b> the Scrum process.</li>
+        <li><b>Implements</b> Scrum practices that help teams improve.</li>
+        <li><b>Coaches</b> the teams to facilitate each other in performing tasks.</li>
+        <li><b>Removes impediments</b> (blockers/obstacles) to the Scrum Team's progress.</li>
+        <li><b>Ensures Scrum events</b> take place on time and within <b>time limits</b> while remaining productive.</li>
+      </ul>
+    </td>
+    <td><b>Process &amp; Flow</b><br>(Removing blockers &amp; coaching Scrum)</td>
+  </tr>
+  <tr>
+    <td><b>3. Developers</b><br><span class="cap">(All builders/testers on team)</span></td>
+    <td>
+      <ul>
+        <li>Responsible for <b>creating any aspect of a usable Increment</b>.</li>
+        <li>Responsible for <b>creating and owning the Sprint Backlog</b>, deciding how to organize the work, adapting the plan throughout the Sprint, and self-managing as a team. The Scrum Master supports and coaches but does not assign tasks.</li>
+        <li><b>Instilling quality</b> by adhering to engineering best practices.</li>
+        <li><b>Holding each other accountable</b> as professionals.</li>
+      </ul>
+    </td>
+    <td><b>Execution &amp; Quality</b><br>(Building the product <i>right</i>)</td>
+  </tr>
+</table>
+
+<div class="trap">
+  <h4>Common Misconceptions About Scrum Roles</h4>
+  <ul>
+    <li>The <b>Scrum Master is NOT a traditional project manager</b> who assigns tasks or bosses developers around—Scrum teams are self-organizing.</li>
+    <li>Only the <b>Product Owner</b> owns and orders the Product Backlog (though Developers may help refine/estimate items).</li>
+    <li>The <b>Sprint Backlog belongs to the Developers</b>: they decide how to organize the work and adapt the plan during the Sprint. The Scrum Master supports them; neither the Scrum Master nor the Product Owner assigns tasks.</li>
+    <li><b>"Developers"</b> in Scrum includes everyone doing the build work (coders, testers, UI/UX designers, database engineers)—not just programmers.</li>
+  </ul>
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- SECTION 6: THE FIVE SCRUM EVENTS                          -->
+<!-- ========================================================= -->
+<h2 id="events">6. The Five Scrum Events (Ceremonies) <span class="tag tag-core">Time-Boxed Rhythm</span></h2>
+<p><b>Scrum events</b> are formal activities that facilitate the framework, create <b>regularity</b>, promote <b>collaboration</b>, and keep the team <b>aligned</b>. They enable <b>Transparency, Inspection, and Adaptation</b> while minimizing unscheduled meetings.</p>
+
+<table>
+  <tr>
+    <th style="width:18%">Scrum Event</th>
+    <th style="width:18%">When &amp; Duration</th>
+    <th style="width:44%">Purpose &amp; Key Activities</th>
+    <th style="width:20%">Pillar Enabled</th>
+  </tr>
+  <tr>
+    <td><b>1. Sprint</b></td>
+    <td>Fixed container of <b>1–4 weeks</b></td>
+    <td>The overarching time-boxed heartbeat during which a usable, quality-checked <b>Increment</b> is built from the Sprint Backlog. A new Sprint starts immediately after the previous one ends.</td>
+    <td>All Three Pillars (Container)</td>
+  </tr>
+  <tr>
+    <td><b>2. Sprint Planning</b></td>
+    <td><b>Start</b> of the Sprint</td>
+    <td>Collaborative meeting to decide <b>what work</b> will be done (selecting top Product Backlog items), the <b>techniques/how</b> to build it, and <b>who is responsible</b> (the Developers decide who does what)—producing the <b>Sprint Backlog</b>.</td>
+    <td>Transparency &amp; Adaptation</td>
+  </tr>
+  <tr>
+    <td><b>3. Daily Scrum</b></td>
+    <td><b>Every day</b> (~<b>15 minutes</b>)</td>
+    <td>Short daily sync among Developers to inspect progress toward the Sprint Goal, adapt the daily plan, and surface <b>impediments/issues</b> early.</td>
+    <td>Inspection &amp; Adaptation</td>
+  </tr>
+  <tr>
+    <td><b>4. Sprint Review</b></td>
+    <td><b>End</b> of the Sprint</td>
+    <td>Working session to <b>present/demonstrate completed work (Increment) to stakeholders</b> and <b>gather feedback</b> to update/reprioritize the Product Backlog.</td>
+    <td>Inspection &amp; Adaptation (Product)</td>
+  </tr>
+  <tr>
+    <td><b>5. Sprint Retrospective</b></td>
+    <td><b>Very end</b> of Sprint (after Review)</td>
+    <td>Internal team meeting to inspect <b>what went well, what didn't go well, and how to improve</b> processes, tools, and teamwork in the next Sprint.</td>
+    <td>Inspection &amp; Adaptation (Process)</td>
+  </tr>
+</table>
+
+<div class="mem">
+  <h4>Sprint Review and Sprint Retrospective</h4>
+  <p><b>Sprint Review</b> inspects the <b>PRODUCT</b> (working Increment) with <b>external stakeholders</b> to update the Product Backlog.<br>
+  <b>Sprint Retrospective</b> inspects the <b>PROCESS &amp; TEAMWORK</b> internally (without external stakeholders) to improve how the team works in the next Sprint.</p>
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- SECTION 7: VISUAL DIAGRAMS                               -->
+<!-- ========================================================= -->
+<h2 id="diagrams">7. Visual Workflow Diagrams and Comparisons <span class="tag tag-core">Diagram Variants</span></h2>
+<p>These three visual diagrams represent the Scrum cycle in different ways; comparing them highlights changes in terminology and feedback loops.</p>
+
+<h3>Diagram 1: Modern Standard Scrum Framework</h3>
+<div class="svg-wrap">
+<svg viewBox="0 0 860 295" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#1d4f91"/>
+    </marker>
+    <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2e6f4e"/>
+    </marker>
+    <marker id="arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#9a6410"/>
+    </marker>
+  </defs>
+  <!-- Top Retrospective Loop -->
+  <rect x="330" y="12" width="160" height="40" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="2"/>
+  <text x="410" y="36" text-anchor="middle" font-size="13" font-weight="bold" fill="#704708">Sprint Retrospective</text>
+  <path d="M 800 118 L 800 32 L 495 32" fill="none" stroke="#9a6410" stroke-width="2" marker-end="url(#arrA)"/>
+  <path d="M 330 32 L 205 32 L 205 114" fill="none" stroke="#9a6410" stroke-width="2" marker-end="url(#arrA)"/>
+  <text x="585" y="24" text-anchor="middle" font-size="11" fill="#704708">Process Reflection</text>
+  <text x="268" y="24" text-anchor="middle" font-size="11" fill="#704708">Improvements</text>
+
+  <!-- Product Backlog -->
+  <rect x="25" y="95" width="95" height="105" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="2"/>
+  <text x="72" y="143" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Product</text>
+  <text x="72" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Backlog</text>
+  <path d="M 45 92 C 30 68, 95 68, 82 92" fill="none" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="63" y="65" text-anchor="middle" font-size="10.5" fill="#1d4f91">Refinement</text>
+
+  <!-- Arrow PB -> SP -->
+  <line x1="120" y1="148" x2="152" y2="148" stroke="#1d4f91" stroke-width="2.2" marker-end="url(#arr)"/>
+
+  <!-- Sprint Planning -->
+  <rect x="156" y="118" width="100" height="60" rx="6" fill="#fbfcfd" stroke="#1d4f91" stroke-width="2"/>
+  <text x="206" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Sprint</text>
+  <text x="206" y="161" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Planning</text>
+
+  <!-- Arrow SP -> SB -->
+  <line x1="256" y1="148" x2="288" y2="148" stroke="#1d4f91" stroke-width="2.2" marker-end="url(#arr)"/>
+
+  <!-- Sprint Backlog -->
+  <rect x="292" y="108" width="95" height="80" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="2"/>
+  <text x="339" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Sprint</text>
+  <text x="339" y="161" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Backlog</text>
+
+  <!-- Arrow SB -> Sprint Circle -->
+  <line x1="387" y1="148" x2="424" y2="148" stroke="#2e6f4e" stroke-width="2.4" marker-end="url(#arrG)"/>
+
+  <!-- Main Sprint Circle -->
+  <circle cx="495" cy="148" r="64" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="3"/>
+  <text x="495" y="141" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#143d29">Scrum Team</text>
+  <text x="495" y="159" text-anchor="middle" font-size="12" fill="#143d29">Sprint (1–4 Wks)</text>
+
+  <!-- Daily Scrum Circle -->
+  <circle cx="558" cy="88" r="34" fill="#fff" stroke="#2e6f4e" stroke-width="2.2"/>
+  <text x="558" y="85" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#143d29">Daily</text>
+  <text x="558" y="99" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#143d29">Scrum</text>
+  <text x="558" y="112" text-anchor="middle" font-size="9.5" fill="#2e6f4e">(24h / 15m)</text>
+
+  <!-- Arrow Sprint -> Increment -->
+  <line x1="559" y1="148" x2="616" y2="148" stroke="#1d4f91" stroke-width="2.2" marker-end="url(#arr)"/>
+
+  <!-- Increment -->
+  <rect x="620" y="118" width="100" height="60" rx="6" fill="#fbfcfd" stroke="#1d4f91" stroke-width="2"/>
+  <text x="670" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#14202b">Increment</text>
+  <text x="670" y="161" text-anchor="middle" font-size="10.5" fill="#14202b">(Working SW)</text>
+
+  <!-- Arrow Increment -> Review -->
+  <line x1="720" y1="148" x2="752" y2="148" stroke="#2e6f4e" stroke-width="2.4" marker-end="url(#arrG)"/>
+
+  <!-- Sprint Review -->
+  <rect x="756" y="113" width="88" height="70" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="2.5"/>
+  <text x="800" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#143d29">Sprint</text>
+  <text x="800" y="161" text-anchor="middle" font-size="13" font-weight="bold" fill="#143d29">Review</text>
+
+  <!-- Bottom Product Feedback Loop -->
+  <path d="M 800 178 L 800 252 L 72 252 L 72 204" fill="none" stroke="#1d4f91" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="370" y="244" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1d4f91">Stakeholder Feedback Updates Product Backlog</text>
+</svg>
+</div>
+<p class="cap"><b>Diagram 1:</b> Shows all <b>3 Artifacts</b> (Product Backlog, Sprint Backlog, Increment), all <b>5 Events</b> (Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective), and <b>two separate feedback loops</b> (product feedback and process improvement).</p>
+
+<div class="two">
+  <div>
+    <h3>Diagram 2: Classic 30-Day / 24-Hour Loops</h3>
+    <div class="svg-wrap">
+    <svg viewBox="0 0 400 235" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+      <rect x="14" y="20" width="115" height="54" rx="5" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="71" y="42" text-anchor="middle" font-size="11.5" font-weight="bold">Product Backlog</text>
+      <text x="71" y="57" text-anchor="middle" font-size="10" fill="#4d5b68">Prioritized features</text>
+
+      <line x1="71" y1="74" x2="71" y2="112" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <rect x="14" y="116" width="115" height="54" rx="5" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="71" y="138" text-anchor="middle" font-size="11.5" font-weight="bold">Sprint Backlog</text>
+      <text x="71" y="153" text-anchor="middle" font-size="10" fill="#4d5b68">Assigned to sprint</text>
+
+      <line x1="129" y1="143" x2="156" y2="143" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <!-- 24h loop -->
+      <circle cx="215" cy="66" r="42" fill="#fdf3dc" stroke="#9a6410" stroke-width="2.2"/>
+      <text x="215" y="63" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#704708">Every 24 Hours</text>
+      <text x="215" y="78" text-anchor="middle" font-size="10" fill="#704708">(15-min Scrum)</text>
+
+      <!-- 30-day loop -->
+      <circle cx="215" cy="150" r="52" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="2.5"/>
+      <text x="215" y="147" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#143d29">30 Days</text>
+      <text x="215" y="163" text-anchor="middle" font-size="10.5" fill="#143d29">(Sprint Cycle)</text>
+
+      <line x1="267" y1="150" x2="292" y2="150" stroke="#2e6f4e" stroke-width="1.8" marker-end="url(#arrG)"/>
+
+      <rect x="296" y="116" width="94" height="64" rx="5" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.8"/>
+      <text x="343" y="139" text-anchor="middle" font-size="11" font-weight="bold" fill="#143d29">New Feature</text>
+      <text x="343" y="154" text-anchor="middle" font-size="10" fill="#143d29">Demonstrated</text>
+      <text x="343" y="167" text-anchor="middle" font-size="10" fill="#143d29">at end</text>
+    </svg>
+    </div>
+    <p class="cap"><b>Diagram 2:</b> An early Scrum diagram that uses legacy fixed <b>"30 days"</b> wording and omits explicit boxes for <b>Sprint Planning</b> and <b>Sprint Retrospective</b>.</p>
+  </div>
+
+  <div>
+    <h3>Diagram 3: Sommerville Fig. 3.9</h3>
+    <div class="svg-wrap">
+    <svg viewBox="0 0 400 235" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+      <!-- Top return loop -->
+      <path d="M 345 55 C 345 14, 55 14, 55 55" fill="none" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <rect x="14" y="58" width="82" height="44" rx="14" fill="#fbfcfd" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="55" y="77" text-anchor="middle" font-size="10.5" font-weight="bold">Review work</text>
+      <text x="55" y="91" text-anchor="middle" font-size="10.5" font-weight="bold">to be done</text>
+
+      <line x1="96" y1="80" x2="112" y2="80" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <rect x="115" y="58" width="96" height="44" rx="14" fill="#fbfcfd" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="163" y="77" text-anchor="middle" font-size="10.5" font-weight="bold">Select items |</text>
+      <text x="163" y="91" text-anchor="middle" font-size="10.5" font-weight="bold">Plan sprint</text>
+
+      <line x1="211" y1="80" x2="227" y2="80" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <ellipse cx="262" cy="80" rx="32" ry="22" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="2"/>
+      <text x="262" y="84" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#143d29">Sprint</text>
+
+      <line x1="294" y1="80" x2="310" y2="80" stroke="#1d4f91" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <rect x="313" y="58" width="76" height="44" rx="14" fill="#fbfcfd" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="351" y="77" text-anchor="middle" font-size="10.5" font-weight="bold">Review</text>
+      <text x="351" y="91" text-anchor="middle" font-size="10.5" font-weight="bold">sprint</text>
+
+      <!-- Bottom Artifacts -->
+      <rect x="30" y="150" width="84" height="46" rx="4" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="72" y="170" text-anchor="middle" font-size="10.5" font-weight="bold">Product</text>
+      <text x="72" y="184" text-anchor="middle" font-size="10.5" font-weight="bold">backlog</text>
+
+      <rect x="155" y="150" width="84" height="46" rx="4" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.8"/>
+      <text x="197" y="170" text-anchor="middle" font-size="10.5" font-weight="bold">Sprint</text>
+      <text x="197" y="184" text-anchor="middle" font-size="10.5" font-weight="bold">backlog</text>
+
+      <rect x="282" y="146" width="98" height="54" rx="4" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="2"/>
+      <text x="331" y="166" text-anchor="middle" font-size="10" font-weight="bold" fill="#143d29">Potentially</text>
+      <text x="331" y="179" text-anchor="middle" font-size="10" font-weight="bold" fill="#143d29">shippable</text>
+      <text x="331" y="192" text-anchor="middle" font-size="10" font-weight="bold" fill="#143d29">software</text>
+
+      <line x1="60" y1="102" x2="68" y2="148" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="90" y1="148" x2="145" y2="104" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="175" y1="102" x2="188" y2="148" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="215" y1="148" x2="252" y2="103" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="274" y1="102" x2="315" y2="144" stroke="#2e6f4e" stroke-width="1.5" marker-end="url(#arrG)"/>
+    </svg>
+    </div>
+    <p class="cap"><b>Diagram 3:</b> Sommerville's textbook flowchart. It uses the generic term <i>"Potentially shippable software"</i> for an Increment and merges Review and Retrospective into one <i>"Review sprint"</i> box.</p>
+  </div>
+</div>
+
+<h3>Side-by-Side Comparison: How the Three Diagrams Differ</h3>
+<table>
+  <tr>
+    <th style="width:20%">Dimension</th>
+    <th style="width:28%">Diagram 1: Modern Scrum Framework</th>
+    <th style="width:26%">Diagram 2: Classic 30-Day Loop</th>
+    <th style="width:26%">Diagram 3: Sommerville Fig. 3.9</th>
+  </tr>
+  <tr>
+    <td><b>Terminology</b></td>
+    <td>Official Scrum Guide terms (<i>Product Backlog, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective, Increment</i>)</td>
+    <td>Early 1990s/2000s terms (<i>30 days, 15-minute daily meetings, new functionality demonstrated</i>)</td>
+    <td>Textbook phrasing (<i>Review work to be done, Review sprint, Potentially shippable software</i>)</td>
+  </tr>
+  <tr>
+    <td><b>Events Shown</b></td>
+    <td><b>All 5 Events</b> explicitly shown</td>
+    <td>Only Sprint (30d), Daily Scrum, and demo; omits Planning &amp; Retrospective</td>
+    <td>Combines Review &amp; Retrospective into one <i>"Review sprint"</i> step</td>
+  </tr>
+  <tr>
+    <td><b>Feedback Loops</b></td>
+    <td><b>2 separate loops:</b> Product feedback (Review &rarr; Product Backlog) &amp; Process feedback (Retrospective &rarr; Sprint Planning)</td>
+    <td>Implied by circular arrows only (no explicit return arrows)</td>
+    <td><b>1 combined loop</b> from <i>Review sprint</i> back to <i>Review work to be done</i></td>
+  </tr>
+  <tr>
+    <td><b>Sprint Length</b></td>
+    <td>Matches modern <b>1–4 weeks</b></td>
+    <td>Hardcoded as <b>30 days</b> (historical default)</td>
+    <td>Not specified</td>
+  </tr>
+</table>
+
+<div class="mem">
+  <h4>Comparing the Diagram Versions</h4>
+  <p>The modern framework diagram names the <b>Increment</b> and shows the Sprint Review and Sprint Retrospective as separate events. The historical diagrams use different output labels or combine review activities, so check which version a source depicts when comparing them.</p>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- SECTION 7B: CONCEPT CONNECTION CHAINS                      -->
+<!-- ========================================================= -->
+<h2 id="chains">7b. Concept Connection Chains <span class="tag tag-core">Concept Connections</span></h2>
+<p>These chains show <b>cause and effect</b> between Scrum concepts. Linking verbs such as <i>enables, triggers, updates, feeds,</i> and <i>results in</i> make the relationships explicit.</p>
+
+<h3>Chain 1 &mdash; Scrum Pillars &rarr; Events &rarr; Artifacts</h3>
+<div class="svg-wrap"><svg viewBox="0 0 760 252" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif" role="img" aria-label="Chain 1: pillars to events to artifacts"><rect x="10" y="10" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="30" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">TRANSPARENCY</text><text x="122" y="44" text-anchor="middle" font-size="11" fill="#14202b">everyone sees the same work,</text><text x="122" y="58" text-anchor="middle" font-size="11" fill="#14202b">backlogs and Definition of Done</text><line x1="237" y1="40" x2="260" y2="40" stroke="#4d5b68" stroke-width="2"/><polygon points="265,40 258,36 258,44" fill="#4d5b68"/><rect x="268" y="10" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="30" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">DAILY SCRUM (15 min)</text><text x="380" y="44" text-anchor="middle" font-size="11" fill="#14202b">inspect progress to Sprint Goal;</text><text x="380" y="58" text-anchor="middle" font-size="11" fill="#14202b">surface impediments</text><line x1="495" y1="40" x2="518" y2="40" stroke="#4d5b68" stroke-width="2"/><polygon points="523,40 516,36 516,44" fill="#4d5b68"/><rect x="526" y="10" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="30" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">SPRINT BACKLOG</text><text x="638" y="44" text-anchor="middle" font-size="11" fill="#14202b">plan adapted for the next 24 h</text><text x="638" y="58" text-anchor="middle" font-size="11" fill="#14202b">(updated by Developers)</text><rect x="10" y="96" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="116" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">INSPECTION</text><text x="122" y="130" text-anchor="middle" font-size="11" fill="#14202b">stakeholders inspect real</text><text x="122" y="144" text-anchor="middle" font-size="11" fill="#14202b">working software</text><line x1="237" y1="126" x2="260" y2="126" stroke="#4d5b68" stroke-width="2"/><polygon points="265,126 258,122 258,130" fill="#4d5b68"/><rect x="268" y="96" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="116" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">SPRINT REVIEW</text><text x="380" y="130" text-anchor="middle" font-size="11" fill="#14202b">demo the Increment, gather</text><text x="380" y="144" text-anchor="middle" font-size="11" fill="#14202b">feedback, adapt backlog</text><line x1="495" y1="126" x2="518" y2="126" stroke="#4d5b68" stroke-width="2"/><polygon points="523,126 516,122 516,130" fill="#4d5b68"/><rect x="526" y="96" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="116" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">PRODUCT BACKLOG + INCREMENT</text><text x="638" y="130" text-anchor="middle" font-size="11" fill="#14202b">PO reorders items; Increment</text><text x="638" y="144" text-anchor="middle" font-size="11" fill="#14202b">checked against Definition of Done</text><rect x="10" y="182" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="202" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">ADAPTATION</text><text x="122" y="216" text-anchor="middle" font-size="11" fill="#14202b">change process or product</text><text x="122" y="230" text-anchor="middle" font-size="11" fill="#14202b">when a deviation appears</text><line x1="237" y1="212" x2="260" y2="212" stroke="#4d5b68" stroke-width="2"/><polygon points="265,212 258,208 258,216" fill="#4d5b68"/><rect x="268" y="182" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="202" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">SPRINT RETROSPECTIVE</text><text x="380" y="216" text-anchor="middle" font-size="11" fill="#14202b">inspect people, process, tools;</text><text x="380" y="230" text-anchor="middle" font-size="11" fill="#14202b">plan improvements</text><line x1="495" y1="212" x2="518" y2="212" stroke="#4d5b68" stroke-width="2"/><polygon points="523,212 516,208 516,216" fill="#4d5b68"/><rect x="526" y="182" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="202" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">NEXT SPRINT BACKLOG</text><text x="638" y="216" text-anchor="middle" font-size="11" fill="#14202b">improvement action added;</text><text x="638" y="230" text-anchor="middle" font-size="11" fill="#14202b">raises quality of next Increment</text></svg></div><p class="cap">Chain 1 diagram: each row shows the dominant link; in Scrum every pillar operates in every event.</p>
+<div class="def"><h4>Concept Summary (Chain 1)</h4><p>Scrum&rsquo;s three pillars operate through its events to update its artifacts. <b>Transparency</b> keeps the Product Backlog, Sprint Backlog, Increment, and Definition of Done visible. <b>Inspection</b> lets the Scrum Team assess progress and outcomes, while <b>Adaptation</b> adjusts work or process based on what inspection reveals. Scrum events provide regular opportunities for these pillars to operate, and updated artifacts make current work transparent for the next inspection.</p></div>
+
+<h3>Chain 2 &mdash; User Needs &rarr; DEEP Backlog &rarr; INVEST/CTF Stories &rarr; Sprint Increment</h3>
+<div class="svg-wrap"><svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif" role="img" aria-label="Chain 2: user needs to Increment, with feedback loop"><rect x="10" y="10" width="129" height="74" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="74" y="37" text-anchor="middle" font-size="10.5" fill="#14202b" font-weight="700">USER NEEDS</text><text x="74" y="51" text-anchor="middle" font-size="10.5" fill="#14202b">stakeholders, users,</text><text x="74" y="65" text-anchor="middle" font-size="10.5" fill="#14202b">market feedback</text><line x1="142" y1="47" x2="155" y2="47" stroke="#4d5b68" stroke-width="2"/><polygon points="160,47 153,43 153,51" fill="#4d5b68"/><rect x="163" y="10" width="129" height="74" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="227" y="37" text-anchor="middle" font-size="10.5" fill="#14202b" font-weight="700">DEEP BACKLOG</text><text x="227" y="51" text-anchor="middle" font-size="10.5" fill="#14202b">PO orders and</text><text x="227" y="65" text-anchor="middle" font-size="10.5" fill="#14202b">refines items</text><line x1="295" y1="47" x2="308" y2="47" stroke="#4d5b68" stroke-width="2"/><polygon points="313,47 306,43 306,51" fill="#4d5b68"/><rect x="316" y="10" width="129" height="74" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="380" y="30" text-anchor="middle" font-size="10.5" fill="#14202b" font-weight="700">INVEST / CTF</text><text x="380" y="44" text-anchor="middle" font-size="10.5" fill="#14202b">USER STORIES</text><text x="380" y="58" text-anchor="middle" font-size="10.5" fill="#14202b">(CTF = Clear,</text><text x="380" y="72" text-anchor="middle" font-size="10.5" fill="#14202b">Testable, Feasible)</text><line x1="447" y1="47" x2="460" y2="47" stroke="#4d5b68" stroke-width="2"/><polygon points="465,47 458,43 458,51" fill="#4d5b68"/><rect x="468" y="10" width="129" height="74" rx="6" fill="#efe8f8" stroke="#5b3a82" stroke-width="1.5"/><text x="533" y="37" text-anchor="middle" font-size="10.5" fill="#14202b" font-weight="700">SPRINT PLANNING</text><text x="533" y="51" text-anchor="middle" font-size="10.5" fill="#14202b">PO + Developers</text><text x="533" y="65" text-anchor="middle" font-size="10.5" fill="#14202b">select and plan</text><line x1="600" y1="47" x2="613" y2="47" stroke="#4d5b68" stroke-width="2"/><polygon points="618,47 611,43 611,51" fill="#4d5b68"/><rect x="621" y="10" width="129" height="74" rx="6" fill="#f8e3e3" stroke="#9c3434" stroke-width="1.5"/><text x="686" y="37" text-anchor="middle" font-size="10.5" fill="#14202b" font-weight="700">INCREMENT</text><text x="686" y="51" text-anchor="middle" font-size="10.5" fill="#14202b">built to DoD;</text><text x="686" y="65" text-anchor="middle" font-size="10.5" fill="#14202b">inspected at Review</text><path d="M686,84 L686,120 L74,120 L74,90" fill="none" stroke="#9c3434" stroke-width="2" stroke-dasharray="6 4"/><polygon points="74,85 69,95 79,95" fill="#9c3434"/><text x="380" y="137" text-anchor="middle" font-size="11" font-weight="700" fill="#9c3434">Feedback loop: Sprint Review input updates the Product Backlog</text></svg></div><p class="cap">Chain 2 diagram: the Sprint Review feedback loops back into the Product Backlog and restarts the chain.</p>
+<div class="def"><h4>Concept Summary (Chain 2)</h4><p>Requirements move from user needs into an ordered, emergent <b>Product Backlog</b>. Backlog items are refined to an appropriate level and assessed for quality using criteria such as <b>DEEP</b>, <b>INVEST</b>, or <b>CTF</b>. During <b>Sprint Planning</b>, the Product Owner and Developers establish a Sprint Goal, select work, and create the <b>Sprint Backlog</b>. Developers build a usable <b>Increment</b> that meets the Definition of Done; inspection and stakeholder feedback at the <b>Sprint Review</b> inform future Product Backlog updates.</p></div>
+
+<h3>Chain 3 &mdash; Agile Values &rarr; Principles &rarr; Concrete Scrum Practices</h3>
+<div class="svg-wrap"><svg viewBox="0 0 760 338" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif" role="img" aria-label="Chain 3: Manifesto values to principles to Scrum practices"><rect x="10" y="10" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="37" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">VALUE: Responding to change</text><text x="122" y="51" text-anchor="middle" font-size="11" fill="#14202b">over following a plan</text><line x1="237" y1="40" x2="260" y2="40" stroke="#4d5b68" stroke-width="2"/><polygon points="265,40 258,36 258,44" fill="#4d5b68"/><rect x="268" y="10" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="30" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">PRINCIPLE 2</text><text x="380" y="44" text-anchor="middle" font-size="11" fill="#14202b">welcome changing requirements</text><text x="380" y="58" text-anchor="middle" font-size="11" fill="#14202b">even late in development</text><line x1="495" y1="40" x2="518" y2="40" stroke="#4d5b68" stroke-width="2"/><polygon points="523,40 516,36 516,44" fill="#4d5b68"/><rect x="526" y="10" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="37" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">EMERGENT PRODUCT BACKLOG</text><text x="638" y="51" text-anchor="middle" font-size="11" fill="#14202b">+ Sprint Review reprioritization</text><rect x="10" y="96" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="123" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">VALUE: Working software</text><text x="122" y="137" text-anchor="middle" font-size="11" fill="#14202b">over comprehensive documentation</text><line x1="237" y1="126" x2="260" y2="126" stroke="#4d5b68" stroke-width="2"/><polygon points="265,126 258,122 258,130" fill="#4d5b68"/><rect x="268" y="96" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="116" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">PRINCIPLES 3 &amp; 7</text><text x="380" y="130" text-anchor="middle" font-size="11" fill="#14202b">frequent delivery; working</text><text x="380" y="144" text-anchor="middle" font-size="11" fill="#14202b">software = progress</text><line x1="495" y1="126" x2="518" y2="126" stroke="#4d5b68" stroke-width="2"/><polygon points="523,126 516,122 516,130" fill="#4d5b68"/><rect x="526" y="96" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="116" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">SPRINT INCREMENT</text><text x="638" y="130" text-anchor="middle" font-size="11" fill="#14202b">usable, meets Definition</text><text x="638" y="144" text-anchor="middle" font-size="11" fill="#14202b">of Done every Sprint</text><rect x="10" y="182" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="209" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">VALUE: Customer collaboration</text><text x="122" y="223" text-anchor="middle" font-size="11" fill="#14202b">over contract negotiation</text><line x1="237" y1="212" x2="260" y2="212" stroke="#4d5b68" stroke-width="2"/><polygon points="265,212 258,208 258,216" fill="#4d5b68"/><rect x="268" y="182" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="202" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">PRINCIPLES 1 &amp; 4</text><text x="380" y="216" text-anchor="middle" font-size="11" fill="#14202b">early delivery; business people</text><text x="380" y="230" text-anchor="middle" font-size="11" fill="#14202b">and developers work daily</text><line x1="495" y1="212" x2="518" y2="212" stroke="#4d5b68" stroke-width="2"/><polygon points="523,212 516,208 516,216" fill="#4d5b68"/><rect x="526" y="182" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="209" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">PRODUCT OWNER + Sprint Review</text><text x="638" y="223" text-anchor="middle" font-size="11" fill="#14202b">continuous stakeholder feedback</text><rect x="10" y="268" width="224" height="60" rx="6" fill="#dde8f5" stroke="#1d4f91" stroke-width="1.5"/><text x="122" y="295" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">VALUE: Individuals &amp; interactions</text><text x="122" y="309" text-anchor="middle" font-size="11" fill="#14202b">over processes and tools</text><line x1="237" y1="298" x2="260" y2="298" stroke="#4d5b68" stroke-width="2"/><polygon points="265,298 258,294 258,302" fill="#4d5b68"/><rect x="268" y="268" width="224" height="60" rx="6" fill="#fdf3dc" stroke="#9a6410" stroke-width="1.5"/><text x="380" y="288" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">PRINCIPLES 5, 6, 11, 12</text><text x="380" y="302" text-anchor="middle" font-size="11" fill="#14202b">motivated, face-to-face,</text><text x="380" y="316" text-anchor="middle" font-size="11" fill="#14202b">self-organizing, reflect and adjust</text><line x1="495" y1="298" x2="518" y2="298" stroke="#4d5b68" stroke-width="2"/><polygon points="523,298 516,294 516,302" fill="#4d5b68"/><rect x="526" y="268" width="224" height="60" rx="6" fill="#e0f1e8" stroke="#2e6f4e" stroke-width="1.5"/><text x="638" y="295" text-anchor="middle" font-size="11" fill="#14202b" font-weight="700">DAILY SCRUM + RETROSPECTIVE</text><text x="638" y="309" text-anchor="middle" font-size="11" fill="#14202b">self-managing Developers</text></svg></div><p class="cap">Chain 3 diagram: one row per Manifesto value.</p>
+<div class="def"><h4>Concept Summary (Chain 3)</h4><p>The four Manifesto values are expressed through twelve principles, and Scrum applies these ideas through its framework. Responding to change is supported by an emergent Product Backlog and reprioritization at Sprint Reviews. The focus on working software is reflected in usable Increments that meet the Definition of Done. Customer collaboration is supported by the Product Owner, stakeholders, and Sprint Review feedback. The value of individuals and interactions is reflected in self-managing Developers, Scrum events, and continuous reflection and adaptation.</p></div>
+
+<!-- ========================================================= -->
+<h2 id="layman">8. In Easy Words (Plain-English Layman Summary) <span class="tag tag-lay">Big Picture</span></h2>
+<div class="layman">
+  <h4>How Everything Fits Together — Without Jargon</h4>
+  <p>Traditional plan-driven models such as <b>Waterfall</b> and the <b>V-Model</b> rely on more upfront planning, while <b>Agile</b> emphasizes feedback and adaptation. <b>Scrum</b> is an Agile framework grounded in empiricism and lean thinking. Its three pillars are <b>Transparency, Inspection, and Adaptation</b>, supported by the values of <b>Commitment, Focus, Openness, Respect, and Courage</b>. The Product Owner manages the emergent, ordered <b>Product Backlog</b>; the Scrum Team plans and works toward a <b>Sprint Goal</b> within a Sprint of one month or less; and the Developers create a usable <b>Increment</b> that meets the Definition of Done. Sprint Reviews inspect the product and gather feedback, while Sprint Retrospectives inspect and improve the team&rsquo;s way of working.</p>
+</div>
+
+<!-- ========================================================= -->
+</main>
+</div>
+
+<script>
+function toggleRecall(){
+  document.body.classList.toggle('recall-mode');
+  const btn = document.getElementById('recallBtn');
+  btn.classList.toggle('active');
+  btn.textContent = document.body.classList.contains('recall-mode')
+    ? 'Active Recall: ON (Hover/Click Boxes)'
+    : 'Active Recall: Blur Memorize Boxes';
+}
+document.querySelectorAll('.mem').forEach(el => {
+  el.addEventListener('click', () => el.classList.toggle('revealed'));
+});
+/* ---- Sidebar search ---- */
+const SIDX=[];
+(function(){
+  let sec='';
+  document.querySelectorAll('main h2,main h3,main h4,main p,main li,main td,main th').forEach(el=>{
+    if(el.tagName==='H2') sec=el.childNodes[0].textContent.trim();
+    const t=el.textContent.replace(/\s+/g,' ').trim();
+    if(t.length<3) return;
+    SIDX.push({el:el,t:t,l:t.toLowerCase(),sec:sec,h:/^H[234]$/.test(el.tagName)});
+  });
+})();
+const sq=document.getElementById('sq'), sres=document.getElementById('sres');
+function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function jumpTo(el){
+  const m=el.closest('.mem'); if(m) m.classList.add('revealed');
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1800);
+}
+function runSearch(){
+  const q=sq.value.trim().toLowerCase(), nav=sq.closest('nav');
+  sres.textContent='';
+  if(!q){nav.classList.remove('searching');return;}
+  nav.classList.add('searching');
+  const toks=q.split(/\s+/).filter(Boolean);
+  const hits=SIDX.filter(x=>toks.every(k=>x.l.includes(k)));
+  hits.sort((a,b)=>(b.h-a.h)||(a.t.length-b.t.length));
+  if(!hits.length){const d=document.createElement('div');d.className='none';d.textContent='No match for \u201c'+sq.value.trim()+'\u201d';sres.appendChild(d);return;}
+  const re=new RegExp('('+toks.map(esc).join('|')+')','gi');
+  const info=document.createElement('div');info.className='none';
+  info.textContent=hits.length+(hits.length===1?' match':' matches')+(hits.length>8?' (showing 8)':'');
+  sres.appendChild(info);
+  hits.slice(0,8).forEach(x=>{
+    const b=document.createElement('button');b.type='button';
+    const s=document.createElement('small');s.textContent=x.sec;b.appendChild(s);
+    const i=Math.max(0,x.l.indexOf(toks[0])-30);
+    const sn=(i>0?'\u2026':'')+x.t.slice(i,i+100)+(i+100<x.t.length?'\u2026':'');
+    sn.split(re).forEach((p,n)=>{
+      if(n%2){const m=document.createElement('mark');m.textContent=p;b.appendChild(m);}
+      else b.appendChild(document.createTextNode(p));
+    });
+    b.addEventListener('click',()=>jumpTo(x.el));
+    sres.appendChild(b);
+  });
+}
+sq.addEventListener('input',runSearch);
+sq.addEventListener('keydown',e=>{
+  const f=sres.querySelector('button');
+  if(e.key==='Enter' && f) f.click();
+  else if(e.key==='Escape'){sq.value='';runSearch();}
+  else if(e.key==='ArrowDown' && f){f.focus();e.preventDefault();}
+});
+sres.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+    const bs=[...sres.querySelectorAll('button')], i=bs.indexOf(document.activeElement);
+    const n=e.key==='ArrowDown'?bs[i+1]:(bs[i-1]||sq);
+    if(n){n.focus();e.preventDefault();}
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();sq.focus();}
+});
+</script>
+</body>
+</html>
